@@ -8,7 +8,16 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - href: about.qmd 
+        text: About
+      - href: datavis.qmd
+        text: Data Viz
+        menu:
+          - text: Tidy Verse 1
+            href: data-viz.qmd#tidy-verse-1
+          - text: Tidy Verse 2
+            href: data-viz.qmd#tidy-verse-2
+
 
 
 format:

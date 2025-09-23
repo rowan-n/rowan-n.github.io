@@ -1,0 +1,14 @@
+---
+title: "Data Viz"
+---
+
+
+# Data Viz
+
+## Tidy Verse 1 {#tidy-verse-1}
+
+Here’s where you describe your plots...
+
+## Tidy Verse 2 {#tidy-verse-2}
+
+Here’s where you describe dashboards...
