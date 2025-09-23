@@ -1,9 +1,13 @@
 ---
 title: "About"
+image: /seniorphotofavorite9.jpeg 
+about:
+  template: trestles
+
+  links: 
+    - icon: github
+      text: Github
+      href: https://github.com/rowan-n
 ---
 
-About this site
-
-```{r}
-1 + 1
-```
+Hi :)
