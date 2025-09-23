@@ -3,6 +3,7 @@ title: "About"
 about:
   template: trestles
   image: seniorphotofavorite9.jpeg
+
   links: 
     - icon: github
       text: Github
