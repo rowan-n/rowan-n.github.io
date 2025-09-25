@@ -9,6 +9,8 @@ author: Rowan Norenberg
 date: September 24, 2025
 format: html
 
+
+
 links: 
   - icon: github
     text: Data Set
@@ -62,5 +64,10 @@ ggplot(aes(x = school, y = range, color = school)) +
 ```
 
 
+
+Tidyverse link: https://github.com/rfordatascience/tidytuesday/tree/main/data/2024/2024-12-17  
+
+Dataset Citation: 
+Harmon J (2025). dddata: Data from the Dungeons and Dragons System Reference Document. R package version 0.0.0.9000, https://github.com/jonthegeek/dddata. 
 
 

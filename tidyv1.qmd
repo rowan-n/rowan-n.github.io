@@ -32,5 +32,8 @@ ggplot(monsters, aes(x = hp_number, y = str, color = type)) +
 ```
 
 
+Tidyverse Link: https://github.com/rfordatascience/tidytuesday/tree/main/data/2024/2024-12-17
 
+Dataset Citation: 
+Harmon J (2025). dddata: Data from the Dungeons and Dragons System Reference Document. R package version 0.0.0.9000, https://github.com/jonthegeek/dddata.  
 
