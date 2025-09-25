@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "rowan-n.github.io",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+    "text": "This is a website I created for my Data Science class. It contains a page about me, as well as a dropdown of a few tidyverse data sets I’ve analysed.\nThis website will be expanded on over the course of the semester!\nThis is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
   },
   {
     "objectID": "about.html",
@@ -44,15 +44,15 @@
   {
     "objectID": "tidyv1.html",
     "href": "tidyv1.html",
-    "title": "Tidy Tuesday - D&D",
+    "title": "Tidy Tuesday - D&D Monsters",
     "section": "",
-    "text": "Help"
+    "text": "This is a plot I made comparing the different types of D&D monsters with their total hit points and their strength score / modifier."
   },
   {
     "objectID": "tidyv2.html",
     "href": "tidyv2.html",
-    "title": "Data Vis 2",
+    "title": "Tidy Tuesday - D&D Spells",
     "section": "",
-    "text": "Help 2"
+    "text": "Help 2\n\n#| echo: false\nlibrary(tidyverse)\nlibrary(ggplot2)\n\nspells &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-12-17/spells.csv', show_col_types = FALSE)\n\n\nggplot(spells, aes(x = school, y = level, color = range)) +\n  geom_point() +\n  labs(\n    x = \"School of Magic\",\n    y = \"Range of Spell\",\n    title = \"D&D Spell Range by School\",\n  )"
   }
 ]

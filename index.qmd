@@ -1,5 +1,6 @@
 ---
 title: "rowan-n.github.io"
+format: html
 ---
 
 This is a website I created for my Data Science class. It contains a page about me, as well as a dropdown of a few tidyverse data sets I've analysed. 
