@@ -64,7 +64,6 @@ ggplot(aes(x = school, y = range, color = school)) +
 ```
 
 
-
 Tidyverse link: https://github.com/rfordatascience/tidytuesday/tree/main/data/2024/2024-12-17  
 
 Dataset Citation: 
