@@ -5,17 +5,6 @@ description: |
 author: Rowan Norenberg
 date: September 24, 2025
 format: html
-
-navbar:
-  left:
-    - href: index.qmd
-      text: Home
-    - href: about.qmd 
-      text: About
-    - text: Tidy Verse 1
-      href: tidyv1.qmd
-    - text: Tidy Verse 2
-      href: tidyv2.qmd 
 ---
 
 

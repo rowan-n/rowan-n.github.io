@@ -1,6 +1,8 @@
 
 ---
 title: "Data Vis 1"
+execute:
+  echo: false
 description: |
   Analysis of  data from TidyTuesday
 author: Rowan Norenberg
@@ -9,3 +11,25 @@ format: html
 ---
 
 Help
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(ggplot2)
+
+monsters <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-05-27/monsters.csv')
+```
+
+```{r}
+ggplot(monsters, aes(x = hp_number, y = str, color = type)) +
+  geom_point() +
+  labs(
+    x = "Hit Points",
+    y = "Strength Modifier",
+    title = "D&D Monsters by Type",
+  )
+```
+
+
+
+
