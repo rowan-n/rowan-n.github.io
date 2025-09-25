@@ -13,9 +13,9 @@ website:
         href: about.html
       - text: "Data Viz"
         menu: 
-         - text: "Data Vis 1"
+         - text: "Tidy Tuesday - D&D Monsters"
            href: tidyv1.html
-         - text: "Data Vis 2"
+         - text: "Tidy Tuesday - D&D Spells"
            href: tidyv2.html
 
 

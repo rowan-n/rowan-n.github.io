@@ -1,6 +1,6 @@
 
 ---
-title: "Data Vis 2"
+title: "Tidy Tuesday - D&D Spells"
 description: |
   Analysis of  data from TidyTuesday
 author: Rowan Norenberg
@@ -9,3 +9,25 @@ format: html
 ---
 
 Help 2
+
+```{r, warning = FALSE, message = FALSE}
+
+#| echo: false
+library(tidyverse)
+library(ggplot2)
+
+spells <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-12-17/spells.csv', show_col_types = FALSE)
+```
+
+
+```{r}
+ggplot(spells, aes(x = school, y = level, color = range)) +
+  geom_point() +
+  labs(
+    x = "School of Magic",
+    y = "Range of Spell",
+    title = "D&D Spell Range by School",
+  )
+```
+
+

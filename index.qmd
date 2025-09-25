@@ -2,6 +2,19 @@
 title: "rowan-n.github.io"
 ---
 
+This is a website I created for my Data Science class. It contains a page about me, as well as a dropdown of a few tidyverse data sets I've analysed. 
+
+This website will be expanded on over the course of the semester! 
+
+
+
+
+
+
+
+
+
+
 This is a Quarto website.
 
 To learn more about Quarto websites visit <https://quarto.org/docs/websites>.

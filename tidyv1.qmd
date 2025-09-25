@@ -1,16 +1,16 @@
 
 ---
-title: "Data Vis 1"
+title: "Tidy Tuesday - D&D Monsters"
 execute:
   echo: false
 description: |
-  Analysis of  data from TidyTuesday
+  Analysis of D&D data from TidyTuesday
 author: Rowan Norenberg
 date: September 24, 2025
 format: html
 ---
 
-Help
+This is a plot I made comparing the different types of D&D monsters with their total hit points and their strength score / modifier. 
 
 ```{r, warning = FALSE, message = FALSE}
 
