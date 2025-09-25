@@ -12,7 +12,8 @@ format: html
 
 Help
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
+
 #| echo: false
 library(tidyverse)
 library(ggplot2)
