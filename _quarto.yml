@@ -2,21 +2,21 @@ project:
   type: website
   output-dir: docs
 
+
 website:
-  title: "rowan-n.github.io"
+  title: "Rowan Norenberg"
   navbar:
-    left:
-      - href: index.qmd
-        text: Home
-      - href: about.qmd 
-        text: About
-      - href: datavis.qmd
-        text: Data Vis
-        menu:
-          - text: Tidy Verse 1
-            href: tidyv1.qmd
-          - text: Tidy Verse 2
-            href: tidyv2.qmd 
+    right: 
+      - text: "Home"
+      - href: index.html 
+      - text: "About Me"
+        href: about.html
+      - text: "Data Viz"
+        menu: 
+         - text: "Data Vis 1"
+           href: tidyv1.html
+         - text: "Data Vis 2"
+           href: tidyv2.html
 
 
 
