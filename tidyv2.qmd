@@ -1,14 +1,17 @@
 
 ---
 title: "Tidy Tuesday - D&D Spells"
+execute:
+  echo: false
 description: |
-  Analysis of  data from TidyTuesday
+  Analysis of D&D Spells data from TidyTuesday
 author: Rowan Norenberg
 date: September 24, 2025
 format: html
 ---
 
-Help 2
+This is a plot I made trying to see which of the schools of magic had the longest spell range on average. This was made complicated by the spell range being stored as character strings (eg "30 feet" or "Touch") so I made levels. Unfortunatley this doesn't give a great representation at how different 300 feet is from 500 feet versus 5 feet from 10 feet. Work in progress. 
+
 
 ```{r, warning = FALSE, message = FALSE}
 
@@ -21,7 +24,30 @@ spells <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tid
 
 
 ```{r}
-ggplot(spells, aes(x = school, y = level, color = range)) +
+#range_levels <- c( "Self", "Touch", "Sight", "5 feet", "10 feet", "15 feet", "30 feet", "60 feet", "90 feet", "100 feet", "120 feet", "150 feet", "300 feet", "500 feet", "1 mile", "500 miles", "Unlimited", "Special")
+
+#self, touch, sight, 5 feet, 10 feet, 15 feet, 30 feet, 60 feet, 90 feet, 100 feet, 120 feet, 150 feet, 300 feet, 500 feet, 1 mile, 500 miles
+
+#  spell duration : 
+# [1] "Instantaneous"                   "8 hours"                         "Concentration, up to 1 hour"    
+# [4] "24 hours"                        "Concentration, up to 1 minute"   "10 days"    
+# [7] "Until dispelled"                 "Concentration, up to 10 minutes" "1 hour"  
+# [10] "1 minute"                        "7 days"                          "Concentration, up to 8 hours"   
+# [13] "Special"                         "Up to 8 hours"                   "Concentration, up to 1 day"     
+# [16] "10 minutes"                      "1 day"                           "30 days"
+# [19] "Until dispelled or triggered"    "1 round"                         "Concentration, up to 2 hours"   
+# [22] "Up to 1 hour"                    "Concentration up to 10 minutes"  "Up to 1 minute" 
+
+```
+
+
+```{r}
+
+spells |> 
+  mutate(range = fct_relevel(range, 
+                                c("Self", "Touch", "Sight", "5 feet", "10 feet", "15 feet", "30 feet", "60 feet", "90 feet", "100 feet", "120 feet", "150 feet", "300 feet", "500 feet", "1 mile", "500 miles", "Unlimited", "Special"))) |> 
+  mutate(school = fct_reorder(school, as.numeric(range), .fun = "mean", .desc = TRUE)) |> 
+ggplot(aes(x = school, y = range, color = school)) +
   geom_point() +
   labs(
     x = "School of Magic",
@@ -29,5 +55,7 @@ ggplot(spells, aes(x = school, y = level, color = range)) +
     title = "D&D Spell Range by School",
   )
 ```
+
+
 
 

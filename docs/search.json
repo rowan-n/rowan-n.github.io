@@ -53,6 +53,6 @@
     "href": "tidyv2.html",
     "title": "Tidy Tuesday - D&D Spells",
     "section": "",
-    "text": "Help 2\n\n#| echo: false\nlibrary(tidyverse)\nlibrary(ggplot2)\n\nspells &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-12-17/spells.csv', show_col_types = FALSE)\n\n\nggplot(spells, aes(x = school, y = level, color = range)) +\n  geom_point() +\n  labs(\n    x = \"School of Magic\",\n    y = \"Range of Spell\",\n    title = \"D&D Spell Range by School\",\n  )"
+    "text": "This is a plot I made trying to see which of the schools of magic had the longest spell range on average. This was made complicated by the spell range being stored as character strings (eg “30 feet” or “Touch”) so I made levels. Unfortunatley this doesn’t give a great representation at how different 300 feet is from 500 feet versus 5 feet from 10 feet. Work in progress."
   }
 ]
