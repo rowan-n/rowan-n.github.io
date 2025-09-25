@@ -11,12 +11,12 @@ website:
       - href: about.qmd 
         text: About
       - href: datavis.qmd
-        text: Data Viz
+        text: Data Vis
         menu:
           - text: Tidy Verse 1
-            href: data-viz.qmd#tidy-verse-1
+            href: tidyv1.qmd
           - text: Tidy Verse 2
-            href: data-viz.qmd#tidy-verse-2
+            href: tidyv2.qmd 
 
 
 

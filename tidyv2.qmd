@@ -1,0 +1,11 @@
+
+---
+title: "Data Vis 2"
+description: |
+  Analysis of  data from TidyTuesday
+author: Rowan Norenberg
+date: September 24, 2025
+format: html
+---
+
+Help 2
