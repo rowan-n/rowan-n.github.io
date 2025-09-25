@@ -8,6 +8,11 @@ description: |
 author: Rowan Norenberg
 date: September 24, 2025
 format: html
+
+links: 
+  - icon: github
+    text: Data Set
+    href: https://github.com/rfordatascience/tidytuesday/tree/main/data/2024/2024-12-17 
 ---
 
 This is a plot I made trying to see which of the schools of magic had the longest spell range on average. This was made complicated by the spell range being stored as character strings (eg "30 feet" or "Touch") so I made levels. Unfortunatley this doesn't give a great representation at how different 300 feet is from 500 feet versus 5 feet from 10 feet. Work in progress. 
