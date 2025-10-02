@@ -1,0 +1,134 @@
+---
+title: "Tidy Tuesday - Shakespeare"
+execute:
+  echo: false
+description: |
+  Analysis of Shakespeare data from TidyTuesday
+author: Rowan Norenberg
+date: October 2, 2025
+format: html
+---
+
+You will first find a data set containing string / character data. The data could be on newspaper articles, tweets, songs, scripts, movie reviews, or anything else you can imagine. Then you will answer questions of interest and tell a story about your data using the string and regular expression skills you have developed.
+
+Your analysis must contain the following elements:
+
+at least 3 str_*() functions (3 different str_*() functions)
+at least 3 regular expressions
+at least 1 lookaround
+at least 2 illustrative, well-labeled plots or tables
+a description of what insights can be gained from your plots and tables
+a reference / documentation of the data source.
+Logistics:
+
+please include all your code used in the analysis (but feel free to use code folding1.)
+make sure that all graphs are well-labeled (including x and y axes, title of the graph, and accurate and succinct labels for color and fill).
+do not include error or warning messages (see HW YAML for code).
+include a few sentences describing each of your plots or tables. That is, tell the reader what they see when they look at the plot. Your narrative description should be in the text part of the qmd file, not as a comment in an R chunk.
+please include the source of the data (which might include, for example, both the link to the data source (e.g., TidyTuesday page) + the original source of the data (e.g., NYT)).
+if you are working with a (local) copy of the .csv file (as opposed to, for example, a link to the dataset on TidyTuesday’s GitHub site), then the .csv file should live in your GitHub repository for your website. And you should read the data in from that local copy. That is, the dataset should not live in your Downloads.
+
+
+```{r, warning = FALSE, message = FALSE}
+
+#| echo: false
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+
+
+hamlet <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-09-17/hamlet.csv')
+macbeth <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-09-17/macbeth.csv')
+romeo_juliet <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-09-17/romeo_juliet.csv')
+
+```
+
+
+
+
+
+
+```{r}
+
+hamlet_counts <- hamlet |>
+  filter(!grepl("stage", character, ignore.case = TRUE)) |> 
+  count(character, name = "num_lines") |>
+  mutate(play = "Hamlet")
+
+macbeth_counts <- macbeth |>
+  filter(!grepl("stage", character, ignore.case = TRUE)) |> 
+  count(character, name = "num_lines") |>
+  mutate(play = "Macbeth")
+
+romeo_juliet_counts <- romeo_juliet |>
+  filter(!grepl("stage", character, ignore.case = TRUE)) |> 
+  count(character, name = "num_lines") |>
+  mutate(play = "Romeo and Juliet")
+
+
+
+ggplot(hamlet_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  labs(
+    title = "Hamlet: Number of Lines",
+    x = "Character",
+    y = "Total Number of Lines"
+  ) +
+  theme_minimal(base_size = 14) +  # bigger text
+  theme(
+    plot.title = element_text(size = 18, face = "bold"),
+    axis.text.y = element_text(size = 10)
+  )
+
+
+
+ggplot(macbeth_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
+  geom_col(fill = "goldenrod") +
+  coord_flip() +
+  labs(
+    title = "Macbeth: Number of Lines",
+    x = "Character",
+    y = "Total Number of Lines"
+  ) +
+  theme_minimal(base_size = 14) +  # bigger text
+  theme(
+    plot.title = element_text(size = 18, face = "bold"),
+    axis.text.y = element_text(size = 10)
+  )
+
+
+ggplot(romeo_juliet_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
+  geom_col(fill = "maroon") +
+  coord_flip() +
+  labs(
+    title = "Romeon and Juliet: Number of Lines",
+    x = "Character",
+    y = "Total Number of Lines"
+  ) +
+  theme_minimal(base_size = 14) +  # bigger text
+  theme(
+    plot.title = element_text(size = 18, face = "bold"),
+    axis.text.y = element_text(size = 10)
+  )
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

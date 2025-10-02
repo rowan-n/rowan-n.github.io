@@ -16,6 +16,8 @@ website:
            href: tidyv1.html
          - text: "Tidy Tuesday - D&D Spells"
            href: tidyv2.html
+         - text: "Tidy Tuesday - Shakespeare"
+           href: tidyv3.html
 
 
 
