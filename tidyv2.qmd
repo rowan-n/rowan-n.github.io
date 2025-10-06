@@ -64,9 +64,54 @@ ggplot(aes(x = school, y = range, color = school)) +
 ```
 
 
+
+```{r}
+
+#  spell duration : 
+# [1] "Instantaneous"                   "8 hours"                         "Concentration, up to 1 hour"    
+# [4] "24 hours"                        "Concentration, up to 1 minute"   "10 days"    
+# [7] "Until dispelled"                 "Concentration, up to 10 minutes" "1 hour"  
+# [10] "1 minute"                        "7 days"                          "Concentration, up to 8 hours"   
+# [13] "Special"                         "Up to 8 hours"                   "Concentration, up to 1 day"     
+# [16] "10 minutes"                      "1 day"                           "30 days"
+# [19] "Until dispelled or triggered"    "1 round"                         "Concentration, up to 2 hours"   
+# [22] "Up to 1 hour"                    "Concentration up to 10 minutes"  "Up to 1 minute" 
+
+
+con_spells <- spells |>
+  filter(grepl("Concentration", duration, ignore.case = TRUE)) 
+
+
+
+con_spells |> 
+  mutate(duration = fct_relevel(duration, 
+                                c("Concentration, up to 1 minute", "Concentration, up to 10 minutes", "Concentration, up to 1 hour", "Concentration, up to 2 hours", "Concentration, up to 8 hours", "Concentration, up to 1 day"))) |> 
+  filter(!grepl("Concentration up to 10 minutes", duration, ignore.case = TRUE)) |>
+ggplot(aes(x = school, y = duration, color = school)) +
+  geom_point() +
+  labs(
+    x = "School of Magic",
+    y = "Duration of Spell",
+    title = "Concentration Spells by School",
+  )
+
+```
+
+
+
+
+
+
+
+
+
+
 Tidyverse link: https://github.com/rfordatascience/tidytuesday/tree/main/data/2024/2024-12-17  
 
 Dataset Citation: 
 Harmon J (2025). dddata: Data from the Dungeons and Dragons System Reference Document. R package version 0.0.0.9000, https://github.com/jonthegeek/dddata. 
+
+Data Source: 
+https://www.dndbeyond.com/srd 
 
 
