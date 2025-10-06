@@ -48,31 +48,24 @@ romeo_juliet <- readr::read_csv('https://raw.githubusercontent.com/rfordatascien
 
 
 
+
 ```{r}
 
 hamlet_counts <- hamlet |>
   filter(!grepl("stage", character, ignore.case = TRUE)) |> 
   count(character, name = "num_lines") |>
-  mutate(play = "Hamlet")
+  mutate(play = "Hamlet") |>
+  arrange(desc(num_lines)) |>
+  slice_head(n = 20)
 
-macbeth_counts <- macbeth |>
-  filter(!grepl("stage", character, ignore.case = TRUE)) |> 
-  count(character, name = "num_lines") |>
-  mutate(play = "Macbeth")
-
-romeo_juliet_counts <- romeo_juliet |>
-  filter(!grepl("stage", character, ignore.case = TRUE)) |> 
-  count(character, name = "num_lines") |>
-  mutate(play = "Romeo and Juliet")
-
-
-
+  
+  
 ggplot(hamlet_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
   geom_col(fill = "steelblue") +
   coord_flip() +
   labs(
     title = "Hamlet: Number of Lines",
-    x = "Character",
+    x = "Named Character",
     y = "Total Number of Lines"
   ) +
   theme_minimal(base_size = 14) +  # bigger text
@@ -81,36 +74,6 @@ ggplot(hamlet_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
     axis.text.y = element_text(size = 10)
   )
 
-
-
-ggplot(macbeth_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
-  geom_col(fill = "goldenrod") +
-  coord_flip() +
-  labs(
-    title = "Macbeth: Number of Lines",
-    x = "Character",
-    y = "Total Number of Lines"
-  ) +
-  theme_minimal(base_size = 14) +  # bigger text
-  theme(
-    plot.title = element_text(size = 18, face = "bold"),
-    axis.text.y = element_text(size = 10)
-  )
-
-
-ggplot(romeo_juliet_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
-  geom_col(fill = "maroon") +
-  coord_flip() +
-  labs(
-    title = "Romeon and Juliet: Number of Lines",
-    x = "Character",
-    y = "Total Number of Lines"
-  ) +
-  theme_minimal(base_size = 14) +  # bigger text
-  theme(
-    plot.title = element_text(size = 18, face = "bold"),
-    axis.text.y = element_text(size = 10)
-  )
 
 
 
@@ -118,14 +81,59 @@ ggplot(romeo_juliet_counts, aes(x = reorder(character, num_lines), y = num_lines
 
 
 
+```{r}
+macbeth_counts <- macbeth |>
+  filter(!grepl("stage", character, ignore.case = TRUE)) |> 
+  count(character, name = "num_lines") |>
+  mutate(play = "Macbeth") |>
+  arrange(desc(num_lines)) |>
+  slice_head(n = 20)
+
+  
+  
+ggplot(macbeth_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
+  geom_col(fill = "goldenrod") +
+  coord_flip() +
+  labs(
+    title = "Macbeth: Number of Lines",
+    x = "Named Character",
+    y = "Total Number of Lines"
+  ) +
+  theme_minimal(base_size = 14) +  # bigger text
+  theme(
+    plot.title = element_text(size = 18, face = "bold"),
+    axis.text.y = element_text(size = 10)
+  )
 
 
+```
+
+```{r}
+romeo_juliet_counts <- romeo_juliet |>
+  filter(!grepl("stage", character, ignore.case = TRUE)) |> 
+  count(character, name = "num_lines") |>
+  mutate(play = "Romeo and Juliet") |>
+  arrange(desc(num_lines)) |>
+  slice_head(n = 20)
+
+  
+  
+ggplot(romeo_juliet_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
+  geom_col(fill = "maroon") +
+  coord_flip() +
+  labs(
+    title = "Romeo and Juliet: Number of Lines",
+    x = "Named Character",
+    y = "Total Number of Lines"
+  ) +
+  theme_minimal(base_size = 14) +  # bigger text
+  theme(
+    plot.title = element_text(size = 18, face = "bold"),
+    axis.text.y = element_text(size = 10)
+  )
 
 
-
-
-
-
+```
 
 
 
