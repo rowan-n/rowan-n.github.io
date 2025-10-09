@@ -10,27 +10,9 @@ format:
     code-summary: "Show the code"
 ---
 
-You will first find a data set containing string / character data. The data could be on newspaper articles, tweets, songs, scripts, movie reviews, or anything else you can imagine. Then you will answer questions of interest and tell a story about your data using the string and regular expression skills you have developed.
 
-Your analysis must contain the following elements:
+The data from this page comes from Shakespeare's works, which are in the public domain. The datasets used here pulled their data specifically from https://shakespeare.mit.edu/ and can be found in the TidyTeusday 2024 repository, curated by Nicola Rennie. 
 
-at least 3 str_*() functions (3 different str_*() functions)
-at least 3 regular expressions
-at least 1 lookaround
-at least 2 illustrative, well-labeled plots or tables
-a description of what insights can be gained from your plots and tables
-a reference / documentation of the data source.
-
-
-Logistics:
-please include all your code used in the analysis (but feel free to use code folding.)
-make sure that all graphs are well-labeled (including x and y axes, title of the graph, and accurate and succinct labels for color and fill).
-do not include error or warning messages (see HW YAML for code).
-include a few sentences describing each of your plots or tables. That is, tell the reader what they see when they look at the plot. Your narrative description should be in the text part of the qmd file, not as a comment in an R chunk.
-
-
-please include the source of the data (which might include, for example, both the link to the data source (e.g., TidyTuesday page) + the original source of the data (e.g., NYT)).
-if you are working with a (local) copy of the .csv file (as opposed to, for example, a link to the dataset on TidyTuesday’s GitHub site), then the .csv file should live in your GitHub repository for your website. And you should read the data in from that local copy. That is, the dataset should not live in your Downloads.
 
 
 
@@ -52,8 +34,146 @@ romeo_juliet <- readr::read_csv('https://raw.githubusercontent.com/rfordatascien
 
 
 
+```{r}
 
 
+tragedies <- bind_rows(
+  hamlet |> mutate(play = "Hamlet"),
+  macbeth |> mutate(play = "Macbeth"),
+  romeo_juliet |> mutate(play = "Romeo and Juliet")
+)
+
+
+tragedies_ghosts <- tragedies |>
+  filter(str_detect(dialogue, "\\b(ghost|witch|spirit)\\b")) |>
+  select(play, dialogue) |>
+  mutate(supernatural = str_extract(str_to_lower(dialogue), "\\b(ghost|witch|spirit)\\b" )) |>
+  count(play, supernatural, name = "num_mentions")
+
+
+
+ggplot(tragedies_ghosts, aes(x = play, y = num_mentions, fill = supernatural)) +
+  geom_col(position = "dodge") +
+  labs(
+    title = "Mentions of 'Ghost', 'Witch', and 'Spirit' in Shakespeare's Tragedies",
+    x = "Play",
+    y = "Number of Mentions",
+    fill = "" 
+    ) + 
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 16, face = "bold"))
+
+
+```
+
+This graph shows that Hamlet has a great deal many more mentions of ghosts, witches, and spirits than the other two plays. This indicates that ghosts, witches, and spirits are more relevant to the plot of Hamlet than to the other two, which makes sense because Hamlet is frequently seeing apparitions of his dead father and this is central to the plot. 
+
+```{r}
+
+
+tragedies_exclaim <- tragedies |>
+  filter(str_detect(dialogue, "(?i)\\bHamlet!+|Macbeth!+|Romeo!+|Juliet!+")) |>
+  mutate(exclamations = str_extract(dialogue, "(?i)\\bHamlet!+|Macbeth!+|Romeo!+|Juliet!+")) |>
+  count(play, exclamations, name = "num_exclaim") |>
+  mutate(exclamations = fct_relevel(exclamations, c("Hamlet!", "Macbeth!", "Romeo!", "Juliet!")))
+
+
+
+ggplot(tragedies_exclaim, aes(x = exclamations, y = num_exclaim, fill = exclamations)) +
+  geom_col(position = "dodge") +
+  labs(
+    title = "Number of times the main character's name is exclaimed",
+    x = "Play",
+    y = "Number of Mentions",
+    fill = "" 
+    ) +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 16, face = "bold"))
+
+
+```
+
+This graph shows that out of the main characters from each play, Romeo is the one who gets yelled at (or about) the most. 
+
+```{r}
+
+tragedies_exclaimers <- tragedies |>
+  filter(str_detect(dialogue, "(?i)\\b(Hamlet|Macbeth|Romeo|Juliet)!+")) |> 
+  mutate(
+    exclamations = str_extract(dialogue, "(?i)\\b(Hamlet|Macbeth|Romeo|Juliet)!+"),
+    exclamations = str_to_title(exclamations)  
+  ) |>
+  count(play, character, exclamations, name = "num_exclaim") |>
+  arrange(desc(num_exclaim))
+
+# Optionally, focus on the top 10 loudest shouters
+top_exclaimers <- tragedies_exclaimers |> 
+  slice_max(num_exclaim, n = 10)
+
+ggplot(top_exclaimers, aes(
+  x = reorder(character, num_exclaim),
+  y = num_exclaim,
+  fill = exclamations
+)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Top 10 Characters Who Shout Names the Most",
+    subtitle = "Colored by which name they exclaim",
+    x = "Character",
+    y = "Number of Exclamations",
+    fill = "Name Shouted"
+  ) +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 16, face = "bold"))
+
+
+```
+
+And this graph shows that not all of those times Romeo is yelled at are from Juliet's famous line! Turns out Romeo is yelled at (or about) by a good variety of folks. 
+
+```{r}
+
+
+tragedies_exclaimers <- tragedies |>
+  filter(str_detect(dialogue, "(?i)!+")) |> 
+  mutate(
+    exclamations = str_extract(dialogue, "(?i)!+"),
+    exclamations = str_to_title(exclamations)  
+  ) |>
+  count(play, character, exclamations, name = "num_exclaim") |>
+  arrange(desc(num_exclaim))
+
+# Optionally, focus on the top 10 loudest shouters
+top_exclaimers <- tragedies_exclaimers |> 
+  slice_max(num_exclaim, n = 10)
+
+ggplot(top_exclaimers, aes(
+  x = reorder(character, num_exclaim),
+  y = num_exclaim,
+  fill = play
+)) +
+  geom_col(position = "dodge") +
+  coord_flip() +
+  labs(
+    title = "Criers",
+    subtitle = "Characters in Shakespeare's Tragedies who Exclaim the Most",
+    x = "Character",
+    y = "Number of Exclamations",
+    fill = ""
+  ) +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 16, face = "bold"))
+
+```
+
+Finally, this graph tells us that despite not being yelled at nearly as much as Romeo is, Hamlet yells a lot. Perhaps this is because of all of those ghosts, spirits, and witches. 
+
+
+
+
+
+Below is a graph for each play showing who has the most lines. These line counts graphs tell you which character is the "main character", which, unsurprisingly, are also the title characters. But just in case.  
 
 
 ```{r}
@@ -149,165 +269,8 @@ ggplot(romeo_juliet_counts, aes(x = reorder(character, num_lines), y = num_lines
 
 
 
-```{r}
-
-tragedies <- bind_rows(
-  hamlet |> mutate(play = "Hamlet"),
-  macbeth |> mutate(play = "Macbeth"),
-  romeo_juliet |> mutate(play = "Romeo and Juliet")
-)
 
 
-tragedies_questions <- tragedies |>
-  mutate(num_questions = str_count(dialogue, "\\?"))
-
-
-tragedies_questions |>
-  group_by(play) |>
-  summarize(avg_questions = mean(num_questions)) |>
-  ggplot(aes(x = play, y = avg_questions, fill = play)) +
-  geom_col(show.legend = FALSE) +
-  labs(
-    title = "Average Number of Questions per Line by Play", 
-    x = "Play", 
-    y = "Number of Questions"
-    ) + 
-  theme_minimal() + 
-  theme(plot.title = element_text(size = 16, face = "bold"))
-
-
-
-```
-
-
-
-```{r}
-
-
-tragedies <- bind_rows(
-  hamlet |> mutate(play = "Hamlet"),
-  macbeth |> mutate(play = "Macbeth"),
-  romeo_juliet |> mutate(play = "Romeo and Juliet")
-)
-
-
-tragedies_ghosts <- tragedies |>
-  filter(str_detect(dialogue, "\\b(ghost|witch|spirit)\\b")) |>
-  select(play, dialogue) |>
-  mutate(supernatural = str_extract(str_to_lower(dialogue), "\\b(ghost|witch|spirit)\\b" )) |>
-  count(play, supernatural, name = "num_mentions")
-
-
-
-ggplot(tragedies_ghosts, aes(x = play, y = num_mentions, fill = supernatural)) +
-  geom_col(position = "dodge") +
-  labs(
-    title = "Mentions of 'Ghost', 'Witch', and 'Spirit' in Shakespeare's Tragedies",
-    x = "Play",
-    y = "Number of Mentions",
-    fill = "" 
-    ) + 
-  theme_minimal() + 
-  theme(plot.title = element_text(size = 16, face = "bold"))
-
-
-```
-
-```{r}
-
-
-tragedies_exclaim <- tragedies |>
-  filter(str_detect(dialogue, "(?i)\\bHamlet!+|Macbeth!+|Romeo!+|Juliet!+")) |>
-  mutate(exclamations = str_extract(dialogue, "(?i)\\bHamlet!+|Macbeth!+|Romeo!+|Juliet!+")) |>
-  count(play, exclamations, name = "num_exclaim") |>
-  mutate(exclamations = fct_relevel(exclamations, c("Hamlet!", "Macbeth!", "Romeo!", "Juliet!")))
-
-
-
-ggplot(tragedies_exclaim, aes(x = exclamations, y = num_exclaim, fill = exclamations)) +
-  geom_col(position = "dodge") +
-  labs(
-    title = "Number of times the main character's name is exclaimed",
-    x = "Play",
-    y = "Number of Mentions",
-    fill = "" 
-    ) +
-  theme_minimal() + 
-  theme(plot.title = element_text(size = 16, face = "bold"))
-
-
-```
-
-
-```{r}
-
-tragedies_exclaimers <- tragedies |>
-  filter(str_detect(dialogue, "(?i)\\b(Hamlet|Macbeth|Romeo|Juliet)!+")) |> 
-  mutate(
-    exclamations = str_extract(dialogue, "(?i)\\b(Hamlet|Macbeth|Romeo|Juliet)!+"),
-    exclamations = str_to_title(exclamations)  
-  ) |>
-  count(play, character, exclamations, name = "num_exclaim") |>
-  arrange(desc(num_exclaim))
-
-# Optionally, focus on the top 10 loudest shouters
-top_exclaimers <- tragedies_exclaimers |> 
-  slice_max(num_exclaim, n = 10)
-
-ggplot(top_exclaimers, aes(
-  x = reorder(character, num_exclaim),
-  y = num_exclaim,
-  fill = exclamations
-)) +
-  geom_col() +
-  coord_flip() +
-  labs(
-    title = "Top 10 Characters Who Shout Names the Most",
-    subtitle = "Colored by which name they exclaim",
-    x = "Character",
-    y = "Number of Exclamations",
-    fill = "Name Shouted"
-  ) +
-  theme_minimal() + 
-  theme(plot.title = element_text(size = 16, face = "bold"))
-
-
-```
-
-```{r}
-
-
-tragedies_exclaimers <- tragedies |>
-  filter(str_detect(dialogue, "(?i)!+")) |> 
-  mutate(
-    exclamations = str_extract(dialogue, "(?i)!+"),
-    exclamations = str_to_title(exclamations)  
-  ) |>
-  count(play, character, exclamations, name = "num_exclaim") |>
-  arrange(desc(num_exclaim))
-
-# Optionally, focus on the top 10 loudest shouters
-top_exclaimers <- tragedies_exclaimers |> 
-  slice_max(num_exclaim, n = 10)
-
-ggplot(top_exclaimers, aes(
-  x = reorder(character, num_exclaim),
-  y = num_exclaim,
-  fill = play
-)) +
-  geom_col(position = "dodge") +
-  coord_flip() +
-  labs(
-    title = "Criers",
-    subtitle = "Characters in Shakespeare's Tragedies who Exclaim the Most",
-    x = "Character",
-    y = "Number of Exclamations",
-    fill = ""
-  ) +
-  theme_minimal() + 
-  theme(plot.title = element_text(size = 16, face = "bold"))
-
-```
 
 
 
