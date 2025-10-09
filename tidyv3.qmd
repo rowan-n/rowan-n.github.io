@@ -41,6 +41,7 @@ library(tidyverse)
 library(ggplot2)
 library(dplyr)
 library(stringr)
+library(forcats)
 
 
 hamlet <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-09-17/hamlet.csv')
@@ -78,8 +79,9 @@ ggplot(hamlet_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
   theme(
     plot.title = element_text(size = 18, face = "bold"),
     axis.text.y = element_text(size = 10)
-  )
-
+  ) + 
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 16, face = "bold"))
 
 
 
@@ -109,7 +111,9 @@ ggplot(macbeth_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
   theme(
     plot.title = element_text(size = 18, face = "bold"),
     axis.text.y = element_text(size = 10)
-  )
+  ) + 
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 16, face = "bold"))
 
 
 ```
@@ -136,7 +140,9 @@ ggplot(romeo_juliet_counts, aes(x = reorder(character, num_lines), y = num_lines
   theme(
     plot.title = element_text(size = 18, face = "bold"),
     axis.text.y = element_text(size = 10)
-  )
+  ) + 
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 16, face = "bold"))
 
 
 ```
@@ -152,25 +158,8 @@ tragedies <- bind_rows(
 )
 
 
-tragedies_clean <- tragedies |>
-  mutate(
-    dialogue_clean = str_replace_all(
-      dialogue,
-      "(?<=\\[).*?(?=\\])",  
-      ""                     
-    ), 
-    dialogue_clean = str_replace_all(dialogue_clean, "\\[\\]", "") 
-  )
-
-
-tragedies_names <- tragedies_clean |>
-  mutate(
-    capitalized_words = str_extract_all(dialogue_clean, "\\b[A-Z][a-z]+\\b")
-  )
-
-
-tragedies_questions <- tragedies_clean |>
-  mutate(num_questions = str_count(dialogue_clean, "\\?"))
+tragedies_questions <- tragedies |>
+  mutate(num_questions = str_count(dialogue, "\\?"))
 
 
 tragedies_questions |>
@@ -182,7 +171,9 @@ tragedies_questions |>
     title = "Average Number of Questions per Line by Play", 
     x = "Play", 
     y = "Number of Questions"
-    )
+    ) + 
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 16, face = "bold"))
 
 
 
@@ -201,37 +192,122 @@ tragedies <- bind_rows(
 
 
 tragedies_ghosts <- tragedies |>
-  filter(str_detect(dialogue, regex("\\b(ghost|witch|spirit)\\b", ignore_case = TRUE)))
-
-
-ghost_mentions <- tragedies_ghosts |>
-  mutate(
-    supernatural = str_extract(
-      str_to_lower(dialogue),
-      "\\b(ghost|witch|spirit)\\b"
-    )
-  ) |>
+  filter(str_detect(dialogue, "\\b(ghost|witch|spirit)\\b")) |>
+  select(play, dialogue) |>
+  mutate(supernatural = str_extract(str_to_lower(dialogue), "\\b(ghost|witch|spirit)\\b" )) |>
   count(play, supernatural, name = "num_mentions")
 
 
-ggplot(ghost_mentions, aes(x = play, y = num_mentions, fill = supernatural)) +
+
+ggplot(tragedies_ghosts, aes(x = play, y = num_mentions, fill = supernatural)) +
   geom_col(position = "dodge") +
   labs(
     title = "Mentions of 'Ghost', 'Witch', and 'Spirit' in Shakespeare's Tragedies",
     x = "Play",
     y = "Number of Mentions",
-    fill = ""
-  ) +
-  theme_minimal(base_size = 14) +
-  theme(
-    plot.title = element_text(size = 18, face = "bold"),
-    legend.position = "top"
-  )
+    fill = "" 
+    ) + 
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 16, face = "bold"))
+
+
+```
+
+```{r}
+
+
+tragedies_exclaim <- tragedies |>
+  filter(str_detect(dialogue, "(?i)\\bHamlet!+|Macbeth!+|Romeo!+|Juliet!+")) |>
+  mutate(exclamations = str_extract(dialogue, "(?i)\\bHamlet!+|Macbeth!+|Romeo!+|Juliet!+")) |>
+  count(play, exclamations, name = "num_exclaim") |>
+  mutate(exclamations = fct_relevel(exclamations, c("Hamlet!", "Macbeth!", "Romeo!", "Juliet!")))
+
+
+
+ggplot(tragedies_exclaim, aes(x = exclamations, y = num_exclaim, fill = exclamations)) +
+  geom_col(position = "dodge") +
+  labs(
+    title = "Number of times the main character's name is exclaimed",
+    x = "Play",
+    y = "Number of Mentions",
+    fill = "" 
+    ) +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 16, face = "bold"))
 
 
 ```
 
 
+```{r}
+
+tragedies_exclaimers <- tragedies |>
+  filter(str_detect(dialogue, "(?i)\\b(Hamlet|Macbeth|Romeo|Juliet)!+")) |> 
+  mutate(
+    exclamations = str_extract(dialogue, "(?i)\\b(Hamlet|Macbeth|Romeo|Juliet)!+"),
+    exclamations = str_to_title(exclamations)  
+  ) |>
+  count(play, character, exclamations, name = "num_exclaim") |>
+  arrange(desc(num_exclaim))
+
+# Optionally, focus on the top 10 loudest shouters
+top_exclaimers <- tragedies_exclaimers |> 
+  slice_max(num_exclaim, n = 10)
+
+ggplot(top_exclaimers, aes(
+  x = reorder(character, num_exclaim),
+  y = num_exclaim,
+  fill = exclamations
+)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Top 10 Characters Who Shout Names the Most",
+    subtitle = "Colored by which name they exclaim",
+    x = "Character",
+    y = "Number of Exclamations",
+    fill = "Name Shouted"
+  ) +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 16, face = "bold"))
+
+
+```
+
+```{r}
+
+
+tragedies_exclaimers <- tragedies |>
+  filter(str_detect(dialogue, "(?i)!+")) |> 
+  mutate(
+    exclamations = str_extract(dialogue, "(?i)!+"),
+    exclamations = str_to_title(exclamations)  
+  ) |>
+  count(play, character, exclamations, name = "num_exclaim") |>
+  arrange(desc(num_exclaim))
+
+# Optionally, focus on the top 10 loudest shouters
+top_exclaimers <- tragedies_exclaimers |> 
+  slice_max(num_exclaim, n = 10)
+
+ggplot(top_exclaimers, aes(
+  x = reorder(character, num_exclaim),
+  y = num_exclaim,
+  fill = play
+)) +
+  geom_col(position = "dodge") +
+  coord_flip() +
+  labs(
+    title = "Criers",
+    subtitle = "Characters in Shakespeare's Tragedies who Exclaim the Most",
+    x = "Character",
+    y = "Number of Exclamations",
+    fill = ""
+  ) +
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 16, face = "bold"))
+
+```
 
 
 
