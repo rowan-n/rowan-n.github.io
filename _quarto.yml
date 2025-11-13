@@ -18,6 +18,8 @@ website:
            href: tidyv2.html
          - text: "Tidy Tuesday - Shakespeare"
            href: tidyv3.html
+         - text: "Data Ethics - OkCupid"
+           href: project4.html
 
 
 

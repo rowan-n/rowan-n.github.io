@@ -10,11 +10,7 @@ format:
     code-summary: "Show the code"
 ---
 
-
-The data from this page comes from Shakespeare's works, which are in the public domain. The datasets used here pulled their data specifically from https://shakespeare.mit.edu/ and can be found in the TidyTeusday 2024 repository, curated by Nicola Rennie. 
-
-
-
+The data from this page comes from Shakespeare's works, which are in the public domain. The datasets used here pulled their data specifically from https://shakespeare.mit.edu/ and can be found in the TidyTeusday 2024 repository, curated by Nicola Rennie.
 
 ```{r, warning = FALSE, message = FALSE}
 
@@ -31,8 +27,6 @@ macbeth <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/ti
 romeo_juliet <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-09-17/romeo_juliet.csv')
 
 ```
-
-
 
 ```{r}
 
@@ -66,7 +60,7 @@ ggplot(tragedies_ghosts, aes(x = play, y = num_mentions, fill = supernatural)) +
 
 ```
 
-This graph shows that Hamlet has a great deal many more mentions of ghosts, witches, and spirits than the other two plays. This indicates that ghosts, witches, and spirits are more relevant to the plot of Hamlet than to the other two, which makes sense because Hamlet is frequently seeing apparitions of his dead father and this is central to the plot. 
+This graph shows that Hamlet has a great deal many more mentions of ghosts, witches, and spirits than the other two plays. This indicates that ghosts, witches, and spirits are more relevant to the plot of Hamlet than to the other two, which makes sense because Hamlet is frequently seeing apparitions of his dead father and this is central to the plot.
 
 ```{r}
 
@@ -93,7 +87,7 @@ ggplot(tragedies_exclaim, aes(x = exclamations, y = num_exclaim, fill = exclamat
 
 ```
 
-This graph shows that out of the main characters from each play, Romeo is the one who gets yelled at (or about) the most. 
+This graph shows that out of the main characters from each play, Romeo is the one who gets yelled at (or about) the most.
 
 ```{r}
 
@@ -106,7 +100,7 @@ tragedies_exclaimers <- tragedies |>
   count(play, character, exclamations, name = "num_exclaim") |>
   arrange(desc(num_exclaim))
 
-# Optionally, focus on the top 10 loudest shouters
+
 top_exclaimers <- tragedies_exclaimers |> 
   slice_max(num_exclaim, n = 10)
 
@@ -130,7 +124,7 @@ ggplot(top_exclaimers, aes(
 
 ```
 
-And this graph shows that not all of those times Romeo is yelled at are from Juliet's famous line! Turns out Romeo is yelled at (or about) by a good variety of folks. 
+And this graph shows that not all of those times Romeo is yelled at are from Juliet's famous line! Turns out Romeo is yelled at (or about) by a good variety of folks.
 
 ```{r}
 
@@ -167,14 +161,9 @@ ggplot(top_exclaimers, aes(
 
 ```
 
-Finally, this graph tells us that despite not being yelled at nearly as much as Romeo is, Hamlet yells a lot. Perhaps this is because of all of those ghosts, spirits, and witches. 
+Finally, this graph tells us that despite not being yelled at nearly as much as Romeo is, Hamlet yells a lot. Perhaps this is because of all of those ghosts, spirits, and witches.
 
-
-
-
-
-Below is a graph for each play showing who has the most lines. These line counts graphs tell you which character is the "main character", which, unsurprisingly, are also the title characters. But just in case.  
-
+Below is a graph for each play showing who has the most lines. These line counts graphs tell you which character is the "main character", which, unsurprisingly, are also the title characters. But just in case.
 
 ```{r}
 
@@ -206,8 +195,6 @@ ggplot(hamlet_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
 
 
 ```
-
-
 
 ```{r}
 macbeth_counts <- macbeth |>
@@ -266,12 +253,3 @@ ggplot(romeo_juliet_counts, aes(x = reorder(character, num_lines), y = num_lines
 
 
 ```
-
-
-
-
-
-
-
-
-
