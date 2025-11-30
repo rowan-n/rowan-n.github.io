@@ -1,0 +1,163 @@
+---
+title: "Project 5"
+execute:
+  echo: false
+description: |
+  Some SQL of the Stanford Open Policing Project
+author: Rowan Norenberg
+date: November 29, 2025
+format: html
+---
+
+```{r}
+library(DBI)
+library(ggplot2)
+
+```
+
+
+
+```{r}
+
+con_traffic <- DBI::dbConnect(
+
+  RMariaDB::MariaDB(),
+
+  dbname = "traffic",
+
+  host = Sys.getenv("TRAFFIC_HOST"),
+
+  user = Sys.getenv("TRAFFIC_USER"),
+
+  password = Sys.getenv("TRAFFIC_PWD")
+
+)
+
+```
+
+
+
+```{sql connection=con_traffic}
+
+DESCRIBE wa_seattle_2020_04_01;
+
+```
+
+
+
+
+
+```{r}
+
+
+state_stops <- dbGetQuery(con_traffic, "
+SELECT
+vehicle_registration_state,
+COUNT(*) AS num_arrests
+FROM wa_seattle_2020_04_01
+WHERE vehicle_registration_state IS NOT NULL
+GROUP BY vehicle_registration_state
+ORDER BY num_arrests DESC
+LIMIT 0, 10
+")
+
+
+ggplot(state_stops, aes(x = vehicle_registration_state, y = num_arrests)) +
+geom_col() +
+labs(
+title = "Number of Traffic Stops by Vehicle Registration State",
+x = "State",
+y = "Number of Traffic Stops"
+) +
+theme_minimal() +
+theme(
+axis.text.x = element_text(angle = 60, hjust = 1)
+)
+
+
+```
+
+
+Some of these trends are unsurprising - of course, people who live in Washington and therefore have Washington liscence plates will have the most traffic stops. Nearby states like Oregon, North Dakota, Colorado, and California (all of which have high migration rates to Seattle) are also unsurprising. But cars registered in Hawaii and Illinois have the highest rate of traffic stops in Seattle besides Washington. Why? Neither are particularly close to Washington, nor do they have high rates of migration. 
+I guessed that the answer would lie in rentals. Rental car companies famously register and insure their cars wherever will give them the cheapest rates. Hawaii has the lowest average yearly car registration fee in the US, at a mere $12. Illinois has one of the highest, though, at over $150. However, another look at the data reveals that perhaps Seattle PD just doesn't do a very good job of documenting what state the plates are from, for some reason. 
+
+
+```{r}
+null_state_stops <- dbGetQuery(con_traffic, "
+SELECT 'WA' AS reg_state, 
+  COUNT(*) AS num_arrests
+FROM wa_seattle_2020_04_01
+WHERE vehicle_registration_state = 'WA'
+UNION ALL
+SELECT 'Out-of-State' AS reg_state, 
+  COUNT(*) AS num_arrests
+FROM wa_seattle_2020_04_01
+WHERE vehicle_registration_state <> 'WA'
+  AND vehicle_registration_state IS NOT NULL  
+UNION ALL
+SELECT 'Unknown' AS reg_state, 
+  COUNT(*) AS num_arrests
+FROM wa_seattle_2020_04_01
+WHERE vehicle_registration_state IS NULL
+")
+
+null_state_stops
+```
+
+299,729 unknown values. In conclusion, the Seattle PD is really bad at recording the states of plates during traffic stops. I had hoped that the Seattle PD would be better about recording plate state when an actual arrest was made, but... 
+
+```{r}
+null_state_arrests <- dbGetQuery(con_traffic, "
+SELECT 'WA' AS category, COUNT(*) AS num_arrests
+FROM wa_seattle_2020_04_01
+WHERE arrest_made = '1'
+  AND vehicle_registration_state = 'WA'
+UNION ALL
+
+SELECT 'Out-of-State' AS category, COUNT(*) AS num_arrests
+FROM wa_seattle_2020_04_01
+WHERE arrest_made = '1'
+  AND vehicle_registration_state <> 'WA'
+  AND vehicle_registration_state IS NOT NULL
+UNION ALL
+
+SELECT 'Unknown' AS category, COUNT(*) AS num_arrests
+FROM wa_seattle_2020_04_01
+WHERE arrest_made = '1'
+  AND vehicle_registration_state IS NULL;
+")
+
+null_state_arrests
+```
+
+Not really. 
+
+HOWEVER. 
+
+Seattle is very weird about plates, in that in 2009, they switched to a 7-character plate system (CCC-####) and at first, EVERY plate started with an A. Then around 2015, when they ran out of unique combinations, a B. By sometime after 2020, newly issued plates started with a C. 
+
+Not so helpful when trying to identify a criminal, because if you only remember the first letter of a plate, it's no help at all. But, it does mean that ALL Washington licence plates start with an A, B, or C (since 2009) (unless they are customized). This probably means that Seattle PD is only recording "WA" when they feel like it's necessary; eg, when the plate number is really old or customized. This would help explain the sheer number of NULL values. Any plate that starts with an A, B, or C and fits the CCC-#### system is going to be a Washington plate, so there's no need to write that down, and any OTHER plate that isn't customized and marked as WA is an out-of-towner. 
+
+So what does this have to do with Illinois? Well, in 2017, Illinois ALSO implemented a 7-character plate system (CC-#####) which started with A. So when a car with an Illinois plate is pulled over, the Seattle PD officer can't just record the plate and leave the state blank, because that would imply that the state was Washington. So, they specifically record "IL". 
+
+
+
+
+
+Your task is to use at least 3 data tables to say something interesting about traffic stops (or pedestrian stops). It will take a little bit of sleuthing to figure out what you want to look at. In the end, you will present your findings in a figure or table. Some potential areas to explore include:
+
+Are there differences over time?
+Are there differences across datasets?
+Is there anything interesting about pedestrian stops versus vehicular stops? (I’m not sure how many of the datasets have much information on pedestrian stops).
+Your analysis should have the following elements:
+
+queries of at least three of the SQL tables
+at least 6 uses of SQL keywords other than SELECT, FROM, and LIMIT.
+at least 2 illustrative, well-labeled plots or tables
+a description of what insights can be gained from your plots and tables
+
+
+
+
+
+Pierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al. 2020. “A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10.
