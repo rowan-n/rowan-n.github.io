@@ -134,8 +134,19 @@ Are there differences over time? Are there differences across datasets? Is there
 
 queries of at least three of the SQL tables at least 6 uses of SQL keywords other than SELECT, FROM, and LIMIT. at least 2 illustrative, well-labeled plots or tables a description of what insights can be gained from your plots and tables
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+Pierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al. 2020. “A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10.
+=======
+
+>>>>>>> 2c26031dca569c9afcf6aaa2f952c8d5334ff448
 
 
 
 Pierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al. 2020. “A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10.
 
+<<<<<<< HEAD
+=======
+>>>>>>> e750281e87729273f70ae4a18603c3c6ee4b7c62
+>>>>>>> 2c26031dca569c9afcf6aaa2f952c8d5334ff448
