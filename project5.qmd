@@ -2,8 +2,7 @@
 title: "Project 5"
 execute:
   echo: false
-description: |
-  Some SQL of the Stanford Open Policing Project
+description: Some SQL of the Stanford Open Policing Project
 author: Rowan Norenberg
 date: November 29, 2025
 format: html
@@ -161,3 +160,4 @@ a description of what insights can be gained from your plots and tables
 
 
 Pierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al. 2020. “A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10.
+
