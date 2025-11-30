@@ -280,41 +280,426 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Don't know how to automatically pick scale for object of type &lt;integer64&gt;.
-Defaulting to continuous.</code></pre>
-</div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="project5_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">vehicle_registration_state</th>
+<th style="text-align: right;">num_arrests</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">WA</td>
+<td style="text-align: right;">11219</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HI</td>
+<td style="text-align: right;">2692</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">IL</td>
+<td style="text-align: right;">2019</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OR</td>
+<td style="text-align: right;">997</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ND</td>
+<td style="text-align: right;">783</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MA</td>
+<td style="text-align: right;">689</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CA</td>
+<td style="text-align: right;">534</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ME</td>
+<td style="text-align: right;">223</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">IN</td>
+<td style="text-align: right;">182</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CO</td>
+<td style="text-align: right;">154</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <p>Some of these trends are unsurprising - of course, people who live in Washington and therefore have Washington liscence plates will have the most traffic stops. Nearby states like Oregon, North Dakota, Colorado, and California (all of which have high migration rates to Seattle) are also unsurprising. But cars registered in Hawaii and Illinois have the highest rate of traffic stops in Seattle besides Washington. Why? Neither are particularly close to Washington, nor do they have high rates of migration. I guessed that the answer would lie in rentals. Rental car companies famously register and insure their cars wherever will give them the cheapest rates. Hawaii has the lowest average yearly car registration fee in the US, at a mere $12. Illinois has one of the highest, though, at over $150. However, another look at the data reveals that perhaps Seattle PD just doesn’t do a very good job of documenting what state the plates are from, for some reason.</p>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>     reg_state num_arrests
-1           WA       11219
-2 Out-of-State        9011
-3      Unknown      299729</code></pre>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>3 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">reg_state</th>
+<th style="text-align: right;">num_arrests</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">WA</td>
+<td style="text-align: right;">11219</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Out-of-State</td>
+<td style="text-align: right;">9011</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Unknown</td>
+<td style="text-align: right;">299729</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <p>299,729 unknown values. In conclusion, the Seattle PD is really bad at recording the states of plates during traffic stops. I had hoped that the Seattle PD would be better about recording plate state when an actual arrest was made, but…</p>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>      category num_arrests
-1           WA         938
-2 Out-of-State         620
-3      Unknown        8999</code></pre>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>3 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">category</th>
+<th style="text-align: right;">num_arrests</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">WA</td>
+<td style="text-align: right;">938</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Out-of-State</td>
+<td style="text-align: right;">620</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Unknown</td>
+<td style="text-align: right;">8999</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <p>Not really.</p>
-<p>HOWEVER.</p>
-<p>Seattle is very weird about plates, in that in 2009, they switched to a 7-character plate system (CCC-####) and at first, EVERY plate started with an A. Then around 2015, when they ran out of unique combinations, a B. By sometime after 2020, newly issued plates started with a C.</p>
+<p>However: Seattle is a bit unique about plates, in that in 2009, they switched to a 7-character plate system (CCC-####) and at first, EVERY plate started with an A. Then around 2015, when they ran out of unique combinations, a B. By sometime after 2020, newly issued plates started with a C.</p>
 <p>Not so helpful when trying to identify a criminal, because if you only remember the first letter of a plate, it’s no help at all. But, it does mean that ALL Washington licence plates start with an A, B, or C (since 2009) (unless they are customized). This probably means that Seattle PD is only recording “WA” when they feel like it’s necessary; eg, when the plate number is really old or customized. This would help explain the sheer number of NULL values. Any plate that starts with an A, B, or C and fits the CCC-#### system is going to be a Washington plate, so there’s no need to write that down, and any OTHER plate that isn’t customized and marked as WA is an out-of-towner.</p>
 <p>So what does this have to do with Illinois? Well, in 2017, Illinois ALSO implemented a 7-character plate system (CC-#####) which started with A. So when a car with an Illinois plate is pulled over, the Seattle PD officer can’t just record the plate and leave the state blank, because that would imply that the state was Washington. So, they specifically record “IL”.</p>
+<p>Unfortunately, both the statewide Illinois data table and the Chicago data table do not include a row for vehicle registration state, so I can’t compare this trend to Illinois.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Field</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Null</th>
+<th style="text-align: left;">Key</th>
+<th style="text-align: left;">Default</th>
+<th style="text-align: left;">Extra</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">raw_row_number</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">time</td>
+<td style="text-align: left;">time</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">location</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">county_name</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">subject_age</td>
+<td style="text-align: left;">bigint(20)</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">subject_race</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">subject_sex</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">type</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">violation</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">age</th>
+<th style="text-align: right;">num_arrests</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">196</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">33</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">204</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">1474</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">3454</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">5174</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">9244</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">11859</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">age</th>
+<th style="text-align: right;">num_arrests</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">61</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">157</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">259</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">530</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">566</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">593</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">avg_age_all</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">36.0913</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">avg_age_native</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">33.6656</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>7 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">raw_Race</th>
+<th style="text-align: right;">num_minor_stops</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">African American</td>
+<td style="text-align: right;">107</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Asian</td>
+<td style="text-align: right;">17</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Hispanic</td>
+<td style="text-align: right;">139</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Native American</td>
+<td style="text-align: right;">499</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Other</td>
+<td style="text-align: right;">82</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">White</td>
+<td style="text-align: right;">9503</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">pct_minor_native</th>
+<th style="text-align: right;">pct_minor_non_native</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">3.6813</td>
+<td style="text-align: right;">3.11248</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Your task is to use at least 3 data tables to say something interesting about traffic stops (or pedestrian stops). It will take a little bit of sleuthing to figure out what you want to look at. In the end, you will present your findings in a figure or table. Some potential areas to explore include:</p>
 <p>Are there differences over time? Are there differences across datasets? Is there anything interesting about pedestrian stops versus vehicular stops? (I’m not sure how many of the datasets have much information on pedestrian stops). Your analysis should have the following elements:</p>
 <p>queries of at least three of the SQL tables at least 6 uses of SQL keywords other than SELECT, FROM, and LIMIT. at least 2 illustrative, well-labeled plots or tables a description of what insights can be gained from your plots and tables</p>
