@@ -119,7 +119,7 @@ Unfortunately, both the statewide Illinois data table and the Chicago data table
 
 
 
-Next I was exploring which police departments had more possible entries for subject race than others. North Dakota, for example, had the standard lineup (White, Asian, African American, Hispanic, Other) but with the distinction of one group that is lumped into "Other" in many states: Native American. I decided to look at the ages of traffic stops made on Native Americans, as I had noticed that many violations were for driving without a liscence. 
+Next I was exploring which police departments had more possible entries for subject race than others. North Dakota, for example, had the standard lineup (White, Asian, African American, Hispanic, Other) but with the distinction of one group that is lumped into "Other" in many states: Native American. I decided to look at the ages of traffic stops made on Native Americans, as I had noticed that many violations were for driving without a licence. 
 
 ```{sql connection=con_traffic}
 
@@ -163,47 +163,37 @@ SELECT
 
 ```
 
-Not only is the average age of Native Americans who get stopped in North Dakota lower than that of the total average, but there is a notable increase in Native Americans minors who get stopped. 
+Not only is the average age of Native Americans who get stopped in North Dakota lower than that of the total average, but there is a notable increase in Native Americans minors who get stopped. Most other data tables, including ones for areas with very high Native populations, do not list Native American as an option (I assume they are grouped under 'other'.) Upon looking at Oklahoma, which is known for a high Native population, I found the abbreviated race 'I', which I believe stands for Indian, in this case referring to Native Americans (many official state and tribal documents in Oklahoma still use this language). 
 
+However, Tulsa, Oklahoma also has some non-standard race abbreviations. 
 
 ```{sql connection=con_traffic}
 
-SHOW TABLES;
+SELECT DISTINCT raw_race
+FROM ok_tulsa_2020_04_01;
 
 ```
 
+Some of these are easy to find the code to, and are standard in the United States. 
+W - White 
+B - Black / African American 
+U - Unknown 
+H - Hispanic 
+I - Native American / Native Alaskan 
+A - Asian 
+O - Other 
 
-```{sql connection=con_traffic}
-
-DESCRIBE ca_statewide_2023_01_26;
-
-```
-
-
-
-
-```{sql connection=con_traffic}
-
-SELECT
-        (SELECT COUNT(*) 
-         FROM ok_tulsa_2020_04_01
-         WHERE raw_Race = 'I')
-    AS count_native,
-        (SELECT COUNT(*) 
-         FROM ok_tulsa_2020_04_01
-         WHERE raw_Race != 'I')
-    AS count_non_native;
+After that, though, it gets mushy. At first I thought they might be distinguishing individual tribal nations in the state, but given the sheer number of distinct tribes in Oklahoma (and that many of them start with the same letter) this seems unlikely, or at least unintuitive. I scoured the Tulsa PD official website and records for a key, but found nothing. I am still curious about these abbreviations and would love to be more informed on what these all might represent. 
 
 
+
+```{r}
+dbDisconnect(con_traffic, shutdown = TRUE)
 ```
 
 
 
-Your task is to use at least 3 data tables to say something interesting about traffic stops (or pedestrian stops). It will take a little bit of sleuthing to figure out what you want to look at. In the end, you will present your findings in a figure or table. Some potential areas to explore include:
 
-Are there differences over time? Are there differences across datasets? Is there anything interesting about pedestrian stops versus vehicular stops? (I’m not sure how many of the datasets have much information on pedestrian stops). Your analysis should have the following elements:
-
-queries of at least three of the SQL tables at least 6 uses of SQL keywords other than SELECT, FROM, and LIMIT. at least 2 illustrative, well-labeled plots or tables a description of what insights can be gained from your plots and tables
 
 
 
