@@ -33,6 +33,8 @@ con_traffic <- DBI::dbConnect(
 ```
 
 
+As someone who lives in Seattle, Washington, and has gone my whole like making jokes about out-of-towners being terrible Seattle drivers, I had to know: which State gets pulled over and arrested the most when driving in Seattle?  (besides native Washingtonians, of course.)
+
 
 ```{sql connection=con_traffic}
 
@@ -53,7 +55,7 @@ Some of these trends are unsurprising - of course, people who live in Washington
 
 ```{sql connection=con_traffic}
 
-SELECT 'WA' AS reg_state, 
+SELECT 'WA' AS registration_state, 
   COUNT(*) AS num_arrests
 FROM wa_seattle_2020_04_01
 WHERE vehicle_registration_state = 'WA'
@@ -78,20 +80,20 @@ WHERE vehicle_registration_state IS NULL;
 
 ```{sql connection=con_traffic}
 
-SELECT 'WA' AS category, COUNT(*) AS num_arrests
+SELECT 'WA' AS registration_state, COUNT(*) AS num_arrests
 FROM wa_seattle_2020_04_01
 WHERE arrest_made = '1'
   AND vehicle_registration_state = 'WA'
 UNION ALL
 
-SELECT 'Out-of-State' AS category, COUNT(*) AS num_arrests
+SELECT 'Out-of-State' AS registration_state, COUNT(*) AS num_arrests
 FROM wa_seattle_2020_04_01
 WHERE arrest_made = '1'
   AND vehicle_registration_state <> 'WA'
   AND vehicle_registration_state IS NOT NULL
 UNION ALL
 
-SELECT 'Unknown' AS category, COUNT(*) AS num_arrests
+SELECT 'Unknown' AS registration_state, COUNT(*) AS num_arrests
 FROM wa_seattle_2020_04_01
 WHERE arrest_made = '1'
   AND vehicle_registration_state IS NULL;
@@ -165,7 +167,7 @@ SELECT
 
 Not only is the average age of Native Americans who get stopped in North Dakota lower than that of the total average, but there is a notable increase in Native Americans minors who get stopped. Most other data tables, including ones for areas with very high Native populations, do not list Native American as an option (I assume they are grouped under 'other'.) Upon looking at Oklahoma, which is known for a high Native population, I found the abbreviated race 'I', which I believe stands for Indian, in this case referring to Native Americans (many official state and tribal documents in Oklahoma still use this language). 
 
-However, Tulsa, Oklahoma also has some non-standard race abbreviations. 
+However, Tulsa, Oklahoma also has some non-standard race abbreviations. I was intending to calculate the percent of arrests made on Native American minors compared to other races in Tulsa, as well, but I hit a bit of a bump. 
 
 ```{sql connection=con_traffic}
 
