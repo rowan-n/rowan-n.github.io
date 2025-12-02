@@ -1,4 +1,3 @@
-
 ---
 title: "Tidy Tuesday - D&D Spells"
 execute:
@@ -17,8 +16,7 @@ links:
     href: https://github.com/rfordatascience/tidytuesday/tree/main/data/2024/2024-12-17 
 ---
 
-This is a plot I made trying to see which of the schools of magic had the longest spell range on average. This was made complicated by the spell range being stored as character strings (eg "30 feet" or "Touch") so I made levels. Unfortunatley this doesn't give a great representation at how different 300 feet is from 500 feet versus 5 feet from 10 feet. Work in progress. 
-
+This is a plot I made trying to see which of the schools of magic had the longest spell range on average. This was made complicated by the spell range being stored as character strings (eg "30 feet" or "Touch") so I made levels. Unfortunatley this doesn't give a great representation at how different 300 feet is from 500 feet versus 5 feet from 10 feet. Work in progress.
 
 ```{r, warning = FALSE, message = FALSE}
 
@@ -28,7 +26,6 @@ library(ggplot2)
 
 spells <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-12-17/spells.csv', show_col_types = FALSE)
 ```
-
 
 ```{r}
 #range_levels <- c( "Self", "Touch", "Sight", "5 feet", "10 feet", "15 feet", "30 feet", "60 feet", "90 feet", "100 feet", "120 feet", "150 feet", "300 feet", "500 feet", "1 mile", "500 miles", "Unlimited", "Special")
@@ -47,14 +44,13 @@ spells <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tid
 
 ```
 
-
 ```{r}
 
 spells |> 
   mutate(range = fct_relevel(range, 
-                                c("Self", "Touch", "Sight", "5 feet", "10 feet", "15 feet", "30 feet", "60 feet", "90 feet", "100 feet", "120 feet", "150 feet", "300 feet", "500 feet", "1 mile", "500 miles", "Unlimited", "Special"))) |> 
+                             c("Self", "Touch", "Sight", "5 feet", "10 feet", "15 feet", "30 feet", "60 feet", "90 feet", "100 feet", "120 feet", "150 feet", "300 feet", "500 feet", "1 mile", "500 miles", "Unlimited", "Special"))) |> 
   mutate(school = fct_reorder(school, as.numeric(range), .fun = "mean", .desc = TRUE)) |> 
-ggplot(aes(x = school, y = range, color = school)) +
+  ggplot(aes(x = school, y = range, color = school)) +
   geom_point() +
   labs(
     x = "School of Magic",
@@ -62,8 +58,6 @@ ggplot(aes(x = school, y = range, color = school)) +
     title = "D&D Spell Range by School",
   )
 ```
-
-
 
 ```{r}
 
@@ -87,7 +81,7 @@ con_spells |>
   mutate(duration = fct_relevel(duration, 
                                 c("Concentration, up to 1 minute", "Concentration, up to 10 minutes", "Concentration, up to 1 hour", "Concentration, up to 2 hours", "Concentration, up to 8 hours", "Concentration, up to 1 day"))) |> 
   filter(!grepl("Concentration up to 10 minutes", duration, ignore.case = TRUE)) |>
-ggplot(aes(x = school, y = duration, color = school)) +
+  ggplot(aes(x = school, y = duration, color = school)) +
   geom_point() +
   labs(
     x = "School of Magic",
@@ -97,21 +91,8 @@ ggplot(aes(x = school, y = duration, color = school)) +
 
 ```
 
+Tidyverse link: https://github.com/rfordatascience/tidytuesday/tree/main/data/2024/2024-12-17
 
+Dataset Citation: Harmon J (2025). dddata: Data from the Dungeons and Dragons System Reference Document. R package version 0.0.0.9000, https://github.com/jonthegeek/dddata.
 
-
-
-
-
-
-
-
-Tidyverse link: https://github.com/rfordatascience/tidytuesday/tree/main/data/2024/2024-12-17  
-
-Dataset Citation: 
-Harmon J (2025). dddata: Data from the Dungeons and Dragons System Reference Document. R package version 0.0.0.9000, https://github.com/jonthegeek/dddata. 
-
-Data Source: 
-https://www.dndbeyond.com/srd 
-
-
+Data Source: https://www.dndbeyond.com/srd

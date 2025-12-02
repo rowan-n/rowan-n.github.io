@@ -186,105 +186,6 @@ ul.task-list li input[type="checkbox"] {
 <caption>Displaying records 1 - 10</caption>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Field</th>
-<th style="text-align: left;">Type</th>
-<th style="text-align: left;">Null</th>
-<th style="text-align: left;">Key</th>
-<th style="text-align: left;">Default</th>
-<th style="text-align: left;">Extra</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">raw_row_number</td>
-<td style="text-align: left;">text</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">date</td>
-<td style="text-align: left;">date</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">time</td>
-<td style="text-align: left;">time</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">location</td>
-<td style="text-align: left;">text</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">lat</td>
-<td style="text-align: left;">double</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">lng</td>
-<td style="text-align: left;">double</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">beat</td>
-<td style="text-align: left;">text</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">precinct</td>
-<td style="text-align: left;">text</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">sector</td>
-<td style="text-align: left;">text</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">subject_age</td>
-<td style="text-align: left;">bigint(20)</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Displaying records 1 - 10</caption>
-<thead>
-<tr class="header">
 <th style="text-align: left;">vehicle_registration_state</th>
 <th style="text-align: right;">num_arrests</th>
 </tr>
@@ -395,215 +296,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Not so helpful when trying to identify a criminal, because if you only remember the first letter of a plate, it’s no help at all. But, it does mean that ALL Washington licence plates start with an A, B, or C (since 2009) (unless they are customized). This probably means that Seattle PD is only recording “WA” when they feel like it’s necessary; eg, when the plate number is really old or customized. This would help explain the sheer number of NULL values. Any plate that starts with an A, B, or C and fits the CCC-#### system is going to be a Washington plate, so there’s no need to write that down, and any OTHER plate that isn’t customized and marked as WA is an out-of-towner.</p>
 <p>So what does this have to do with Illinois? Well, in 2017, Illinois ALSO implemented a 7-character plate system (CC-#####) which started with A. So when a car with an Illinois plate is pulled over, the Seattle PD officer can’t just record the plate and leave the state blank, because that would imply that the state was Washington. So, they specifically record “IL”.</p>
 <p>Unfortunately, both the statewide Illinois data table and the Chicago data table do not include a row for vehicle registration state, so I can’t compare this trend to Illinois.</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Displaying records 1 - 10</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Field</th>
-<th style="text-align: left;">Type</th>
-<th style="text-align: left;">Null</th>
-<th style="text-align: left;">Key</th>
-<th style="text-align: left;">Default</th>
-<th style="text-align: left;">Extra</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">raw_row_number</td>
-<td style="text-align: left;">text</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">date</td>
-<td style="text-align: left;">date</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">time</td>
-<td style="text-align: left;">time</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">location</td>
-<td style="text-align: left;">text</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">county_name</td>
-<td style="text-align: left;">text</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">subject_age</td>
-<td style="text-align: left;">bigint(20)</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">subject_race</td>
-<td style="text-align: left;">text</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">subject_sex</td>
-<td style="text-align: left;">text</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">type</td>
-<td style="text-align: left;">text</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">violation</td>
-<td style="text-align: left;">text</td>
-<td style="text-align: left;">YES</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Displaying records 1 - 10</caption>
-<thead>
-<tr class="header">
-<th style="text-align: right;">age</th>
-<th style="text-align: right;">num_arrests</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">196</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">5</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">7</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">13</td>
-<td style="text-align: right;">33</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">204</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">1474</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">3454</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">17</td>
-<td style="text-align: right;">5174</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">18</td>
-<td style="text-align: right;">9244</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">19</td>
-<td style="text-align: right;">11859</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<caption>Displaying records 1 - 10</caption>
-<thead>
-<tr class="header">
-<th style="text-align: right;">age</th>
-<th style="text-align: right;">num_arrests</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">13</td>
-<td style="text-align: right;">5</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">16</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">61</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">157</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">17</td>
-<td style="text-align: right;">259</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">18</td>
-<td style="text-align: right;">530</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">19</td>
-<td style="text-align: right;">566</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">20</td>
-<td style="text-align: right;">593</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p>Next I was exploring which police departments had more possible entries for subject race than others. North Dakota, for example, had the standard lineup (White, Asian, African American, Hispanic, Other) but with the distinction of one group that is lumped into “Other” in many states: Native American. I decided to look at the ages of traffic stops made on Native Americans, as I had noticed that many violations were for driving without a liscence.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -641,49 +334,6 @@ ul.task-list li input[type="checkbox"] {
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
-<caption>7 records</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">raw_Race</th>
-<th style="text-align: right;">num_minor_stops</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">NA</td>
-<td style="text-align: right;">4</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">African American</td>
-<td style="text-align: right;">107</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Asian</td>
-<td style="text-align: right;">17</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Hispanic</td>
-<td style="text-align: right;">139</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Native American</td>
-<td style="text-align: right;">499</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Other</td>
-<td style="text-align: right;">82</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">White</td>
-<td style="text-align: right;">9503</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
 <caption>1 records</caption>
 <thead>
 <tr class="header">
@@ -695,6 +345,169 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: right;">3.6813</td>
 <td style="text-align: right;">3.11248</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Not only is the average age of Native Americans who get stopped in North Dakota lower than that of the total average, but there is a notable increase in Native Americans minors who get stopped.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Tables_in_traffic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ar_little_rock_2020_04_01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">az_gilbert_2020_04_01</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">az_mesa_2023_01_26</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">az_statewide_2020_04_01</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ca_anaheim_2020_04_01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ca_bakersfield_2020_04_01</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ca_long_beach_2020_04_01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ca_los_angeles_2020_04_01</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ca_oakland_2020_04_01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ca_san_bernardino_2020_04_01</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Displaying records 1 - 10</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Field</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Null</th>
+<th style="text-align: left;">Key</th>
+<th style="text-align: left;">Default</th>
+<th style="text-align: left;">Extra</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">raw_row_number</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">date</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">county_name</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">district</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">subject_race</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">subject_sex</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">department_name</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">type</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">violation</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">arrest_made</td>
+<td style="text-align: left;">double</td>
+<td style="text-align: left;">YES</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">count_native</th>
+<th style="text-align: right;">count_non_native</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">5690</td>
+<td style="text-align: right;">428281</td>
 </tr>
 </tbody>
 </table>

@@ -32,11 +32,7 @@ con_traffic <- DBI::dbConnect(
 
 ```
 
-```{sql connection=con_traffic}
 
-DESCRIBE wa_seattle_2020_04_01;
-
-```
 
 ```{sql connection=con_traffic}
 
@@ -120,44 +116,15 @@ Unfortunately, both the statewide Illinois data table and the Chicago data table
 
 
 
-```{sql connection=con_traffic}
-
-DESCRIBE nd_statewide_2020_04_01;
-
-```
 
 
-```{sql connection=con_traffic}
 
-SELECT 
-    subject_age AS age,
-    COUNT(*) AS num_arrests
-FROM nd_statewide_2020_04_01
-GROUP BY subject_age
-ORDER BY subject_age
-LIMIT 0, 200;
-
-```
-
-
-```{sql connection=con_traffic}
-
-SELECT 
-    subject_age AS age,
-    COUNT(*) AS num_arrests
-FROM nd_statewide_2020_04_01
-WHERE raw_Race = 'Native American'
-GROUP BY subject_age
-ORDER BY subject_age
-LIMIT 0, 200;
-
-```
+Next I was exploring which police departments had more possible entries for subject race than others. North Dakota, for example, had the standard lineup (White, Asian, African American, Hispanic, Other) but with the distinction of one group that is lumped into "Other" in many states: Native American. I decided to look at the ages of traffic stops made on Native Americans, as I had noticed that many violations were for driving without a liscence. 
 
 ```{sql connection=con_traffic}
 
 SELECT AVG(subject_age) AS avg_age_all
 FROM nd_statewide_2020_04_01;
-
 
 ```
 
@@ -169,15 +136,6 @@ WHERE raw_Race = 'Native American';
 
 ```
 
-```{sql connection=con_traffic}
-
-SELECT raw_Race, COUNT(*) AS num_minor_stops
-FROM nd_statewide_2020_04_01
-WHERE subject_age < 18
-GROUP BY raw_Race;
-
-
-```
 
 ```{sql connection=con_traffic}
 
@@ -201,6 +159,40 @@ SELECT
          FROM nd_statewide_2020_04_01
          WHERE raw_Race != 'Native American')
     AS pct_minor_non_native;
+
+
+```
+
+Not only is the average age of Native Americans who get stopped in North Dakota lower than that of the total average, but there is a notable increase in Native Americans minors who get stopped. 
+
+
+```{sql connection=con_traffic}
+
+SHOW TABLES;
+
+```
+
+
+```{sql connection=con_traffic}
+
+DESCRIBE ca_statewide_2023_01_26;
+
+```
+
+
+
+
+```{sql connection=con_traffic}
+
+SELECT
+        (SELECT COUNT(*) 
+         FROM ok_tulsa_2020_04_01
+         WHERE raw_Race = 'I')
+    AS count_native,
+        (SELECT COUNT(*) 
+         FROM ok_tulsa_2020_04_01
+         WHERE raw_Race != 'I')
+    AS count_non_native;
 
 
 ```
