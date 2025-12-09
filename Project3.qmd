@@ -9,10 +9,62 @@ date: October 30, 2025
 format: html
 ---
 
-For Project 3 you will conduct a small simulation study that conducts a permutation test by simulating behavior under the null hypothesis (you will need to find a dataset and develop a related research question). Please include the full context of the problem. That is, what are the variables and why is testing them interesting? Include a visualization of the original data / variables of interest so that the reader can sense the extent of difference in the original relationship.
+If you are a Pomona student who has gone abroad, is looking into studying abroad, or - like me - backed out of studying abroad - you might know that many of the abroad programs Pomona offers in countries where English is not the dominant language for academia require you to take at least half, if not all, of your courses in your target language. This type of instruction is called *Content and Language Integrated-Learning* (CLIL). I personally ended up backing out of studying abroad after completing the entire process because, despite the program only requiring French 044 and merely *recommending* French 101, I did not feel ready to take 5 classes entirely in French at the end of my French 101 course. Despite passing with an A, and therefore supposedly knowing how to read and write at an academic level in my target language, I felt under-confident in my abilities. The previous semester, I had taken French Phonetics - a non-language course taught entirely in French - and while it had been fascinating and rewarding, it was also one of the hardest classes I had ever taken. So the ideal of CLIL was extremely daunting. But why is CLIL practiced? What are the benefits? Do students really struggle in CLIL programs, or did I just take a particularly brutal phonetics course?
+
+CLIL is a method of bilingual instruction that was made popular relatively recently, where students are taught non-language study subjects in a language that they are still learning. This is intended to work as a sort of efficiency increase; students will, in theory, learn the subject material while also improving in their target language. However, it is theorized that the cognitive burden of *language-switching costs* (LSC) outweigh the possible benefits of CLIL.
+
+The *encoding-specificity hypothesis*, or the *language dependent knowledge representation framework*, claim that information that is learned in one language is thus 'encoded' in that language, or that the representation of knowledge is language-dependent. Essentially, that information learned in one language context is difficult to retrieve in other language contexts.
+
+Though many studies report benefits of CLIL when it comes to language competencies (Dalton-Puffer, 2008), many others report that students in CLIL struggle compared to students in monolingual education, either performing worse overall or needing more time to display the same level of knowledge as their monolingual peers (e.g., [Lo and Lo, 2014](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2023.1198117/full#ref20); [Dallinger et al., 2016](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2023.1198117/full#ref6); [Piesche et al., 2016](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2023.1198117/full#ref27)).
+
+Recent studies in particular focus on LSC, reporting worse performance or longer reaction times when knowledge is retrieved from a different language than it was encoded or acquired in.
+
+"In a 2×3-design, 117 participants learned mathematical concepts with a practice-test or a restudy opportunity (within-subjects factor). In addition, the sample was divided into three groups regarding language-switching (between-subjects factor): one group without switching, one switched for the final tests, and one switched between initial learning and subsequent learning. Results show the expected main effects: participants performed better for the items learned via retrieval-based learning (testing-effect) and worse in conditions with language-switching (language-switching-costs). Most importantly, we were able to find an interaction between learning condition and language-switching: retrieval-based learning suffers particularly from language-switching. Additionally, our results indicate that language switching before subsequent learning seems to be particularly detrimental" (Wußing et al., 2023).
+
+All data in this project comes from Wußing et al., 2023, whose anonymous participant trial data is available for public access and use through the Center for Open Science (aka Open Science Framework, or OSF), a non-profit organization which aims to "increase the openness, integrity, and reproducibility of scientific research and scholarly communication" as an open-source database.
+
+```{r, warning = FALSE, message = FALSE}
+
+#| echo: false
+library(tidyverse)
+library(ggplot2)
+
+# Working with Excel Files
+# Installing required package
+install.packages("readxl")
+
+library(readxl)
+TesLaS_DataSet <- read_excel("TesLaS_DataSet.xlsx")
+head(TesLaS_DataSet)
+
+print(summary(TesLaS_DataSet))
+```
+
+For Project 3 you will conduct a small simulation study that does one of the following:
+
+-   conducts a permutation test by simulating behavior under the null hypothesis (you will need to find a dataset and develop a related research question). Please include the full context of the problem. That is, what are the variables and why is testing them interesting? Include a visualization of the original data / variables of interest so that the reader can sense the extent of difference in the original relationship. Also include a conlcusion (which will naturally describe the population to which you are inferring).
+
+-   develops a lineup protocol for visual inference, as in “Bringing Visual Inference to the Classroom”, (you’ll need to write the function to do the mapping. The ggplot part will be straightforward using faceting.). \[That is, you will use a dataset, with a related research question, and test the research question using a series of null plots.\]
+
+-   calculates a probability which is not trivial to estimate without a simulation. For example, simulate room draw!
+
+-   (needs some background in introductory statistics) investigates the effects of condition violations on a statistical test, as measured by coverage rate, confidence interval width, type I error rate, etc. \[That is, your simulation will generate data and assess how often the data reject the null hypothesis or how often the confidence interval captures the true parameter. I’m happy to help with the R code for the statistics on this one!\]
+
+\
+
+```{r, warning = FALSE, message = FALSE}
+
+
+
+
+```
 
 Your simulation study should contain the following elements:
 
 at least 1 function you’ve written at least 1 map() variant a description of the simulation. Help the reader follow what you are doing, that is, what does your function do? why would you map it? etc. at least 1 illustrative, well-labeled plot a description of what insights can be gained from your plot(s) Logistics:
 
 start by describing what you plan to do (3-4 sentences). end with a description of what you did (3-4 sentences). That is, use words to guide the reader through your analysis. please include all your code used in the analysis (but feel free to use code folding1). make sure that all graphs are well-labeled (including x and y axes, title of the graph, and accurate and succinct labels for color and fill). do not include error or warning messages (see HW YAML for code). include a few sentences describing each of your plots or tables. That is, tell the reader what they see when they look at the plot. Your narrative description should be in the text part of the qmd file, not as a comment in an R chunk. if you used data, include the source of the data. Include both where you got the data (e.g., the TidyTuesday URL) and also the original provenance of the information. if you are working with a (local) copy of the .csv file (as opposed to, for example, a link to the dataset on TidyTuesday’s GitHub site), then the .csv file should live in your GitHub repository for your website. And you should read the data in from that local copy. That is, the dataset should not live in your Downloads. Timeline Project 3 must be submitted on Canvas (not Gradescope) by 11:59 PM on Thursday October 30, 2025. You will add a tab to your Quarto webpage and submit the new page’s URL. \[Remember, you should continue to work in your website Rproj. Do not start a new R Project.\]
+
+Working with Excel Files in R Programming. (2020, May 27). GeeksforGeeks. https://www.geeksforgeeks.org/r-language/working-with-excel-files-in-r-programming/
+
+Wußing, M., Grabner, R. H., Sommer, H., & Saalbach, H. (2023). Language-switching and retrieval-based learning: An unfavorable combination. Frontiers in Psychology, 14. https://doi.org/10.3389/fpsyg.2023.1198117
