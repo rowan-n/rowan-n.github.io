@@ -23,7 +23,7 @@ Recent studies in particular focus on LSC, reporting worse performance or longer
 
 All data in this project comes from Wußing et al., 2023, whose anonymous participant trial data is available for public access and use through the Center for Open Science (aka Open Science Framework, or OSF), a non-profit organization which aims to "increase the openness, integrity, and reproducibility of scientific research and scholarly communication" as an open-source database.
 
-```{r, warning = FALSE, message = FALSE}
+```{r message=FALSE, warning=FALSE}
 
 #| echo: false
 library(tidyverse)

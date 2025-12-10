@@ -34,9 +34,7 @@ con_traffic <- DBI::dbConnect(
 
 ```
 
-
-As someone who lives in Seattle, Washington, and has gone my whole like making jokes about out-of-towners being terrible Seattle drivers, I had to know: which State gets pulled over and arrested the most when driving in Seattle?  (besides native Washingtonians, of course.)
-
+As someone who lives in Seattle, Washington, and has gone my whole like making jokes about out-of-towners being terrible Seattle drivers, I had to know: which State gets pulled over and arrested the most when driving in Seattle? (besides native Washingtonians, of course.)
 
 ```{sql connection=con_traffic}
 #| echo: true
@@ -52,9 +50,7 @@ LIMIT 0, 10;
 
 ```
 
-
 Some of these trends are unsurprising - of course, people who live in Washington and therefore have Washington liscence plates will have the most traffic stops. Nearby states like Oregon, North Dakota, Colorado, and California (all of which have high migration rates to Seattle) are also unsurprising. But cars registered in Hawaii and Illinois have the highest rate of traffic stops in Seattle besides Washington. Why? Neither are particularly close to Washington, nor do they have high rates of migration. I guessed that the answer would lie in rentals. Rental car companies famously register and insure their cars wherever will give them the cheapest rates. Hawaii has the lowest average yearly car registration fee in the US, at a mere \$12. Illinois has one of the highest, though, at over \$150. However, another look at the data reveals that perhaps Seattle PD just doesn't do a very good job of documenting what state the plates are from, for some reason.
-
 
 ```{sql connection=con_traffic}
 #| echo: true
@@ -77,10 +73,7 @@ WHERE vehicle_registration_state IS NULL;
 
 ```
 
-
-
 299,729 unknown values. In conclusion, the Seattle PD is really bad at recording the states of plates during traffic stops. I had hoped that the Seattle PD would be better about recording plate state when an actual arrest was made, but...
-
 
 ```{sql connection=con_traffic}
 #| echo: true
@@ -112,21 +105,11 @@ However: Seattle is a bit unique about plates, in that in 2009, they switched to
 
 Not so helpful when trying to identify a criminal, because if you only remember the first letter of a plate, it's no help at all. But, it does mean that ALL Washington licence plates start with an A, B, or C (since 2009) (unless they are customized). This probably means that Seattle PD is only recording "WA" when they feel like it's necessary; eg, when the plate number is really old or customized. This would help explain the sheer number of NULL values. Any plate that starts with an A, B, or C and fits the CCC-#### system is going to be a Washington plate, so there's no need to write that down, and any OTHER plate that isn't customized and marked as WA is an out-of-towner.
 
-So what does this have to do with Illinois? Well, in 2017, Illinois ALSO implemented a 7-character plate system (CC-#####) which started with A. So when a car with an Illinois plate is pulled over, the Seattle PD officer can't just record the plate and leave the state blank, because that would imply that the state was Washington. So, they specifically record "IL". 
+So what does this have to do with Illinois? Well, in 2017, Illinois ALSO implemented a 7-character plate system (CC-#####) which started with A. So when a car with an Illinois plate is pulled over, the Seattle PD officer can't just record the plate and leave the state blank, because that would imply that the state was Washington. So, they specifically record "IL".
 
+Unfortunately, both the statewide Illinois data table and the Chicago data table do not include a row for vehicle registration state, so I can't compare this trend to Illinois.
 
-Unfortunately, both the statewide Illinois data table and the Chicago data table do not include a row for vehicle registration state, so I can't compare this trend to Illinois. 
-
-
-
-
-
-
-
-
-
-
-Next I was exploring which police departments had more possible entries for subject race than others. North Dakota, for example, had the standard lineup (White, Asian, African American, Hispanic, Other) but with the distinction of one group that is lumped into "Other" in many states: Native American. I decided to look at the ages of traffic stops made on Native Americans, as I had noticed that many violations were for driving without a licence. 
+Next I was exploring which police departments had more possible entries for subject race than others. North Dakota, for example, had the standard lineup (White, Asian, African American, Hispanic, Other) but with the distinction of one group that is lumped into "Other" in many states: Native American. I decided to look at the ages of traffic stops made on Native Americans, as I had noticed that many violations were for driving without a licence.
 
 ```{sql connection=con_traffic}
 #| echo: true
@@ -144,7 +127,6 @@ FROM nd_statewide_2020_04_01
 WHERE raw_Race = 'Native American';
 
 ```
-
 
 ```{sql connection=con_traffic}
 #| echo: true
@@ -173,9 +155,9 @@ SELECT
 
 ```
 
-Not only is the average age of Native Americans who get stopped in North Dakota lower than that of the total average, but there is a notable increase in Native Americans minors who get stopped. Most other data tables, including ones for areas with very high Native populations, do not list Native American as an option (I assume they are grouped under 'other'.) Upon looking at Oklahoma, which is known for a high Native population, I found the abbreviated race 'I', which I believe stands for Indian, in this case referring to Native Americans (many official state and tribal documents in Oklahoma still use this language). 
+Not only is the average age of Native Americans who get stopped in North Dakota lower than that of the total average, but there is a notable increase in Native Americans minors who get stopped. Most other data tables, including ones for areas with very high Native populations, do not list Native American as an option (I assume they are grouped under 'other'.) Upon looking at Oklahoma, which is known for a high Native population, I found the abbreviated race 'I', which I believe stands for Indian, in this case referring to Native Americans (many official state and tribal documents in Oklahoma still use this language).
 
-However, Tulsa, Oklahoma also has some non-standard race abbreviations. I was intending to calculate the percent of arrests made on Native American minors compared to other races in Tulsa, as well, but I hit a bit of a bump. 
+However, Tulsa, Oklahoma also has some non-standard race abbreviations. I was intending to calculate the percent of arrests made on Native American minors compared to other races in Tulsa, as well, but I hit a bit of a bump.
 
 ```{sql connection=con_traffic}
 #| echo: true
@@ -185,31 +167,13 @@ FROM ok_tulsa_2020_04_01;
 
 ```
 
-Some of these are easy to find the code to, and are standard in the United States. 
-W - White 
-B - Black / African American 
-U - Unknown 
-H - Hispanic 
-I - Native American / Native Alaskan 
-A - Asian 
-O - Other 
+Some of these are easy to find the code to, and are standard in the United States. W - White B - Black / African American U - Unknown H - Hispanic I - Native American / Native Alaskan A - Asian O - Other
 
-After that, though, it gets mushy. At first I thought they might be distinguishing individual tribal nations in the state, but given the sheer number of distinct tribes in Oklahoma (and that many of them start with the same letter) this seems unlikely, or at least unintuitive. I scoured the Tulsa PD official website and records for a key, but found nothing. I am still curious about these abbreviations and would love to be more informed on what these all might represent. 
-
-
+After that, though, it gets mushy. At first I thought they might be distinguishing individual tribal nations in the state, but given the sheer number of distinct tribes in Oklahoma (and that many of them start with the same letter) this seems unlikely, or at least unintuitive. I scoured the Tulsa PD official website and records for a key, but found nothing. I am still curious about these abbreviations and would love to be more informed on what these all might represent.
 
 ```{r}
 #| echo: true
 dbDisconnect(con_traffic, shutdown = TRUE)
 ```
 
-
-
-
-
-
-
-
-
-
-Pierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al. 2020. “A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10. 
+Pierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al. 2020. “A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10.
