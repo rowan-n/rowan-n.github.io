@@ -3,7 +3,7 @@ title: "Project 3"
 execute:
   echo: false
 description: |
-  A permutation test of
+  Content and Language Integrated-Learning and Cognition 
 author: Rowan Norenberg
 date: October 30, 2025
 format: html
@@ -15,7 +15,7 @@ CLIL is a method of bilingual instruction that was made popular relatively recen
 
 The *encoding-specificity hypothesis*, or the *language dependent knowledge representation framework*, claim that information that is learned in one language is thus 'encoded' in that language, or that the representation of knowledge is language-dependent. Essentially, that information learned in one language context is difficult to retrieve in other language contexts.
 
-Though many studies report benefits of CLIL when it comes to language competencies (Dalton-Puffer, 2008), many others report that students in CLIL struggle compared to students in monolingual education, either performing worse overall or needing more time to display the same level of knowledge as their monolingual peers (e.g., [Lo and Lo, 2014](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2023.1198117/full#ref20); [Dallinger et al., 2016](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2023.1198117/full#ref6); [Piesche et al., 2016](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2023.1198117/full#ref27)).
+Though many studies report benefits of CLIL when it comes to language competencies (Dalton-Puffer, 2008), many others report that students in CLIL struggle compared to students in monolingual education, either performing worse overall or needing more time to display the same level of knowledge as their monolingual peers (e.g., Lo and Lo, 2014, Dallinger et al., 2016, Piesche et al., 2016).
 
 Recent studies in particular focus on LSC, reporting worse performance or longer reaction times when knowledge is retrieved from a different language than it was encoded or acquired in.
 
@@ -44,13 +44,11 @@ For Project 3 you will conduct a small simulation study that does one of the fol
 
 -   conducts a permutation test by simulating behavior under the null hypothesis (you will need to find a dataset and develop a related research question). Please include the full context of the problem. That is, what are the variables and why is testing them interesting? Include a visualization of the original data / variables of interest so that the reader can sense the extent of difference in the original relationship. Also include a conlcusion (which will naturally describe the population to which you are inferring).
 
--   develops a lineup protocol for visual inference, as in “Bringing Visual Inference to the Classroom”, (you’ll need to write the function to do the mapping. The ggplot part will be straightforward using faceting.). \[That is, you will use a dataset, with a related research question, and test the research question using a series of null plots.\]
+-   develops a lineup protocol for visual inference, as in “Bringing Visual Inference to the Classroom”, (you’ll need to write the function to do the mapping. The ggplot part will be straightforward using faceting.). That is, you will use a dataset, with a related research question, and test the research question using a series of null plots.
 
 -   calculates a probability which is not trivial to estimate without a simulation. For example, simulate room draw!
 
--   (needs some background in introductory statistics) investigates the effects of condition violations on a statistical test, as measured by coverage rate, confidence interval width, type I error rate, etc. \[That is, your simulation will generate data and assess how often the data reject the null hypothesis or how often the confidence interval captures the true parameter. I’m happy to help with the R code for the statistics on this one!\]
-
-\
+-   (needs some background in introductory statistics) investigates the effects of condition violations on a statistical test, as measured by coverage rate, confidence interval width, type I error rate, etc. That is, your simulation will generate data and assess how often the data reject the null hypothesis or how often the confidence interval captures the true parameter. I’m happy to help with the R code for the statistics on this one!
 
 ```{r, warning = FALSE, message = FALSE}
 
@@ -63,7 +61,7 @@ Your simulation study should contain the following elements:
 
 at least 1 function you’ve written at least 1 map() variant a description of the simulation. Help the reader follow what you are doing, that is, what does your function do? why would you map it? etc. at least 1 illustrative, well-labeled plot a description of what insights can be gained from your plot(s) Logistics:
 
-start by describing what you plan to do (3-4 sentences). end with a description of what you did (3-4 sentences). That is, use words to guide the reader through your analysis. please include all your code used in the analysis (but feel free to use code folding1). make sure that all graphs are well-labeled (including x and y axes, title of the graph, and accurate and succinct labels for color and fill). do not include error or warning messages (see HW YAML for code). include a few sentences describing each of your plots or tables. That is, tell the reader what they see when they look at the plot. Your narrative description should be in the text part of the qmd file, not as a comment in an R chunk. if you used data, include the source of the data. Include both where you got the data (e.g., the TidyTuesday URL) and also the original provenance of the information. if you are working with a (local) copy of the .csv file (as opposed to, for example, a link to the dataset on TidyTuesday’s GitHub site), then the .csv file should live in your GitHub repository for your website. And you should read the data in from that local copy. That is, the dataset should not live in your Downloads. Timeline Project 3 must be submitted on Canvas (not Gradescope) by 11:59 PM on Thursday October 30, 2025. You will add a tab to your Quarto webpage and submit the new page’s URL. \[Remember, you should continue to work in your website Rproj. Do not start a new R Project.\]
+start by describing what you plan to do (3-4 sentences). end with a description of what you did (3-4 sentences). That is, use words to guide the reader through your analysis. please include all your code used in the analysis (but feel free to use code folding1). make sure that all graphs are well-labeled (including x and y axes, title of the graph, and accurate and succinct labels for color and fill). do not include error or warning messages (see HW YAML for code). include a few sentences describing each of your plots or tables. That is, tell the reader what they see when they look at the plot. Your narrative description should be in the text part of the qmd file, not as a comment in an R chunk. if you used data, include the source of the data. Include both where you got the data (e.g., the TidyTuesday URL) and also the original provenance of the information. if you are working with a (local) copy of the .csv file (as opposed to, for example, a link to the dataset on TidyTuesday’s GitHub site), then the .csv file should live in your GitHub repository for your website. And you should read the data in from that local copy. That is, the dataset should not live in your Downloads. Timeline Project 3 must be submitted on Canvas (not Gradescope) by 11:59 PM on Thursday October 30, 2025. You will add a tab to your Quarto webpage and submit the new page’s URL. Remember, you should continue to work in your website Rproj. Do not start a new R Project.
 
 Working with Excel Files in R Programming. (2020, May 27). GeeksforGeeks. https://www.geeksforgeeks.org/r-language/working-with-excel-files-in-r-programming/
 
