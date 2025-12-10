@@ -500,7 +500,6 @@ perm4_stats |>
 
 Reported Results:
 
--   Participants performed better for the items learned via retrieval-based learning
 -   Participants performed worse in conditions with language-switching
 -   Language-switching had a more significant detrimental effect on retrieval-based learning than on restudy-based learning
 -   Language switching had a more significant effect when the switch occurred after the initial learning phase and before subsequent learning, and in fact LSC only occurred with the switching for subsequent learning group
@@ -509,22 +508,15 @@ Reported Results:
 
 Permuted Results:
 
+-   Rejected Null Hypothesis: Language switching has no effect on learning performance
+-   Cannot Reject Null Hypothesis: Language switching has no effect on restudy learning performance
+-   Rejected Null Hypothesis: Language switching has no effect on retrieval learning performance
+-   Rejected Null Hypothesis: The timing of a language switch has no impact on learning performance
+
 ## References
 
-All data in this project cames from Wußing et al., 2023, whose anonymous participant trial data is available for public access and use through the Center for Open Science (aka Open Science Framework, or OSF), a non-profit organization which aims to "increase the openness, integrity, and reproducibility of scientific research and scholarly communication" as an open-source database.
+All data in this project cames from Wußing et al., 2023. The anonymous participant trial data is available for public access and use through the Center for Open Science (aka Open Science Framework, or OSF).
 
 Green, D. W., & Abutalebi, J. (2013). Language control in bilinguals: The adaptive control hypothesis. Journal of Cognitive Psychology, 25(5), 515–530.https://doi.org/10.1080/20445911.2013.796377
 
 Wußing, M., Grabner, R. H., Sommer, H., & Saalbach, H. (2023). Language-switching and retrieval-based learning: An unfavorable combination. Frontiers in Psychology, 14. https://doi.org/10.3389/fpsyg.2023.1198117
-
-## slide with columns
-
-::::: columns
-::: {.column width="50%"}
-contents
-:::
-
-::: {.column width="50%"}
-contents
-:::
-:::::
