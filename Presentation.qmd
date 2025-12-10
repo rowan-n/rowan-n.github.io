@@ -1,7 +1,9 @@
 ---
 title: "Content and Language Integrated-Learning and Cognition"
 author: "Rowan Norenberg"
-format: revealjs
+format: 
+  revealjs: 
+    theme: serif
 ---
 
 ## Content and Language Integrated-Learning and Cognition
