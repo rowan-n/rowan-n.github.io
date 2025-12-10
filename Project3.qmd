@@ -33,21 +33,34 @@ All data in this project comes from Wußing et al., 2023, whose anonymous partic
 
 The study recruited 117 German-English bilingual participants, who were broken down into 6 groups. Half of the participants learned mathematical concepts with a practice-test, and half with a restudy opportunity, creating two within-subject conditions. These groups were then divided into thirds, with one third not switching languages, one switching only for the final test, and another switching between initial and subsequent learning, thus creating three between-subject conditions.
 
-> "Results show the expected main effects: participants performed better for the items learned via retrieval-based learning (testing-effect) and worse in conditions with language-switching (language-switching-costs). Most importantly, we were able to find an interaction between learning condition and language-switching: retrieval-based learning suffers particularly from language-switching. Additionally, our results indicate that language switching before subsequent learning seems to be particularly detrimental" (Wußing et al., 2023).
+On the first day, all participants completed the initial learning phase. There were two texts, both with 10 paragraphs with each paragraph containing a single math concept. Each text was presented twice. After that, the restudy group was shown each concept individually to re-read, while the practice-test group filled in the blank concept name for each paragraph. This phase was also repeated twice.
 
-In our study, LSC only occurred when language-switching takes place within the learning process itself (“Switching for subsequent learning”). This finding highlights the relevance of the exact timing of language-switching during the process of learning.
+After 7 days, participants performed a cued recall test and a transfer test. In the cued recall test, participants entered the concept name that matched the presented description. In the transfer test, participants evaluated the correctness of a given statement.
+
+The study claims that the results from these tests show the following main effects:
+
+-   Participants performed better for the items learned via retrieval-based learning
+-   Participants performed worse in conditions with language-switching
+-   Language-switching had a more significant detrimental effect on retrieval-based learning than on restudy-based learning
+-   Language switching had a more significant effect when the switch occurred after the initial learning phase and before subsequent learning, and in fact LSC only occurred with the switching for subsequent learning group
+
+Null Hypothesis: Retrieval-based learning has no effect on learning performance
+
+Null Hypothesis: Language switching has no effect on learning performance
+
+Null Hypothesis: Language switching has no effect on retrieval-based learning
+
+Null Hypothesis: Language switching has no effect on restudy-based learning
+
+Null Hypothesis: The timing of a language switch has no impact on learning performance
 
 ```{r message=FALSE, warning=FALSE}
 
 #| echo: false
 library(tidyverse)
 library(ggplot2)
-
-# Working with Excel Files
-# Installing required package
-
-
 library(readxl)
+
 TesLaS_DataSet <- read_excel("TesLaS_DataSet.xlsx")
 head(TesLaS_DataSet)
 
@@ -59,6 +72,12 @@ For Project 3 you will conduct a small simulation study that does one of the fol
 -   conducts a permutation test by simulating behavior under the null hypothesis (you will need to find a dataset and develop a related research question). Please include the full context of the problem. That is, what are the variables and why is testing them interesting? Include a visualization of the original data / variables of interest so that the reader can sense the extent of difference in the original relationship. Also include a conlcusion (which will naturally describe the population to which you are inferring).
 
 -   develops a lineup protocol for visual inference, as in “Bringing Visual Inference to the Classroom”, (you’ll need to write the function to do the mapping. The ggplot part will be straightforward using faceting.). That is, you will use a dataset, with a related research question, and test the research question using a series of null plots.
+
+```{r}
+
+
+
+```
 
 -   calculates a probability which is not trivial to estimate without a simulation. For example, simulate room draw!
 
@@ -77,6 +96,6 @@ at least 1 function you’ve written at least 1 map() variant a description of t
 
 start by describing what you plan to do (3-4 sentences). end with a description of what you did (3-4 sentences). That is, use words to guide the reader through your analysis. please include all your code used in the analysis (but feel free to use code folding1). make sure that all graphs are well-labeled (including x and y axes, title of the graph, and accurate and succinct labels for color and fill). do not include error or warning messages (see HW YAML for code). include a few sentences describing each of your plots or tables. That is, tell the reader what they see when they look at the plot. Your narrative description should be in the text part of the qmd file, not as a comment in an R chunk. if you used data, include the source of the data. Include both where you got the data (e.g., the TidyTuesday URL) and also the original provenance of the information. if you are working with a (local) copy of the .csv file (as opposed to, for example, a link to the dataset on TidyTuesday’s GitHub site), then the .csv file should live in your GitHub repository for your website. And you should read the data in from that local copy. That is, the dataset should not live in your Downloads. Timeline Project 3 must be submitted on Canvas (not Gradescope) by 11:59 PM on Thursday October 30, 2025. You will add a tab to your Quarto webpage and submit the new page’s URL. Remember, you should continue to work in your website Rproj. Do not start a new R Project.
 
-Green, D. W., & Abutalebi, J. (2013). Language control in bilinguals: The adaptive control hypothesis. Journal of Cognitive Psychology, 25(5), 515–530.[ https://doi.org/10.1080/20445911.2013.796377](https://doi.org/10.1080/20445911.2013.796377)
+Green, D. W., & Abutalebi, J. (2013). Language control in bilinguals: The adaptive control hypothesis. Journal of Cognitive Psychology, 25(5), 515–530.<https://doi.org/10.1080/20445911.2013.796377>
 
 Wußing, M., Grabner, R. H., Sommer, H., & Saalbach, H. (2023). Language-switching and retrieval-based learning: An unfavorable combination. Frontiers in Psychology, 14. https://doi.org/10.3389/fpsyg.2023.1198117
