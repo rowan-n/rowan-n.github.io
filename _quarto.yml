@@ -18,6 +18,8 @@ website:
            href: TidyTuesdayD&amp;D.html
          - text: "Tidy Tuesday - Shakespeare"
            href: tidyv3.html
+         - text: "Content and Language Integrated-Learning and Cognition"
+           href: Project3.html
          - text: "Data Ethics - OkCupid"
            href: project4.html
          - text: "SQL - Stanford Open Policing Project"

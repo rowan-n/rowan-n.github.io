@@ -102,7 +102,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./Project3.html" aria-current="page"> 
-<span class="menu-text">CLIL</span></a>
+<span class="menu-text">Content and Language Integrated-Learning and Cognition</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-viz" role="link" data-bs-toggle="dropdown" aria-expanded="false">
@@ -116,6 +116,10 @@ ul.task-list li input[type="checkbox"] {
         <li>
     <a class="dropdown-item" href="./tidyv3.html">
  <span class="dropdown-text">Tidy Tuesday - Shakespeare</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Project3.html">
+ <span class="dropdown-text">Content and Language Integrated-Learning and Cognition</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./project4.html">
@@ -222,6 +226,24 @@ ul.task-list li input[type="checkbox"] {
 <p>Null Hypothesis: Language switching has no effect on restudy-based learning</p>
 <p>Null Hypothesis: The timing of a language switch has no impact on learning performance</p>
 <div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'purrr' was built under R version 4.5.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.1     ✔ stringr   1.5.1
+✔ ggplot2   3.5.2     ✔ tibble    3.3.0
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.1.0     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readxl' was built under R version 4.5.2</code></pre>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 16
   `Proband:innen` trial_number condition variant correct_images_total
@@ -244,8 +266,6 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><p>conducts a permutation test by simulating behavior under the null hypothesis (you will need to find a dataset and develop a related research question). Please include the full context of the problem. That is, what are the variables and why is testing them interesting? Include a visualization of the original data / variables of interest so that the reader can sense the extent of difference in the original relationship. Also include a conlcusion (which will naturally describe the population to which you are inferring).</p></li>
 <li><p>develops a lineup protocol for visual inference, as in “Bringing Visual Inference to the Classroom”, (you’ll need to write the function to do the mapping. The ggplot part will be straightforward using faceting.). That is, you will use a dataset, with a related research question, and test the research question using a series of null plots.</p></li>
-</ul>
-<ul>
 <li><p>calculates a probability which is not trivial to estimate without a simulation. For example, simulate room draw!</p></li>
 <li><p>(needs some background in introductory statistics) investigates the effects of condition violations on a statistical test, as measured by coverage rate, confidence interval width, type I error rate, etc. That is, your simulation will generate data and assess how often the data reject the null hypothesis or how often the confidence interval captures the true parameter. I’m happy to help with the R code for the statistics on this one!</p></li>
 </ul>
