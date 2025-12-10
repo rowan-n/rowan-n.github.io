@@ -231,7 +231,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>If you are a Pomona student who has gone abroad, is looking into studying abroad, or - like me - backed out of studying abroad, you might know that many of the abroad programs Pomona offers in countries where English is not the dominant language for academia require you to take at least half, if not all, of your courses in your target language. This type of instruction is called <em>Content and Language Integrated-Learning</em> (CLIL). I personally ended up backing out of studying abroad after completing the entire process because, despite the program only requiring French 044 and merely <em>recommending</em> French 101, I did not feel ready to take 5 classes entirely in French at the end of my French 101 course. Despite passing with an A, and therefore supposedly knowing how to read and write at an academic level in my target language, I felt under-confident in my abilities. The previous semester, I had taken French Phonetics - a non-language course taught entirely in French - and while it had been fascinating and rewarding, it was also one of the hardest classes I had ever taken. So the ideal of CLIL was extremely daunting. But why is CLIL practiced? What are the benefits? Do students really struggle in CLIL programs, or did I just take a particularly brutal phonetics course?</p>
 <p>CLIL is a method of bilingual instruction that was made popular relatively recently, where students are taught non-language study subjects in a language that they are still learning. This is intended to work as a sort of efficiency increase; students will, in theory, learn the subject material while also improving in their target language.</p>
 <p>However, it is theorized that the cognitive burden of <em>language-switching costs</em> (LSC) outweigh the possible benefits of CLIL. The <em>encoding-specificity hypothesis</em>, or the <em>language dependent knowledge representation framework</em>, claim that information that is learned in one language is thus ‘encoded’ in that language, or that the representation of knowledge is language-dependent. Essentially, that information learned in one language context is difficult to retrieve in other language contexts. This is quite the claim, as the <em>dual-activation model</em>, which is the model of bilingual cognition the field currently operates under, states that all languages that a bilingual person uses are activated simultaneously.</p>
-<p>However, encoding-specificity might have nothing to do with dual-activation at all. While there has always been great debate as to whether bilingualism has an effect on cognitive control processes, a relatively new model of cognitive control (proposed in Green &amp; Abutalebi, 2013) breaks down both cognitive control and bilingualism into more specific categories. This new model, the Adaptive Control Hypothesis, identifies three types of bilingual language use contexts: single language, where each language is used in a distinct context; dual language, where both languages are used in the same context but with different speakers who may speak only one of the bilingual’s languages; and dense code-switching, where both languages are used in the same context but with other bilingual speakers. Bialystok &amp; Craik (2022) built upon the hypothesis, defining which of the 7 control processes recieved higher demand in each of the 3 interactional contexts of bilingual speakers.</p>
+<p>However, encoding-specificity might have nothing to do with dual-activation at all. While there has always been great debate as to whether bilingualism has an effect on cognitive control processes, a relatively new model of cognitive control (proposed in Green &amp; Abutalebi, 2013) breaks down both cognitive control and bilingualism into more specific categories. This new model, the Adaptive Control Hypothesis, identifies three types of bilingual language use contexts: single language, where each language is used in a distinct context; dual language, where both languages are used in the same context but with different speakers who may speak only one of the bilingual’s languages; and dense code-switching, where both languages are used in the same context but with other bilingual speakers. Bialystok &amp; Craik (2022) built upon the hypothesis, defining which of the 7 control processes received higher demand in each of the 3 interactional contexts of bilingual speakers.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="Bialystok_Craik_2022.png" class="img-fluid figure-img"></p>
@@ -248,6 +248,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The study recruited 117 German-English bilingual participants, who were broken down into 6 groups. Half of the participants learned mathematical concepts with a practice-test, and half with a restudy opportunity, creating two within-subject conditions. These groups were then divided into thirds, with one third not switching languages, one switching only for the final test, and another switching between initial and subsequent learning, thus creating three between-subject conditions.</p>
 <p>On the first day, all participants completed the initial learning phase. There were two texts, both with 10 paragraphs with each paragraph containing a single math concept. Each text was presented twice. After that, the restudy group was shown each concept individually to re-read, while the practice-test group filled in the blank concept name for each paragraph. This phase was also repeated twice.</p>
 <p>After 7 days, participants performed a cued recall test and a transfer test. In the cued recall test, participants entered the concept name that matched the presented description. In the transfer test, participants evaluated the correctness of a given statement.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="study_flowchart.jpg" class="img-fluid figure-img"></p>
+<figcaption>Schematic overview of the three between-subjects conditions regarding language-switching (Wußing et al., 2023).</figcaption>
+</figure>
+</div>
 <p>The study claims that the results from these tests show the following main effects:</p>
 <ul>
 <li>Participants performed better for the items learned via retrieval-based learning</li>
@@ -255,11 +261,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Language-switching had a more significant detrimental effect on retrieval-based learning than on restudy-based learning</li>
 <li>Language switching had a more significant effect when the switch occurred after the initial learning phase and before subsequent learning, and in fact LSC only occurred with the switching for subsequent learning group</li>
 </ul>
-<p>Null Hypothesis: Retrieval-based learning has no effect on learning performance</p>
+<p>These claims give us a lot to explore. I have a few permutation tests I want to run on the data. Based on the claims the study makes, here are some Null Hypotheses that I am interested in. While I could use this data to see if retrieval-based learning correlates to better performance, retrieval-based learning is already very well studied and I am more interested in the psycholinguistics questions than the cogsci questions.</p>
 <p>Null Hypothesis: Language switching has no effect on learning performance</p>
-<p>Null Hypothesis: Language switching has no effect on retrieval-based learning</p>
-<p>Null Hypothesis: Language switching has no effect on restudy-based learning</p>
+<p>Null Hypothesis: Language switching has no effect on restudy learning performance</p>
+<p>Null Hypothesis: Language switching has no effect on retrieval learning performance</p>
 <p>Null Hypothesis: The timing of a language switch has no impact on learning performance</p>
+<p>Let’s explore the raw data for a moment. The column names were originally all in German, so I used my best judgement when translating, but know that I am not a native German speaker.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -270,11 +277,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">trial_number =</span> Nummer,</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">condition =</span> Bedingung,</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">variant =</span> Variante,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">correct_images_total =</span> Summe_Korrekt_Abbildungen,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">correct_statements_total =</span> Summe_Korrekt_Aussagen,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">correct_total =</span> Summe_Gesamt,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">correct_testing =</span> Summe_Korrekt_Testing,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">correct_restudy =</span> Summe_Korrekt_Restudy,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">cued_correct_images =</span> Summe_Korrekt_Abbildungen,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">cued_correct_statements =</span> Summe_Korrekt_Aussagen,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">cued_correct_total =</span> Summe_Gesamt,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">cued_correct_testing =</span> Summe_Korrekt_Testing,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">cued_correct_restudy =</span> Summe_Korrekt_Restudy,</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">testing_advantage_cued_recall =</span> Testing_Vorteil_CuedRecall,</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">transfer_correct_images =</span> Tra_Summe_Korrekt_Abbildungen,</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">transfer_correct_statements =</span> Tra_Summe_Korrekt_Aussagen,</span>
@@ -282,27 +289,149 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">transfer_correct_testing =</span> Korrekt_Testing_Transfer,</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">transfer_correct_restudy =</span> Korrekt_Restudy_Transfer,</span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">testing_advantage_transfer =</span> Testing_Vorteil_Transfer</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(TesLaS_DataSet) <span class="co">#show 6 rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(  <span class="co">#renamed the conditions so it's easier to follow later </span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> <span class="fu">case_when</span>(</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    condition <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"monolingual"</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    condition <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"switching for final tests"</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    condition <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"switching for subsequent learning"</span> )) </span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(TesLaS_DataSet) <span class="co">#show 6 rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 16
-  `Proband:innen` trial_number condition variant correct_images_total
-  &lt;chr&gt;                  &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;                &lt;dbl&gt;
-1 1onki16                    1         1       1                    8
-2 4ietz13                    2         1       4                    2
-3 3NAER21                    3         1       3                    1
-4 2nees17                    4         1       2                    1
-5 1alki14                    5         1       1                    4
-6 4aner12                    6         1       4                    7
-# ℹ 11 more variables: correct_statements_total &lt;dbl&gt;, correct_total &lt;dbl&gt;,
-#   correct_testing &lt;dbl&gt;, correct_restudy &lt;dbl&gt;,
+  `Proband:innen` trial_number condition   variant cued_correct_images
+  &lt;chr&gt;                  &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt;               &lt;dbl&gt;
+1 1onki16                    1 monolingual       1                   8
+2 4ietz13                    2 monolingual       4                   2
+3 3NAER21                    3 monolingual       3                   1
+4 2nees17                    4 monolingual       2                   1
+5 1alki14                    5 monolingual       1                   4
+6 4aner12                    6 monolingual       4                   7
+# ℹ 11 more variables: cued_correct_statements &lt;dbl&gt;, cued_correct_total &lt;dbl&gt;,
+#   cued_correct_testing &lt;dbl&gt;, cued_correct_restudy &lt;dbl&gt;,
 #   testing_advantage_cued_recall &lt;dbl&gt;, transfer_correct_images &lt;dbl&gt;,
 #   transfer_correct_statements &lt;dbl&gt;, transfer_correct_total &lt;dbl&gt;,
 #   transfer_correct_testing &lt;dbl&gt;, transfer_correct_restudy &lt;dbl&gt;,
 #   testing_advantage_transfer &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>Recall that there are three conditions: not switching languages, switching only for the final test, and switching between initial and subsequent learning stages. I am most interested in these variables: cued_correct_testing, cued_correct_restudy, transfer_correct_testing, and transfer_correct_restudy. Let’s take a glimpse at the observed means of each of these variables, just to get a feel for the data.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>TesLaS_means <span class="ot">&lt;-</span> TesLaS_DataSet <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(condition) <span class="sc">|&gt;</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(   <span class="co">#collapses it all into the grouped conditions </span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_cued_correct_testing =</span> <span class="fu">mean</span>(cued_correct_testing, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_cued_correct_restudy =</span> <span class="fu">mean</span>(cued_correct_restudy, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_transfer_correct_testing =</span> <span class="fu">mean</span>(transfer_correct_testing, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_transfer_correct_restudy =</span> <span class="fu">mean</span>(transfer_correct_restudy, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>() <span class="co">#number of participants per condition </span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>TesLaS_means <span class="co">#return the tibble, should be 3x6 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 6
+  condition mean_cued_correct_te…¹ mean_cued_correct_re…² mean_transfer_correc…³
+  &lt;chr&gt;                      &lt;dbl&gt;                  &lt;dbl&gt;                  &lt;dbl&gt;
+1 monoling…                   4.53                   2.5                    7.08
+2 switchin…                   3.34                   2.32                   6.92
+3 switchin…                   2.28                   1.87                   5.82
+# ℹ abbreviated names: ¹​mean_cued_correct_testing, ²​mean_cued_correct_restudy,
+#   ³​mean_transfer_correct_testing
+# ℹ 2 more variables: mean_transfer_correct_restudy &lt;dbl&gt;, n &lt;int&gt;</code></pre>
+</div>
+</div>
+<p>Immediately we can see that for the monolingual condition, the average correct responses for the final tests are higher for the participants who did the practice tests, or who used retrieval learning.</p>
+<p>However, when it comes to the group that switched languages halfway through learning, their average correct responses are noticeably lower than the other two conditions when using retrieval learning.</p>
+<p>Let’s run some permutation tests.</p>
+<p>Null Hypothesis: Language switching has no effect on learning performance</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Project3_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  p_val_ave
+      &lt;dbl&gt;
+1         1</code></pre>
+</div>
+</div>
+<p>Null Hypothesis: Language switching has no effect on restudy learning performance</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Project3_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  p_val_ave
+      &lt;dbl&gt;
+1     0.712</code></pre>
+</div>
+</div>
+<p>Null Hypothesis: Language switching has no effect on retrieval learning performance</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Project3_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  p_val_ave
+      &lt;dbl&gt;
+1         1</code></pre>
+</div>
+</div>
+<p>Null Hypothesis: The timing of a language switch has no impact on learning performance</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Project3_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  p_val_ave
+      &lt;dbl&gt;
+1         1</code></pre>
 </div>
 </div>
 <p>For Project 3 you will conduct a small simulation study that does one of the following:</p>

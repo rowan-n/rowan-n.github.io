@@ -20,7 +20,7 @@ CLIL is a method of bilingual instruction that was made popular relatively recen
 
 However, it is theorized that the cognitive burden of *language-switching costs* (LSC) outweigh the possible benefits of CLIL. The *encoding-specificity hypothesis*, or the *language dependent knowledge representation framework*, claim that information that is learned in one language is thus 'encoded' in that language, or that the representation of knowledge is language-dependent. Essentially, that information learned in one language context is difficult to retrieve in other language contexts. This is quite the claim, as the *dual-activation model*, which is the model of bilingual cognition the field currently operates under, states that all languages that a bilingual person uses are activated simultaneously.
 
-However, encoding-specificity might have nothing to do with dual-activation at all. While there has always been great debate as to whether bilingualism has an effect on cognitive control processes, a relatively new model of cognitive control (proposed in Green & Abutalebi, 2013) breaks down both cognitive control and bilingualism into more specific categories. This new model, the Adaptive Control Hypothesis, identifies three types of bilingual language use contexts: single language, where each language is used in a distinct context; dual language, where both languages are used in the same context but with different speakers who may speak only one of the bilingual’s languages; and dense code-switching, where both languages are used in the same context but with other bilingual speakers. Bialystok & Craik (2022) built upon the hypothesis, defining which of the 7 control processes recieved higher demand in each of the 3 interactional contexts of bilingual speakers.
+However, encoding-specificity might have nothing to do with dual-activation at all. While there has always been great debate as to whether bilingualism has an effect on cognitive control processes, a relatively new model of cognitive control (proposed in Green & Abutalebi, 2013) breaks down both cognitive control and bilingualism into more specific categories. This new model, the Adaptive Control Hypothesis, identifies three types of bilingual language use contexts: single language, where each language is used in a distinct context; dual language, where both languages are used in the same context but with different speakers who may speak only one of the bilingual’s languages; and dense code-switching, where both languages are used in the same context but with other bilingual speakers. Bialystok & Craik (2022) built upon the hypothesis, defining which of the 7 control processes received higher demand in each of the 3 interactional contexts of bilingual speakers.
 
 ![Demands on control processes in the 3 interactional contexts of bilingual speakers. From (Bialystok & Craik, 2022). Note that + indicates that the context increases the demand on that control process, while = indicates that the context has a neutral effect.](Bialystok_Craik_2022.png)
 
@@ -40,6 +40,8 @@ On the first day, all participants completed the initial learning phase. There w
 
 After 7 days, participants performed a cued recall test and a transfer test. In the cued recall test, participants entered the concept name that matched the presented description. In the transfer test, participants evaluated the correctness of a given statement.
 
+![Schematic overview of the three between-subjects conditions regarding language-switching (Wußing et al., 2023).](study_flowchart.jpg)
+
 The study claims that the results from these tests show the following main effects:
 
 -   Participants performed better for the items learned via retrieval-based learning
@@ -47,15 +49,17 @@ The study claims that the results from these tests show the following main effec
 -   Language-switching had a more significant detrimental effect on retrieval-based learning than on restudy-based learning
 -   Language switching had a more significant effect when the switch occurred after the initial learning phase and before subsequent learning, and in fact LSC only occurred with the switching for subsequent learning group
 
-Null Hypothesis: Retrieval-based learning has no effect on learning performance
+These claims give us a lot to explore. I have a few permutation tests I want to run on the data. Based on the claims the study makes, here are some Null Hypotheses that I am interested in. While I could use this data to see if retrieval-based learning correlates to better performance, retrieval-based learning is already very well studied and I am more interested in the psycholinguistics questions than the cogsci questions.
 
 Null Hypothesis: Language switching has no effect on learning performance
 
-Null Hypothesis: Language switching has no effect on retrieval-based learning
+Null Hypothesis: Language switching has no effect on restudy learning performance
 
-Null Hypothesis: Language switching has no effect on restudy-based learning
+Null Hypothesis: Language switching has no effect on retrieval learning performance
 
 Null Hypothesis: The timing of a language switch has no impact on learning performance
+
+Let's explore the raw data for a moment. The column names were originally all in German, so I used my best judgement when translating, but know that I am not a native German speaker.
 
 ```{r, warning = FALSE, message = FALSE}
 
@@ -82,11 +86,11 @@ TesLaS_DataSet <- TesLaS_DataSet |>
     trial_number = Nummer,
     condition = Bedingung,
     variant = Variante,
-    correct_images_total = Summe_Korrekt_Abbildungen,
-    correct_statements_total = Summe_Korrekt_Aussagen,
-    correct_total = Summe_Gesamt,
-    correct_testing = Summe_Korrekt_Testing,
-    correct_restudy = Summe_Korrekt_Restudy,
+    cued_correct_images = Summe_Korrekt_Abbildungen,
+    cued_correct_statements = Summe_Korrekt_Aussagen,
+    cued_correct_total = Summe_Gesamt,
+    cued_correct_testing = Summe_Korrekt_Testing,
+    cued_correct_restudy = Summe_Korrekt_Restudy,
     testing_advantage_cued_recall = Testing_Vorteil_CuedRecall,
     transfer_correct_images = Tra_Summe_Korrekt_Abbildungen,
     transfer_correct_statements = Tra_Summe_Korrekt_Aussagen,
@@ -94,13 +98,273 @@ TesLaS_DataSet <- TesLaS_DataSet |>
     transfer_correct_testing = Korrekt_Testing_Transfer,
     transfer_correct_restudy = Korrekt_Restudy_Transfer,
     testing_advantage_transfer = Testing_Vorteil_Transfer
-  )
+  ) |>
+  mutate(  #renamed the conditions so it's easier to follow later 
+  condition = case_when(
+    condition == 1 ~ "monolingual",
+    condition == 2 ~ "switching for final tests",
+    condition == 3 ~ "switching for subsequent learning" )) 
+
 
 
 head(TesLaS_DataSet) #show 6 rows
 
 ```
 
+Recall that there are three conditions: not switching languages, switching only for the final test, and switching between initial and subsequent learning stages. I am most interested in these variables: cued_correct_testing, cued_correct_restudy, transfer_correct_testing, and transfer_correct_restudy. Let's take a glimpse at the observed means of each of these variables, just to get a feel for the data.
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+TesLaS_means <- TesLaS_DataSet |>
+  group_by(condition) |> 
+  summarise(   #collapses it all into the grouped conditions 
+    mean_cued_correct_testing = mean(cued_correct_testing, na.rm = TRUE),
+    mean_cued_correct_restudy = mean(cued_correct_restudy, na.rm = TRUE),
+    mean_transfer_correct_testing = mean(transfer_correct_testing, na.rm = TRUE),
+    mean_transfer_correct_restudy = mean(transfer_correct_restudy, na.rm = TRUE),
+    n = n() #number of participants per condition 
+  )
+
+
+TesLaS_means #return the tibble, should be 3x6 
+
+```
+
+Immediately we can see that for the monolingual condition, the average correct responses for the final tests are higher for the participants who did the practice tests, or who used retrieval learning.
+
+However, when it comes to the group that switched languages halfway through learning, their average correct responses are noticeably lower than the other two conditions when using retrieval learning.
+
+Let's run some permutation tests.
+
+Null Hypothesis: Language switching has no effect on learning performance
+
+```{r}
+set.seed(47)
+
+perm1_data <- function(rep, data) {
+  data |>
+    #picked conditions 1 and 3 to compare, I don't think I can do all 3 at once
+    filter(condition == "monolingual" | condition == "switching for subsequent learning") |>
+    select(condition, cued_correct_testing, transfer_correct_testing, cued_correct_restudy, cued_correct_testing) |>
+    
+    #I don't actually care about the results by the different types of final tests, so I'm combining them
+    mutate(combined_testing = (cued_correct_testing + transfer_correct_testing + cued_correct_restudy + cued_correct_testing) / 2) |>
+    
+    select(condition, combined_testing) |>
+    
+    #permute 
+    mutate(testing_perm = sample(combined_testing, replace = FALSE)) |>
+    
+    #compute the mean
+    group_by(condition) |>
+    summarize(obs_ave  = mean(combined_testing, na.rm = TRUE), 
+              perm_ave = mean(testing_perm, na.rm = TRUE)
+              ) |>
+    
+    arrange(condition) |>
+    
+    #calculate differences
+    summarize(obs_ave_diff  = diff(obs_ave),
+              perm_ave_diff = diff(perm_ave),
+              rep = rep)
+}
+
+```
+
+```{r}
+
+set.seed(47)
+perm1_stats <- 
+  map(1:500, perm1_data, data = TesLaS_DataSet) |> 
+  list_rbind() 
+
+perm1_stats |> 
+  ggplot(aes(x = perm_ave_diff)) + 
+  geom_histogram() + 
+  geom_vline(aes(xintercept = obs_ave_diff), color = "red")
+
+```
+
+```{r}
+
+perm1_stats |> 
+  summarize(p_val_ave = mean(perm_ave_diff > obs_ave_diff))
+
+```
+
+
+Null Hypothesis: Language switching has no effect on restudy learning performance
+
+```{r}
+set.seed(47)
+
+perm2_data <- function(rep, data) {
+  data |>
+    #picked conditions 1 and 3 to compare, I don't think I can do all 3 at once
+    filter(condition == "monolingual" | condition == "switching for subsequent learning") |>
+    select(condition, cued_correct_restudy, transfer_correct_restudy) |>
+    
+    #I don't actually care about the results by the different types of final tests, so I'm combining them
+    mutate(combined_testing = (cued_correct_restudy + transfer_correct_restudy) / 2) |>
+    
+    select(condition, combined_testing) |>
+    
+    #permute 
+    mutate(testing_perm = sample(combined_testing, replace = FALSE)) |>
+    
+    #compute the mean
+    group_by(condition) |>
+    summarize(obs_ave  = mean(combined_testing, na.rm = TRUE), 
+              perm_ave = mean(testing_perm, na.rm = TRUE)
+              ) |>
+    
+    arrange(condition) |>
+    
+    #calculate differences
+    summarize(obs_ave_diff  = diff(obs_ave),
+              perm_ave_diff = diff(perm_ave),
+              rep = rep)
+}
+
+```
+
+```{r}
+
+set.seed(47)
+perm2_stats <- 
+  map(1:500, perm2_data, data = TesLaS_DataSet) |> 
+  list_rbind() 
+
+perm2_stats |> 
+  ggplot(aes(x = perm_ave_diff)) + 
+  geom_histogram() + 
+  geom_vline(aes(xintercept = obs_ave_diff), color = "red")
+
+```
+
+```{r}
+
+perm2_stats |> 
+  summarize(p_val_ave = mean(perm_ave_diff > obs_ave_diff))
+
+```
+
+
+
+Null Hypothesis: Language switching has no effect on retrieval learning performance
+
+```{r}
+set.seed(47)
+
+perm3_data <- function(rep, data) {
+  data |>
+    #picked conditions 1 and 3 to compare, I don't think I can do all 3 at once
+    filter(condition == "monolingual" | condition == "switching for subsequent learning") |>
+    select(condition, cued_correct_testing, transfer_correct_testing) |>
+    
+    #I don't actually care about the results by the different types of final tests, so I'm combining them
+    mutate(combined_testing = (cued_correct_testing + transfer_correct_testing) / 2) |>
+    
+    select(condition, combined_testing) |>
+    
+    #permute 
+    mutate(testing_perm = sample(combined_testing, replace = FALSE)) |>
+    
+    #compute the mean
+    group_by(condition) |>
+    summarize(obs_ave  = mean(combined_testing, na.rm = TRUE), 
+              perm_ave = mean(testing_perm, na.rm = TRUE)
+              ) |>
+    
+    arrange(condition) |>
+    
+    #calculate differences
+    summarize(obs_ave_diff  = diff(obs_ave),
+              perm_ave_diff = diff(perm_ave),
+              rep = rep)
+}
+
+```
+
+```{r}
+
+set.seed(47)
+perm3_stats <- 
+  map(1:500, perm3_data, data = TesLaS_DataSet) |> 
+  list_rbind() 
+
+perm3_stats |> 
+  ggplot(aes(x = perm_ave_diff)) + 
+  geom_histogram() + 
+  geom_vline(aes(xintercept = obs_ave_diff), color = "red")
+
+```
+
+```{r}
+
+perm3_stats |> 
+  summarize(p_val_ave = mean(perm_ave_diff > obs_ave_diff))
+
+```
+
+Null Hypothesis: The timing of a language switch has no impact on learning performance
+
+```{r}
+set.seed(47)
+
+perm4_data <- function(rep, data) {
+  data |>
+    #picked conditions 1 and 3 to compare, I don't think I can do all 3 at once
+    filter(condition == "switching for final tests" | condition == "switching for subsequent learning") |>
+    select(condition, cued_correct_testing, transfer_correct_testing) |>
+    
+    #I don't actually care about the results by the different types of final tests, so I'm combining them
+    mutate(combined_testing = (cued_correct_testing + transfer_correct_testing) / 2) |>
+    
+    select(condition, combined_testing) |>
+    
+    #permute 
+    mutate(testing_perm = sample(combined_testing, replace = FALSE)) |>
+    
+    #compute the mean
+    group_by(condition) |>
+    summarize(obs_ave  = mean(combined_testing, na.rm = TRUE), 
+              perm_ave = mean(testing_perm, na.rm = TRUE)
+              ) |>
+    
+    arrange(condition) |>
+    
+    #calculate differences
+    summarize(obs_ave_diff  = diff(obs_ave),
+              perm_ave_diff = diff(perm_ave),
+              rep = rep)
+}
+
+```
+
+```{r}
+
+set.seed(47)
+perm4_stats <- 
+  map(1:500, perm4_data, data = TesLaS_DataSet) |> 
+  list_rbind() 
+
+perm4_stats |> 
+  ggplot(aes(x = perm_ave_diff)) + 
+  geom_histogram() + 
+  geom_vline(aes(xintercept = obs_ave_diff), color = "red")
+
+```
+
+```{r}
+
+perm4_stats |> 
+  summarize(p_val_ave = mean(perm_ave_diff > obs_ave_diff))
+
+```
 
 
 For Project 3 you will conduct a small simulation study that does one of the following:
