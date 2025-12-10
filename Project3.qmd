@@ -57,7 +57,9 @@ Null Hypothesis: Language switching has no effect on restudy-based learning
 
 Null Hypothesis: The timing of a language switch has no impact on learning performance
 
-```{r message=FALSE, warning=FALSE}
+```{r, warning = FALSE, message = FALSE}
+
+#| echo: false
 
 library(tidyverse)
 library(ggplot2)
@@ -66,8 +68,14 @@ library(dplyr)
 
 TesLaS_DataSet <- read_excel("TesLaS_DataSet.xlsx")  #read the excel file 
 
+```
 
-#rename all of the German variable names. I couldn't get the Proband:innen one to rename, I think because of the colon, but that's participant ID 
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+#renamed all of the German variable names. I couldn't get the Proband:innen one to rename, I think because of the colon, but that's participant ID 
 
 TesLaS_DataSet <- TesLaS_DataSet |> 
   rename(
@@ -90,7 +98,10 @@ TesLaS_DataSet <- TesLaS_DataSet |>
 
 
 head(TesLaS_DataSet) #show 6 rows
+
 ```
+
+
 
 For Project 3 you will conduct a small simulation study that does one of the following:
 
