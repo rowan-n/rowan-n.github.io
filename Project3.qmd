@@ -137,11 +137,17 @@ Immediately we can see that for the monolingual condition, the average correct r
 
 However, when it comes to the group that switched languages halfway through learning, their average correct responses are noticeably lower than the other two conditions when using retrieval learning.
 
-Let's run some permutation tests.
+Let's run some permutation tests, looking at each of the Null Hypotheses one at a time.
 
-Null Hypothesis: Language switching has no effect on learning performance
+Null Hypothesis 1: Language switching has no effect on learning performance
+
+For this permutation, I compared the monolingual condition to the condition which switched for subsequent learning. I also grouped together the cued final test and transfer final test, which I will do in every permutation. This is because I am not trying to look at what kind of final test participants perform better on. For this first permutation, I also grouped together the retrieval learning participants and the restudy learning participants, because I am looking at overall learning performace.
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
 set.seed(47)
 
 perm1_data <- function(rep, data) {
@@ -175,6 +181,9 @@ perm1_data <- function(rep, data) {
 ```
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
 
 set.seed(47)
 perm1_stats <- 
@@ -190,6 +199,9 @@ perm1_stats |>
 ```
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
 
 #two-sided p value
 perm1_stats |>
@@ -199,10 +211,15 @@ perm1_stats |>
 
 ```
 
+Null Hypothesis 2: Language switching has no effect on restudy learning performance
 
-Null Hypothesis: Language switching has no effect on restudy learning performance
+For this permutation, I compared the monolingual condition to the condition which switched for subsequent learning and grouped together the cued final test and transfer final test, as in permutation 1. For this permutation, I only looked at the participants who used restudy learning.
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
 set.seed(47)
 
 perm2_data <- function(rep, data) {
@@ -236,6 +253,9 @@ perm2_data <- function(rep, data) {
 ```
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
 
 set.seed(47)
 perm2_stats <- 
@@ -250,6 +270,9 @@ perm2_stats |>
 ```
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
 
 #two-sided p value
 perm2_stats |>
@@ -259,11 +282,15 @@ perm2_stats |>
 
 ```
 
+Null Hypothesis 3: Language switching has no effect on retrieval learning performance
 
-
-Null Hypothesis: Language switching has no effect on retrieval learning performance
+For this permutation, I compared the monolingual condition to the condition which switched for subsequent learning and grouped together the cued final test and transfer final test, as in permutation 1. For this permutation, I only looked at the participants who used retrieval learning.
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
 set.seed(47)
 
 perm3_data <- function(rep, data) {
@@ -297,6 +324,9 @@ perm3_data <- function(rep, data) {
 ```
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
 
 set.seed(47)
 perm3_stats <- 
@@ -311,6 +341,9 @@ perm3_stats |>
 ```
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
 
 #two-sided p value
 perm3_stats |>
@@ -320,9 +353,15 @@ perm3_stats |>
 
 ```
 
-Null Hypothesis: The timing of a language switch has no impact on learning performance
+Null Hypothesis 4: The timing of a language switch has no impact on learning performance
+
+For this permutation, I compared the condition which switched for the final test to the condition which switched for subsequent learning. This is because I wanted to see if when the language was switched would impact performance. I grouped together the cued final test and transfer final test, and the retrieval learning participants and the restudy learning participants.
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
 set.seed(47)
 
 perm4_data <- function(rep, data) {
@@ -356,6 +395,9 @@ perm4_data <- function(rep, data) {
 ```
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
 
 set.seed(47)
 perm4_stats <- 
@@ -370,6 +412,9 @@ perm4_stats |>
 ```
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
 
 #two-sided p value
 perm4_stats |>
@@ -378,10 +423,6 @@ perm4_stats |>
   )
 
 ```
-
-
-
-
 
 Green, D. W., & Abutalebi, J. (2013). Language control in bilinguals: The adaptive control hypothesis. Journal of Cognitive Psychology, 25(5), 515–530.<https://doi.org/10.1080/20445911.2013.796377>
 
