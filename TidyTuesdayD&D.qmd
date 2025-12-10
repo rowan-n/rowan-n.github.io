@@ -6,12 +6,16 @@ description: |
   Analysis of D&D data from TidyTuesday
 author: Rowan Norenberg
 date: September 24, 2025
-format: html
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
 ---
 
 This is a plot I made comparing the different types of D&D monsters with their total hit points and their strength score / modifier.
 
-```{r, warning = FALSE, message = FALSE}
+```{r message=FALSE, warning=FALSE}
+#| include: false
 
 #| echo: false
 library(tidyverse)
@@ -21,6 +25,9 @@ monsters <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/t
 ```
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
 ggplot(monsters, aes(x = hp_number, y = str, color = type)) +
   geom_point() +
   labs(
@@ -34,7 +41,8 @@ ggplot(monsters, aes(x = hp_number, y = str, color = type)) +
 
 This is a plot I made trying to see which of the schools of magic had the longest spell range on average. This was made complicated by the spell range being stored as character strings (eg "30 feet" or "Touch") so I made levels. Unfortunatley this doesn't give a great representation at how different 300 feet is from 500 feet versus 5 feet from 10 feet. Work in progress.
 
-```{r, warning = FALSE, message = FALSE}
+```{r message=FALSE, warning=FALSE}
+#| echo: true
 
 #| echo: false
 library(tidyverse)
@@ -44,6 +52,9 @@ spells <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tid
 ```
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
 #range_levels <- c( "Self", "Touch", "Sight", "5 feet", "10 feet", "15 feet", "30 feet", "60 feet", "90 feet", "100 feet", "120 feet", "150 feet", "300 feet", "500 feet", "1 mile", "500 miles", "Unlimited", "Special")
 
 #self, touch, sight, 5 feet, 10 feet, 15 feet, 30 feet, 60 feet, 90 feet, 100 feet, 120 feet, 150 feet, 300 feet, 500 feet, 1 mile, 500 miles
@@ -61,6 +72,9 @@ spells <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tid
 ```
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
 
 spells |> 
   mutate(range = fct_relevel(range, 
@@ -76,6 +90,9 @@ spells |>
 ```
 
 ```{r}
+#| echo: true
+#| message: false
+#| warning: false
 
 #  spell duration : 
 # [1] "Instantaneous"                   "8 hours"                         "Concentration, up to 1 hour"    

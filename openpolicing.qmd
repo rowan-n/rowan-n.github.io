@@ -5,7 +5,10 @@ execute:
 description: Some SQL of the Stanford Open Policing Project
 author: Rowan Norenberg
 date: November 29, 2025
-format: html
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
 ---
 
 ```{r message=FALSE, warning=FALSE}
@@ -16,6 +19,8 @@ library(ggplot2)
 ```
 
 ```{r}
+#| message: false
+#| warning: false
 #| include: false
 
 con_traffic <- DBI::dbConnect(
@@ -173,6 +178,8 @@ After that, though, it gets mushy. At first I thought they might be distinguishi
 
 ```{r}
 #| echo: true
+#| message: false
+#| warning: false
 dbDisconnect(con_traffic, shutdown = TRUE)
 ```
 
