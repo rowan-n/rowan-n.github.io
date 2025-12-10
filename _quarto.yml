@@ -9,7 +9,7 @@ website:
     right: 
       - href: index.html 
       - text: "About Me"
-        href: about.html
+        href: index.html
       - text: "Data Viz"
         menu: 
          - text: "Tidy Tuesday - D&D Monsters"
