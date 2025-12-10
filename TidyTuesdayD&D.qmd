@@ -1,5 +1,5 @@
 ---
-title: "Tidy Tuesday - D&D Monsters"
+title: "Tidy Tuesday - D&D"
 execute:
   echo: false
 description: |
@@ -29,6 +29,85 @@ ggplot(monsters, aes(x = hp_number, y = str, color = type)) +
     title = "D&D Monsters by Type",
   )
 ```
+
+
+
+This is a plot I made trying to see which of the schools of magic had the longest spell range on average. This was made complicated by the spell range being stored as character strings (eg "30 feet" or "Touch") so I made levels. Unfortunatley this doesn't give a great representation at how different 300 feet is from 500 feet versus 5 feet from 10 feet. Work in progress.
+
+```{r, warning = FALSE, message = FALSE}
+
+#| echo: false
+library(tidyverse)
+library(ggplot2)
+
+spells <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-12-17/spells.csv', show_col_types = FALSE)
+```
+
+```{r}
+#range_levels <- c( "Self", "Touch", "Sight", "5 feet", "10 feet", "15 feet", "30 feet", "60 feet", "90 feet", "100 feet", "120 feet", "150 feet", "300 feet", "500 feet", "1 mile", "500 miles", "Unlimited", "Special")
+
+#self, touch, sight, 5 feet, 10 feet, 15 feet, 30 feet, 60 feet, 90 feet, 100 feet, 120 feet, 150 feet, 300 feet, 500 feet, 1 mile, 500 miles
+
+#  spell duration : 
+# [1] "Instantaneous"                   "8 hours"                         "Concentration, up to 1 hour"    
+# [4] "24 hours"                        "Concentration, up to 1 minute"   "10 days"    
+# [7] "Until dispelled"                 "Concentration, up to 10 minutes" "1 hour"  
+# [10] "1 minute"                        "7 days"                          "Concentration, up to 8 hours"   
+# [13] "Special"                         "Up to 8 hours"                   "Concentration, up to 1 day"     
+# [16] "10 minutes"                      "1 day"                           "30 days"
+# [19] "Until dispelled or triggered"    "1 round"                         "Concentration, up to 2 hours"   
+# [22] "Up to 1 hour"                    "Concentration up to 10 minutes"  "Up to 1 minute" 
+
+```
+
+```{r}
+
+spells |> 
+  mutate(range = fct_relevel(range, 
+                             c("Self", "Touch", "Sight", "5 feet", "10 feet", "15 feet", "30 feet", "60 feet", "90 feet", "100 feet", "120 feet", "150 feet", "300 feet", "500 feet", "1 mile", "500 miles", "Unlimited", "Special"))) |> 
+  mutate(school = fct_reorder(school, as.numeric(range), .fun = "mean", .desc = TRUE)) |> 
+  ggplot(aes(x = school, y = range, color = school)) +
+  geom_point() +
+  labs(
+    x = "School of Magic",
+    y = "Range of Spell",
+    title = "D&D Spell Range by School",
+  )
+```
+
+```{r}
+
+#  spell duration : 
+# [1] "Instantaneous"                   "8 hours"                         "Concentration, up to 1 hour"    
+# [4] "24 hours"                        "Concentration, up to 1 minute"   "10 days"    
+# [7] "Until dispelled"                 "Concentration, up to 10 minutes" "1 hour"  
+# [10] "1 minute"                        "7 days"                          "Concentration, up to 8 hours"   
+# [13] "Special"                         "Up to 8 hours"                   "Concentration, up to 1 day"     
+# [16] "10 minutes"                      "1 day"                           "30 days"
+# [19] "Until dispelled or triggered"    "1 round"                         "Concentration, up to 2 hours"   
+# [22] "Up to 1 hour"                    "Concentration up to 10 minutes"  "Up to 1 minute" 
+
+
+con_spells <- spells |>
+  filter(grepl("Concentration", duration, ignore.case = TRUE)) 
+
+
+
+con_spells |> 
+  mutate(duration = fct_relevel(duration, 
+                                c("Concentration, up to 1 minute", "Concentration, up to 10 minutes", "Concentration, up to 1 hour", "Concentration, up to 2 hours", "Concentration, up to 8 hours", "Concentration, up to 1 day"))) |> 
+  filter(!grepl("Concentration up to 10 minutes", duration, ignore.case = TRUE)) |>
+  ggplot(aes(x = school, y = duration, color = school)) +
+  geom_point() +
+  labs(
+    x = "School of Magic",
+    y = "Duration of Spell",
+    title = "Concentration Spells by School",
+  )
+
+```
+
+
 
 Tidyverse Link: https://github.com/rfordatascience/tidytuesday/tree/main/data/2024/2024-12-17
 

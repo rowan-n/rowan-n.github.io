@@ -12,10 +12,8 @@ website:
         href: index.html
       - text: "Data Viz"
         menu: 
-         - text: "Tidy Tuesday - D&D Monsters"
+         - text: "Tidy Tuesday - D&D"
            href: TidyTuesdayD&amp;D.html
-         - text: "Tidy Tuesday - D&D Spells"
-           href: tidyv2.html
          - text: "Tidy Tuesday - Shakespeare"
            href: tidyv3.html
          - text: "Data Ethics - OkCupid"
