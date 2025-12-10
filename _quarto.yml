@@ -14,12 +14,14 @@ website:
       - href: index.html 
       - text: "About Me"
         href: index.html
-      - text: "CLIL"
-        href: Project3.html
-      - text: "Data Viz"
+      - text: "Linguistics"
         menu: 
          - text: "CLIL Presentation"
            href: Presentation.html
+         - text: "CLIL"
+           href: Project3.html
+      - text: "Data Viz"
+        menu: 
          - text: "Tidy Tuesday - D&D"
            href: TidyTuesdayD&amp;D.html
          - text: "Tidy Tuesday - Shakespeare"
