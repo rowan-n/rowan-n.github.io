@@ -366,9 +366,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
-  p_val_ave
-      &lt;dbl&gt;
-1         1</code></pre>
+  p_val_two_sided
+            &lt;dbl&gt;
+1               0</code></pre>
 </div>
 </div>
 <p>Null Hypothesis: Language switching has no effect on restudy learning performance</p>
@@ -387,9 +387,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
-  p_val_ave
-      &lt;dbl&gt;
-1     0.712</code></pre>
+  p_val_two_sided
+            &lt;dbl&gt;
+1           0.594</code></pre>
 </div>
 </div>
 <p>Null Hypothesis: Language switching has no effect on retrieval learning performance</p>
@@ -408,9 +408,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
-  p_val_ave
-      &lt;dbl&gt;
-1         1</code></pre>
+  p_val_two_sided
+            &lt;dbl&gt;
+1               0</code></pre>
 </div>
 </div>
 <p>Null Hypothesis: The timing of a language switch has no impact on learning performance</p>
@@ -429,21 +429,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
-  p_val_ave
-      &lt;dbl&gt;
-1         1</code></pre>
+  p_val_two_sided
+            &lt;dbl&gt;
+1            0.02</code></pre>
 </div>
 </div>
-<p>For Project 3 you will conduct a small simulation study that does one of the following:</p>
-<ul>
-<li><p>conducts a permutation test by simulating behavior under the null hypothesis (you will need to find a dataset and develop a related research question). Please include the full context of the problem. That is, what are the variables and why is testing them interesting? Include a visualization of the original data / variables of interest so that the reader can sense the extent of difference in the original relationship. Also include a conlcusion (which will naturally describe the population to which you are inferring).</p></li>
-<li><p>develops a lineup protocol for visual inference, as in “Bringing Visual Inference to the Classroom”, (you’ll need to write the function to do the mapping. The ggplot part will be straightforward using faceting.). That is, you will use a dataset, with a related research question, and test the research question using a series of null plots.</p></li>
-<li><p>calculates a probability which is not trivial to estimate without a simulation. For example, simulate room draw!</p></li>
-<li><p>(needs some background in introductory statistics) investigates the effects of condition violations on a statistical test, as measured by coverage rate, confidence interval width, type I error rate, etc. That is, your simulation will generate data and assess how often the data reject the null hypothesis or how often the confidence interval captures the true parameter. I’m happy to help with the R code for the statistics on this one!</p></li>
-</ul>
-<p>Your simulation study should contain the following elements:</p>
-<p>at least 1 function you’ve written at least 1 map() variant a description of the simulation. Help the reader follow what you are doing, that is, what does your function do? why would you map it? etc. at least 1 illustrative, well-labeled plot a description of what insights can be gained from your plot(s) Logistics:</p>
-<p>start by describing what you plan to do (3-4 sentences). end with a description of what you did (3-4 sentences). That is, use words to guide the reader through your analysis. please include all your code used in the analysis (but feel free to use code folding1). make sure that all graphs are well-labeled (including x and y axes, title of the graph, and accurate and succinct labels for color and fill). do not include error or warning messages (see HW YAML for code). include a few sentences describing each of your plots or tables. That is, tell the reader what they see when they look at the plot. Your narrative description should be in the text part of the qmd file, not as a comment in an R chunk. if you used data, include the source of the data. Include both where you got the data (e.g., the TidyTuesday URL) and also the original provenance of the information. if you are working with a (local) copy of the .csv file (as opposed to, for example, a link to the dataset on TidyTuesday’s GitHub site), then the .csv file should live in your GitHub repository for your website. And you should read the data in from that local copy. That is, the dataset should not live in your Downloads. Timeline Project 3 must be submitted on Canvas (not Gradescope) by 11:59 PM on Thursday October 30, 2025. You will add a tab to your Quarto webpage and submit the new page’s URL. Remember, you should continue to work in your website Rproj. Do not start a new R Project.</p>
 <p>Green, D. W., &amp; Abutalebi, J. (2013). Language control in bilinguals: The adaptive control hypothesis. Journal of Cognitive Psychology, 25(5), 515–530.<a href="https://doi.org/10.1080/20445911.2013.796377" class="uri">https://doi.org/10.1080/20445911.2013.796377</a></p>
 <p>Wußing, M., Grabner, R. H., Sommer, H., &amp; Saalbach, H. (2023). Language-switching and retrieval-based learning: An unfavorable combination. Frontiers in Psychology, 14. https://doi.org/10.3389/fpsyg.2023.1198117</p>
 
