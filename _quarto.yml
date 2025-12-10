@@ -1,6 +1,10 @@
 project:
   type: website
+  render:
+    - "*.qmd"
+    - presentations/*.qmd
   output-dir: docs
+
 
 
 website:
