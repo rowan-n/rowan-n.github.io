@@ -6,7 +6,7 @@ format: revealjs
 
 ## Content and Language Integrated-Learning and Cognition
 
-A few permutation tests and a discussion on CLIL in psycholinguistics, as well as Language-Switching Costs and the Adaptive Control Model. 
+A few permutation tests and a discussion on CLIL in psycholinguistics, as well as Language-Switching Costs and the Adaptive Control Model.
 
 ## CLIL
 
@@ -35,8 +35,8 @@ A few permutation tests and a discussion on CLIL in psycholinguistics, as well a
 ::::: columns
 ::: {.column width="50%"}
 -   proposed in Green & Abutalebi, 2013, expanded upon by Bialystok & Craik (2022)
--   identifies three types of bilingual language use contexts 
-- each context has different demand 
+-   identifies three types of bilingual language use contexts
+-   each context has different demand
 :::
 
 ::: {.column width="50%"}
@@ -48,9 +48,9 @@ A few permutation tests and a discussion on CLIL in psycholinguistics, as well a
 
 ::::: columns
 ::: {.column width="50%"}
--   single language: each language used in a distinct context 
--   dual language: both languages are used in the same context but with different speakers  
--   dense code-switching: where both languages are used in the same context with other bilingual speakers 
+-   single language: each language used in a distinct context
+-   dual language: both languages are used in the same context but with different speakers\
+-   dense code-switching: where both languages are used in the same context with other bilingual speakers
 :::
 
 ::: {.column width="50%"}
@@ -58,35 +58,31 @@ A few permutation tests and a discussion on CLIL in psycholinguistics, as well a
 :::
 :::::
 
+## CLIL
 
-## CLIL 
-
-So why is CLIL hard? 
-- CLIL students are often in single or dual language contexts 
-- constant demand on Goal Maintenance and Interference Control processes 
-- do these processes impact knowledge encoding and retrieval? 
+So why is CLIL hard? - CLIL students are often in single or dual language contexts - constant demand on Goal Maintenance and Interference Control processes - do these processes impact knowledge encoding and retrieval?
 
 ## Downsides of CLIL
 
-- CLIL is new-ish and popular for language competency 
-- people love to talk about the benefits (Dalton-Puffer, 2008)
-- but CLIL students struggle compared to their peers in monolingual education 
-- shown to perform worse overall or need more time to display the same level of knowledge (e.g., Lo and Lo, 2014, Dallinger et al., 2016, Piesche et al., 2016) 
+-   CLIL is new-ish and popular for language competency
+-   people love to talk about the benefits (Dalton-Puffer, 2008)
+-   but CLIL students struggle compared to their peers in monolingual education
+-   shown to perform worse overall or need more time to display the same level of knowledge (e.g., Lo and Lo, 2014, Dallinger et al., 2016, Piesche et al., 2016)
 
-## LSC and CLIL 
+## LSC and CLIL
 
-- knowledge is harder to retrieve from a different language than it was aquired in 
-- language-switching is directly detrimental to retrieval-based learning (Wußing et al., 2023) 
-- retrieval-based learning (practise tests) known to be more effective than restudy-based learning 
-- bad news for CLIL students if LSC impact the testing effect 
+-   knowledge is harder to retrieve from a different language than it was aquired in
+-   language-switching is directly detrimental to retrieval-based learning (Wußing et al., 2023)
+-   retrieval-based learning (practise tests) known to be more effective than restudy-based learning
+-   bad news for CLIL students if LSC impact the testing effect
 
-## Wußing et al., 2023 
+## Wußing et al., 2023
 
-Taught 117 German-English bilinguals 20 math concepts 
+Taught 117 German-English bilinguals 20 math concepts
 
 ![Schematic overview of the three between-subjects conditions regarding language-switching (Wußing et al., 2023).](study_flowchart.jpg)
 
-## Some Hypotheses 
+## Some Hypotheses
 
 Null Hypothesis: Language switching has no effect on learning performance
 
@@ -96,7 +92,7 @@ Null Hypothesis: Language switching has no effect on retrieval learning performa
 
 Null Hypothesis: The timing of a language switch has no impact on learning performance
 
-## The Data 
+## The Data
 
 The column names were originally all in German, I used my best judgement when translating, but know that I am not a native German speaker
 
@@ -150,7 +146,7 @@ head(TesLaS_DataSet) #show 6 rows
 
 ```
 
-## Conditions 
+## Conditions
 
 ```{r}
 #| echo: true
@@ -172,12 +168,11 @@ TesLaS_means #return the tibble, should be 3x6
 
 ```
 
-
 ## Null Hypothesis 1: Language switching has no effect on learning performance
 
-- compared the monolingual condition to the condition which switched for subsequent learning 
-- grouped together the cued final test and transfer final test, I'm not trying to look at what kind of final test participants perform better on 
-- grouped together the retrieval learning participants and the restudy learning participants, just looking at overall learning performace 
+-   compared the monolingual condition to the condition which switched for subsequent learning
+-   grouped together the cued final test and transfer final test, I'm not trying to look at what kind of final test participants perform better on
+-   grouped together the retrieval learning participants and the restudy learning participants, just looking at overall learning performace
 
 ```{r}
 #| echo: true
@@ -216,7 +211,7 @@ perm1_data <- function(rep, data) {
 
 ```
 
-## Null Dist 
+## Null Dist
 
 ```{r}
 #| echo: false
@@ -237,7 +232,7 @@ perm1_stats |>
 
 ```
 
-## p-value 
+## p-value
 
 ```{r}
 #| echo: true
@@ -249,18 +244,17 @@ set.seed(47)
 #two-sided p value
 perm1_stats |>
   summarize(
-    p_val_two_sided = mean(abs(perm_ave_diff) > abs(obs_ave_diff))
+    p_val_ave = (sum(abs(perm_ave_diff) >= abs(obs_ave_diff)) + 1) /
+                (n() + 1) #the +1 keeps it from just returning 0 every time 
   )
 
 ```
 
-
-
 ## Null Hypothesis 2: Language switching has no effect on restudy learning performance
 
-- compared the monolingual condition to the condition which switched for subsequent learning 
-- grouped together the cued final test and transfer final test
-- only looked at the participants who used restudy learning 
+-   compared the monolingual condition to the condition which switched for subsequent learning
+-   grouped together the cued final test and transfer final test
+-   only looked at the participants who used restudy learning
 
 ```{r}
 #| echo: true
@@ -319,7 +313,7 @@ perm2_stats |>
 
 ```
 
-## p-value 
+## p-value
 
 ```{r}
 #| echo: true
@@ -331,17 +325,17 @@ set.seed(47)
 #two-sided p value
 perm2_stats |>
   summarize(
-    p_val_two_sided = mean(abs(perm_ave_diff) > abs(obs_ave_diff))
+    p_val_ave = (sum(abs(perm_ave_diff) >= abs(obs_ave_diff)) + 1) /
+                (n() + 1) #the +1 keeps it from just returning 0 every time 
   )
 
 ```
 
-
 ## Null Hypothesis 3: Language switching has no effect on retrieval learning performance
 
-- compared the monolingual condition to the condition which switched for subsequent learning  
-- grouped together the cued final test and transfer final test 
-- only looked at the participants who used retrieval learning 
+-   compared the monolingual condition to the condition which switched for subsequent learning
+-   grouped together the cued final test and transfer final test
+-   only looked at the participants who used retrieval learning
 
 ```{r}
 #| echo: true
@@ -400,7 +394,7 @@ perm3_stats |>
 
 ```
 
-## p-value 
+## p-value
 
 ```{r}
 #| echo: true
@@ -411,22 +405,21 @@ perm3_stats |>
 
 set.seed(47)
 
+#two-sided p value
 perm3_stats |>
   summarize(
-    p_val_two_sided = mean(abs(perm_ave_diff) > abs(obs_ave_diff))
+    p_val_ave = (sum(abs(perm_ave_diff) >= abs(obs_ave_diff)) + 1) /
+                (n() + 1) #the +1 keeps it from just returning 0 every time 
   )
 
 ```
 
-
-
-
 ## Null Hypothesis 4: The timing of a language switch has no impact on learning performance
 
-- compared the condition which switched for the final test to the condition which switched for subsequent learning
-- wanted to see if *when* the language was switched would impact performance 
-- grouped together the cued final test and transfer final test 
-- grouped the retrieval learning participants and the restudy learning participants 
+-   compared the condition which switched for the final test to the condition which switched for subsequent learning
+-   wanted to see if *when* the language was switched would impact performance
+-   grouped together the cued final test and transfer final test
+-   grouped the retrieval learning participants and the restudy learning participants
 
 ```{r}
 #| echo: true
@@ -485,7 +478,7 @@ perm4_stats |>
 
 ```
 
-## p-value 
+## p-value
 
 ```{r}
 #| echo: true
@@ -497,39 +490,32 @@ set.seed(47)
 #two-sided p value
 perm4_stats |>
   summarize(
-    p_val_two_sided = mean(abs(perm_ave_diff) > abs(obs_ave_diff))
+    p_val_ave = (sum(abs(perm_ave_diff) >= abs(obs_ave_diff)) + 1) /
+                (n() + 1) #the +1 keeps it from just returning 0 every time 
   )
 
 ```
 
+## Wußing et al., 2023
 
+Reported Results:
 
- 
-## Wußing et al., 2023 
+-   Participants performed better for the items learned via retrieval-based learning
+-   Participants performed worse in conditions with language-switching
+-   Language-switching had a more significant detrimental effect on retrieval-based learning than on restudy-based learning
+-   Language switching had a more significant effect when the switch occurred after the initial learning phase and before subsequent learning, and in fact LSC only occurred with the switching for subsequent learning group
 
-Reported Results: 
-- Participants performed better for the items learned via retrieval-based learning
-- Participants performed worse in conditions with language-switching
-- Language-switching had a more significant detrimental effect on retrieval-based learning than on restudy-based learning 
-- Language switching had a more significant effect when the switch occurred after the initial learning phase and before subsequent learning, and in fact LSC only occurred with the switching for subsequent learning group
+## Wußing et al., 2023
 
-## Wußing et al., 2023 
+Permuted Results:
 
-Permuted Results: 
-- 
-
-
-
-
-
-## References  
+## References
 
 All data in this project cames from Wußing et al., 2023, whose anonymous participant trial data is available for public access and use through the Center for Open Science (aka Open Science Framework, or OSF), a non-profit organization which aims to "increase the openness, integrity, and reproducibility of scientific research and scholarly communication" as an open-source database.
 
 Green, D. W., & Abutalebi, J. (2013). Language control in bilinguals: The adaptive control hypothesis. Journal of Cognitive Psychology, 25(5), 515–530.https://doi.org/10.1080/20445911.2013.796377
 
 Wußing, M., Grabner, R. H., Sommer, H., & Saalbach, H. (2023). Language-switching and retrieval-based learning: An unfavorable combination. Frontiers in Psychology, 14. https://doi.org/10.3389/fpsyg.2023.1198117
-
 
 ## slide with columns
 

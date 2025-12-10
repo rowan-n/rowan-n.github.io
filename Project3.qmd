@@ -209,7 +209,8 @@ set.seed(47)
 #two-sided p value
 perm1_stats |>
   summarize(
-    p_val_two_sided = mean(abs(perm_ave_diff) > abs(obs_ave_diff))
+    p_val_ave = (sum(abs(perm_ave_diff) >= abs(obs_ave_diff)) + 1) /
+                (n() + 1) #the +1 keeps it from just returning 0 every time 
   )
 
 ```
@@ -283,7 +284,8 @@ set.seed(47)
 #two-sided p value
 perm2_stats |>
   summarize(
-    p_val_two_sided = mean(abs(perm_ave_diff) > abs(obs_ave_diff))
+    p_val_ave = (sum(abs(perm_ave_diff) >= abs(obs_ave_diff)) + 1) /
+                (n() + 1) #the +1 keeps it from just returning 0 every time 
   )
 
 ```
@@ -356,9 +358,11 @@ perm3_stats |>
 
 set.seed(47)
 
+#two-sided p value
 perm3_stats |>
   summarize(
-    p_val_two_sided = mean(abs(perm_ave_diff) > abs(obs_ave_diff))
+    p_val_ave = (sum(abs(perm_ave_diff) >= abs(obs_ave_diff)) + 1) /
+                (n() + 1) #the +1 keeps it from just returning 0 every time 
   )
 
 ```
@@ -432,7 +436,8 @@ set.seed(47)
 #two-sided p value
 perm4_stats |>
   summarize(
-    p_val_two_sided = mean(abs(perm_ave_diff) > abs(obs_ave_diff))
+    p_val_ave = (sum(abs(perm_ave_diff) >= abs(obs_ave_diff)) + 1) /
+                (n() + 1) #the +1 keeps it from just returning 0 every time 
   )
 
 ```

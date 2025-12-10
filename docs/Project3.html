@@ -416,14 +416,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#two-sided p value</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>perm1_stats <span class="sc">|&gt;</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_val_two_sided =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(perm_ave_diff) <span class="sc">&gt;</span> <span class="fu">abs</span>(obs_ave_diff))</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_val_ave =</span> (<span class="fu">sum</span>(<span class="fu">abs</span>(perm_ave_diff) <span class="sc">&gt;=</span> <span class="fu">abs</span>(obs_ave_diff)) <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                (<span class="fu">n</span>() <span class="sc">+</span> <span class="dv">1</span>) <span class="co">#the +1 keeps it from just returning 0 every time </span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
-  p_val_two_sided
-            &lt;dbl&gt;
-1               0</code></pre>
+  p_val_ave
+      &lt;dbl&gt;
+1   0.00200</code></pre>
 </div>
 </div>
 <p>Null Hypothesis 2: Language switching has no effect on restudy learning performance</p>
@@ -492,14 +493,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">#two-sided p value</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>perm2_stats <span class="sc">|&gt;</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_val_two_sided =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(perm_ave_diff) <span class="sc">&gt;</span> <span class="fu">abs</span>(obs_ave_diff))</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_val_ave =</span> (<span class="fu">sum</span>(<span class="fu">abs</span>(perm_ave_diff) <span class="sc">&gt;=</span> <span class="fu">abs</span>(obs_ave_diff)) <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                (<span class="fu">n</span>() <span class="sc">+</span> <span class="dv">1</span>) <span class="co">#the +1 keeps it from just returning 0 every time </span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
-  p_val_two_sided
-            &lt;dbl&gt;
-1           0.594</code></pre>
+  p_val_ave
+      &lt;dbl&gt;
+1     0.615</code></pre>
 </div>
 </div>
 <p>Null Hypothesis 3: Language switching has no effect on retrieval learning performance</p>
@@ -567,16 +569,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">47</span>)</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>perm3_stats <span class="sc">|&gt;</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_val_two_sided =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(perm_ave_diff) <span class="sc">&gt;</span> <span class="fu">abs</span>(obs_ave_diff))</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">#two-sided p value</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>perm3_stats <span class="sc">|&gt;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_val_ave =</span> (<span class="fu">sum</span>(<span class="fu">abs</span>(perm_ave_diff) <span class="sc">&gt;=</span> <span class="fu">abs</span>(obs_ave_diff)) <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>                (<span class="fu">n</span>() <span class="sc">+</span> <span class="dv">1</span>) <span class="co">#the +1 keeps it from just returning 0 every time </span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
-  p_val_two_sided
-            &lt;dbl&gt;
-1               0</code></pre>
+  p_val_ave
+      &lt;dbl&gt;
+1   0.00200</code></pre>
 </div>
 </div>
 <p>Null Hypothesis 4: The timing of a language switch has no impact on learning performance</p>
@@ -645,14 +649,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">#two-sided p value</span></span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>perm4_stats <span class="sc">|&gt;</span></span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_val_two_sided =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(perm_ave_diff) <span class="sc">&gt;</span> <span class="fu">abs</span>(obs_ave_diff))</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_val_ave =</span> (<span class="fu">sum</span>(<span class="fu">abs</span>(perm_ave_diff) <span class="sc">&gt;=</span> <span class="fu">abs</span>(obs_ave_diff)) <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>                (<span class="fu">n</span>() <span class="sc">+</span> <span class="dv">1</span>) <span class="co">#the +1 keeps it from just returning 0 every time </span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
-  p_val_two_sided
-            &lt;dbl&gt;
-1            0.02</code></pre>
+  p_val_ave
+      &lt;dbl&gt;
+1    0.0220</code></pre>
 </div>
 </div>
 <p>Green, D. W., &amp; Abutalebi, J. (2013). Language control in bilinguals: The adaptive control hypothesis. Journal of Cognitive Psychology, 25(5), 515–530.<a href="https://doi.org/10.1080/20445911.2013.796377" class="uri">https://doi.org/10.1080/20445911.2013.796377</a></p>
