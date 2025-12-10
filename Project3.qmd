@@ -1,9 +1,9 @@
 ---
-title: "Project 3"
+title: "Content and Language Integrated-Learning"
 execute:
   echo: false
 description: |
-  Content and Language Integrated-Learning and Cognition 
+  A few permutation tests and a discussion on CLIL in psycholinguistics. 
 author: Rowan Norenberg
 date: October 30, 2025
 format: html

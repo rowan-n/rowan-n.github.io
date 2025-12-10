@@ -10,7 +10,7 @@ website:
       - href: index.html 
       - text: "About Me"
         href: index.html
-      - text: "Content and Language Integrated-Learning and Cognition"
+      - text: "CLIL"
         href: Project3.html
       - text: "Data Viz"
         menu: 
