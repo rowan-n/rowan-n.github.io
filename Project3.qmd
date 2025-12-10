@@ -31,7 +31,7 @@ library(ggplot2)
 
 # Working with Excel Files
 # Installing required package
-install.packages("readxl")
+
 
 library(readxl)
 TesLaS_DataSet <- read_excel("TesLaS_DataSet.xlsx")
