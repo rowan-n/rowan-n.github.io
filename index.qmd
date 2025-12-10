@@ -12,11 +12,8 @@ format: html
 ---
 
 ::: {#hero-heading}
-<<<<<<< HEAD
-Rowan is a student of linguistics, data science, and French at Pomona College. When they're not in class or studying, Rowan performs in multiple choirs and acts as Vice President for an on-campus club with over 100 members.
-=======
-Rowan is a student of linguistics, data science, and French. When they're not in class or studying, Rowan performs in multiple choirs and acts as Vice President for an on-campus club with over 100 members.
->>>>>>> c51d4417c9e6a5cf0dfc364ebd241e6012a3057f
+
+Rowan is a student of linguistics, data science, and French at Pomona College. When they're not in class or studying, Rowan performs in multiple choirs and acts as Vice President for an on-campus club with over 100 members. 
 
 ## Education
 
