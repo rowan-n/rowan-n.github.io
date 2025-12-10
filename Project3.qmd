@@ -139,7 +139,7 @@ However, when it comes to the group that switched languages halfway through lear
 
 Let's run some permutation tests, looking at each of the Null Hypotheses one at a time.
 
-Null Hypothesis 1: Language switching has no effect on learning performance
+#### Null Hypothesis 1: Language switching has no effect on learning performance
 
 For this permutation, I compared the monolingual condition to the condition which switched for subsequent learning. I also grouped together the cued final test and transfer final test, which I will do in every permutation. This is because I am not trying to look at what kind of final test participants perform better on. For this first permutation, I also grouped together the retrieval learning participants and the restudy learning participants, because I am looking at overall learning performace.
 
@@ -215,7 +215,7 @@ perm1_stats |>
 
 ```
 
-Null Hypothesis 2: Language switching has no effect on restudy learning performance
+#### Null Hypothesis 2: Language switching has no effect on restudy learning performance
 
 For this permutation, I compared the monolingual condition to the condition which switched for subsequent learning and grouped together the cued final test and transfer final test, as in permutation 1. For this permutation, I only looked at the participants who used restudy learning.
 
@@ -290,7 +290,7 @@ perm2_stats |>
 
 ```
 
-Null Hypothesis 3: Language switching has no effect on retrieval learning performance
+#### Null Hypothesis 3: Language switching has no effect on retrieval learning performance
 
 For this permutation, I compared the monolingual condition to the condition which switched for subsequent learning and grouped together the cued final test and transfer final test, as in permutation 1. For this permutation, I only looked at the participants who used retrieval learning.
 
@@ -367,7 +367,7 @@ perm3_stats |>
 
 ```
 
-Null Hypothesis 4: The timing of a language switch has no impact on learning performance
+#### Null Hypothesis 4: The timing of a language switch has no impact on learning performance
 
 For this permutation, I compared the condition which switched for the final test to the condition which switched for subsequent learning. This is because I wanted to see if when the language was switched would impact performance. I grouped together the cued final test and transfer final test, and the retrieval learning participants and the restudy learning participants.
 
@@ -441,6 +441,22 @@ perm4_stats |>
   )
 
 ```
+
+## Permuted Results:
+
+Rejected Null Hypothesis: Language switching has no effect on learning performance
+
+Cannot Reject Null Hypothesis: Language switching has no effect on restudy learning performance
+
+Rejected Null Hypothesis: Language switching has no effect on retrieval learning performance
+
+Rejected Null Hypothesis: The timing of a language switch has no impact on learning performance
+
+Knowing that LSC affect learning performance, particularly retrieval and particularly when the language is changed between subjects, is very useful knowledge for CLIL students. Taking all of your courses in a language you aren't fluent in is hard enough - knowing what will make it harder is important. I know that as I move forward with French courses, I will keep in mind that I'll only be making things more difficult for myself if I try to mix English into my studies.
+
+It's also comforting to me, and to anyone else who felt ashamed for backing out of CLIL or who is struggling with CLIL now, to know that the demands that language-switching places on your cognition are very real and capable of disrupting the most tried and true study methods.
+
+## References
 
 Green, D. W., & Abutalebi, J. (2013). Language control in bilinguals: The adaptive control hypothesis. Journal of Cognitive Psychology, 25(5), 515–530.<https://doi.org/10.1080/20445911.2013.796377>
 
