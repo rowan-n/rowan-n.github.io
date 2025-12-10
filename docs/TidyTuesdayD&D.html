@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Rowan Norenberg">
+<meta name="dcterms.date" content="2025-09-24">
+<meta name="description" content="Analysis of D&amp;D data from TidyTuesday">
 
-<title>Sophie Rowan Norenberg – Rowan Norenberg</title>
+<title>Tidy Tuesday - D&amp;D Monsters – Rowan Norenberg</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -34,6 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
@@ -71,7 +75,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -89,7 +93,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item">
@@ -134,69 +138,73 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
 <!-- main -->
-<div class="quarto-about-trestles">
-  <div class="about-entity">
-    <img src="seniorphotofavorite9.jpeg" class="about-image
-  rounded " style="width: 20em;">
+<main class="content" id="quarto-document-content">
+
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Sophie Rowan Norenberg</h1>
+<h1 class="title">Tidy Tuesday - D&amp;D Monsters</h1>
 </div>
+
+<div>
+  <div class="description">
+    <p>Analysis of D&amp;D data from TidyTuesday</p>
+  </div>
+</div>
+
+
 <div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Rowan Norenberg </p>
+          </div>
   </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 24, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
 </header>
-    <div class="about-links">
-  <a href="https://github.com/rowan-n/rowan-n.github.io.git" class="about-link" rel="" target="">
-    <i class="bi bi-github"></i>
-     <span class="about-link-text">Github</span>
-  </a>
-</div>
-  </div>
-  <div class="about-contents"><main class="content" id="quarto-document-content">
-<div id="hero-heading">
-<p>Rowan is a student of linguistics, data science, and French at Pomona College. When they’re not in class or studying, Rowan performs in multiple choirs and acts as Vice President for an on-campus club with over 100 members.</p>
-<section id="education" class="level2">
-<h2 data-anchor-id="education">Education</h2>
-<p>Pomona College | Claremont, CA | B.A. in Linguistics | Minor in French | Minor in Data Science | Sept 2023 - Expected May 2027</p>
-</section>
-<section id="academic-experience" class="level2">
-<h2 data-anchor-id="academic-experience">Academic Experience</h2>
-<p>Linguistics Course Work:</p>
-<ul>
-<li>Introduction to Linguistics</li>
-<li>Phonology</li>
-<li>Syntactic Analysis</li>
-<li>Semantics &amp; Pragmatics</li>
-<li>Language Acquisition</li>
-<li>Writing Systems</li>
-<li>Psycholinguistics</li>
-<li></li>
-</ul>
-</section>
-<section id="professional-experience" class="level2">
-<h2 data-anchor-id="professional-experience">Professional Experience</h2>
-<p>French American School of Puget Sound | Classroom Assistant | May 2024 - August 2024</p>
-<p>Pomona College Choir | Choir Manager | August 2025 - Present</p>
-</section>
-<section id="skills" class="level2">
-<h2 data-anchor-id="skills">Skills</h2>
-<ul>
-<li>LaTeX</li>
-<li></li>
-<li>R</li>
-<li></li>
-</ul>
-</section>
-</div>
 
 
-</main></div>
+<p>This is a plot I made comparing the different types of D&amp;D monsters with their total hit points and their strength score / modifier.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="TidyTuesdayD-D_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
- <!-- /main -->
+</div>
+</div>
+<p>Tidyverse Link: https://github.com/rfordatascience/tidytuesday/tree/main/data/2024/2024-12-17</p>
+<p>Dataset Citation: Harmon J (2025). dddata: Data from the Dungeons and Dragons System Reference Document. R package version 0.0.0.9000, https://github.com/jonthegeek/dddata.</p>
+
+
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
     const isCodeAnnotation = (el) => {
       for (const clz of el.classList) {
         if (clz.startsWith('code-annotation-')) {                     
