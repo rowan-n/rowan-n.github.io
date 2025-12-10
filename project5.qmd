@@ -8,13 +8,15 @@ date: November 29, 2025
 format: html
 ---
 
-```{r}
+```{r message=FALSE, warning=FALSE}
+#| include: false
 library(DBI)
 library(ggplot2)
 
 ```
 
 ```{r}
+#| include: false
 
 con_traffic <- DBI::dbConnect(
 
@@ -37,6 +39,7 @@ As someone who lives in Seattle, Washington, and has gone my whole like making j
 
 
 ```{sql connection=con_traffic}
+#| echo: true
 
 SELECT
 vehicle_registration_state,
@@ -54,6 +57,7 @@ Some of these trends are unsurprising - of course, people who live in Washington
 
 
 ```{sql connection=con_traffic}
+#| echo: true
 
 SELECT 'WA' AS registration_state, 
   COUNT(*) AS num_arrests
@@ -79,6 +83,7 @@ WHERE vehicle_registration_state IS NULL;
 
 
 ```{sql connection=con_traffic}
+#| echo: true
 
 SELECT 'WA' AS registration_state, COUNT(*) AS num_arrests
 FROM wa_seattle_2020_04_01
@@ -124,6 +129,7 @@ Unfortunately, both the statewide Illinois data table and the Chicago data table
 Next I was exploring which police departments had more possible entries for subject race than others. North Dakota, for example, had the standard lineup (White, Asian, African American, Hispanic, Other) but with the distinction of one group that is lumped into "Other" in many states: Native American. I decided to look at the ages of traffic stops made on Native Americans, as I had noticed that many violations were for driving without a licence. 
 
 ```{sql connection=con_traffic}
+#| echo: true
 
 SELECT AVG(subject_age) AS avg_age_all
 FROM nd_statewide_2020_04_01;
@@ -131,6 +137,7 @@ FROM nd_statewide_2020_04_01;
 ```
 
 ```{sql connection=con_traffic}
+#| echo: true
 
 SELECT AVG(subject_age) AS avg_age_native
 FROM nd_statewide_2020_04_01
@@ -140,6 +147,7 @@ WHERE raw_Race = 'Native American';
 
 
 ```{sql connection=con_traffic}
+#| echo: true
 
 SELECT
     100.0 * 
@@ -170,6 +178,7 @@ Not only is the average age of Native Americans who get stopped in North Dakota 
 However, Tulsa, Oklahoma also has some non-standard race abbreviations. I was intending to calculate the percent of arrests made on Native American minors compared to other races in Tulsa, as well, but I hit a bit of a bump. 
 
 ```{sql connection=con_traffic}
+#| echo: true
 
 SELECT DISTINCT raw_race
 FROM ok_tulsa_2020_04_01;
@@ -190,6 +199,7 @@ After that, though, it gets mushy. At first I thought they might be distinguishi
 
 
 ```{r}
+#| echo: true
 dbDisconnect(con_traffic, shutdown = TRUE)
 ```
 
