@@ -186,6 +186,7 @@ perm1_data <- function(rep, data) {
 #| warning: false
 
 set.seed(47)
+
 perm1_stats <- 
   map(1:500, perm1_data, data = TesLaS_DataSet) |> 
   list_rbind() 
@@ -202,6 +203,8 @@ perm1_stats |>
 #| echo: true
 #| message: false
 #| warning: false
+
+set.seed(47)
 
 #two-sided p value
 perm1_stats |>
@@ -258,6 +261,7 @@ perm2_data <- function(rep, data) {
 #| warning: false
 
 set.seed(47)
+
 perm2_stats <- 
   map(1:500, perm2_data, data = TesLaS_DataSet) |> 
   list_rbind() 
@@ -273,6 +277,8 @@ perm2_stats |>
 #| echo: true
 #| message: false
 #| warning: false
+
+set.seed(47)
 
 #two-sided p value
 perm2_stats |>
@@ -329,6 +335,7 @@ perm3_data <- function(rep, data) {
 #| warning: false
 
 set.seed(47)
+
 perm3_stats <- 
   map(1:500, perm3_data, data = TesLaS_DataSet) |> 
   list_rbind() 
@@ -346,6 +353,9 @@ perm3_stats |>
 #| warning: false
 
 #two-sided p value
+
+set.seed(47)
+
 perm3_stats |>
   summarize(
     p_val_two_sided = mean(abs(perm_ave_diff) > abs(obs_ave_diff))
@@ -400,6 +410,7 @@ perm4_data <- function(rep, data) {
 #| warning: false
 
 set.seed(47)
+
 perm4_stats <- 
   map(1:500, perm4_data, data = TesLaS_DataSet) |> 
   list_rbind() 
@@ -415,6 +426,8 @@ perm4_stats |>
 #| echo: true
 #| message: false
 #| warning: false
+
+set.seed(47)
 
 #two-sided p value
 perm4_stats |>
