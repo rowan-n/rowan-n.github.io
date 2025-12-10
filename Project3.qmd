@@ -60,11 +60,34 @@ Null Hypothesis: The timing of a language switch has no impact on learning perfo
 library(tidyverse)
 library(ggplot2)
 library(readxl)
+library(dplyr)
 
-TesLaS_DataSet <- read_excel("TesLaS_DataSet.xlsx")
-head(TesLaS_DataSet)
+TesLaS_DataSet <- read_excel("TesLaS_DataSet.xlsx")  #read the excel file 
 
-print(summary(TesLaS_DataSet))
+
+#rename all of the German variable names. I couldn't get the Proband:innen one to rename, I think because of the colon, but that's participant ID 
+
+TesLaS_DataSet <- TesLaS_DataSet |> 
+  rename(
+    trial_number = Nummer,
+    condition = Bedingung,
+    variant = Variante,
+    correct_images_total = Summe_Korrekt_Abbildungen,
+    correct_statements_total = Summe_Korrekt_Aussagen,
+    correct_total = Summe_Gesamt,
+    correct_testing = Summe_Korrekt_Testing,
+    correct_restudy = Summe_Korrekt_Restudy,
+    testing_advantage_cued_recall = Testing_Vorteil_CuedRecall,
+    transfer_correct_images = Tra_Summe_Korrekt_Abbildungen,
+    transfer_correct_statements = Tra_Summe_Korrekt_Aussagen,
+    transfer_correct_total = Tra_Summe_Gesamt,
+    transfer_correct_testing = Korrekt_Testing_Transfer,
+    transfer_correct_restudy = Korrekt_Restudy_Transfer,
+    testing_advantage_transfer = Testing_Vorteil_Transfer
+  )
+
+
+head(TesLaS_DataSet) #show 6 rows
 ```
 
 For Project 3 you will conduct a small simulation study that does one of the following:
