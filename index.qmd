@@ -11,22 +11,36 @@ about:
 format: html
 ---
 
-
 ::: {#hero-heading}
-Rowan Norenberg is a linguistics, data science, and French student. When they're not in class or studying, they perform in choir and run D&D campaigns for their friends.
+Rowan is a student of linguistics, data science, and French. When they're not in class or studying, Rowan performs in multiple choirs and acts as Vice President for an on-campus club with over 100 members.
 
 ## Education
 
-Pomona College \| Claremont, CA B.A. in Linguistics \| Sept 2023 - June 2027
+Pomona College \| Claremont, CA \| B.A. in Linguistics \| Minor in French \| Minor in Data Science \| Sept 2023 - Expected May 2027
+
+## Academic Experience
+
+Linguistics Course Work:
+
+-   Introduction to Linguistics
+-   Phonology
+-   Syntactic Analysis
+-   Semantics & Pragmatics
+-   Language Acquisition
+-   Writing Systems
+-   Psycholinguistics
+-   
+
+## Professional Experience
+
+French American School of Puget Sound \| Classroom Assistant \| May 2024 - August 2024
+
+Pomona College Choir \| Choir Manager \| August 2025 - Present
+
+## Skills
+
+-   LaTeX
+-   
+-   R
+-   
 :::
-
-
-
-
-
-
-This is a Quarto website.
-
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
-
-
