@@ -43,7 +43,7 @@ num_monsters
 
 Unsurprisingly, Beast is the most common type of D&D monster by a wide margin. It's sort of the catch-all monster category. I didn't expect Dragon to be so close behind, but given there's a whole separate dragon for like every color (or metal, or gem...) it's not all that surprising.
 
-Personally, I'm less interested in the strength and HP scores of some of the smaller types. Any of the types that have under 10 entries, I am going to either lump in with another type that feels right, or filter out. For example, I'm fine lumping in the single Swarm of Tiny Undead in with the rest of the Undead, and I don't really need the Aberrations in there. If I want a Beholder, it's not because it has 180 HP. It's because I want a Beholder. Then, I want to compare the types across HP and Strength, which I though would be easiest to visualize with box plots. 
+Personally, I'm less interested in the strength and HP scores of some of the smaller types. Any of the types that have under 10 entries, I am going to either lump in with another type that feels right, or filter out. For example, I'm fine lumping in the single Swarm of Tiny Undead in with the rest of the Undead, and I don't really need the Aberrations in there. If I want a Beholder, it's not because it has 180 HP. It's because I want a Beholder. Then, I want to compare the types across HP and Strength, which I though would be easiest to visualize with box plots.
 
 ```{r}
 #| echo: true
@@ -78,7 +78,7 @@ ggplot(common_monsters, aes(x = type, y = str, color = type)) +
 
 ```
 
-The nice thing about the strength scores in D&D is that there's a hard cutoff at 30. HP doesn't have those limitations. 
+The nice thing about the strength scores in D&D is that there's a hard cutoff at 30. HP doesn't have those limitations.
 
 ```{r}
 #| echo: true
@@ -96,11 +96,11 @@ ggplot(common_monsters, aes(x = type, y = hp_number, color = type)) +
 
 ```
 
-Most monster types sit comfortably below 200 HP, with Dragons being the only ones who consistently go above. And that point way out there by 700 is none other than the Tarrasque, of course. 
+Most monster types sit comfortably below 200 HP, with Dragons being the only ones who consistently go above. And that point way out there by 700 is none other than the Tarrasque, of course.
 
-Next I wanted to look at which schools of magic favored distance or melee spells. This was made complicated by the spell range being stored as character strings (eg "30 feet" or "Touch") and additionally complicated by such range types as "Unlimited" or "500 miles".Unfortunately, if I kept in the massive distances, the plot doesn't give a great representation at how different 300 feet is from 500 feet versus 5 feet from 10 feet. 
+Next I wanted to look at which schools of magic favored distance or melee spells. This was made complicated by the spell range being stored as character strings (eg "30 feet" or "Touch") and additionally complicated by such range types as "Unlimited" or "500 miles".Unfortunately, if I kept in the massive distances, the plot doesn't give a great representation at how different 300 feet is from 500 feet versus 5 feet from 10 feet.
 
-So, for anything over one mile, I decided to set their range to 600 feet, as combat spells usually have the same range as a longbow unless buffed. I left out "Special" because it applies to exactly one spell, Dream, and is specific to planes of existence. 
+So, for anything over one mile, I decided to set their range to 600 feet, as combat spells usually have the same range as a longbow unless buffed. I left out "Special" because it applies to exactly one spell, Dream, and is specific to planes of existence.
 
 ```{r message=FALSE, warning=FALSE}
 #| echo: true
@@ -158,10 +158,9 @@ spells |>
 
 ```
 
-Neat! Seems like Conjuration, Illusion, and Evocation like longer-range spells, while Abjuration and Necromancy are the only schools with no spells that can go further than 150 feet. 
+Neat! Seems like Conjuration, Illusion, and Evocation like longer-range spells, while Abjuration and Necromancy are the only schools with no spells that can go further than 150 feet.
 
-Likewise I did the same with concentration-based spells, narrowing it down to spells with concentration of a max of 2 hours. 
-
+Likewise I did the same with concentration-based spells, narrowing it down to spells with concentration of a max of 2 hours.
 
 ```{r}
 #| echo: true
@@ -187,8 +186,8 @@ spells |>
   )
 
 ```
-I guess necromancers have no patience to concentrate that long! 
 
+I guess necromancers have no patience to concentrate that long!
 
 Dungeons & Dragons \| The Official Home of D&D. (n.d.). D&D Beyond. Retrieved December 10, 2025, from <https://www.dndbeyond.com>
 

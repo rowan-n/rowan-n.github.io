@@ -10,7 +10,7 @@ format:
     code-summary: "Show the code"
 ---
 
-I've always loved Shakespeare, with Macbeth, Hamlet, and Julius Cesar in particular holding a special place in my heart.
+I've always loved Shakespeare, with Macbeth, Hamlet, and Julius Cesar in particular holding a special place in my heart. For my first time playing with regular expressions, I decided to look at a dataset of Shakespeare's most well-known tragedies.
 
 ```{r message=FALSE, warning=FALSE}
 #| echo: true
@@ -33,7 +33,7 @@ romeo_juliet <- readr::read_csv('https://raw.githubusercontent.com/rfordatascien
 #| echo: true
 #| message: false
 #| warning: false
-
+#| fig-alt: "A bar graph showing the number of mentions of Ghost, Witch, and Spirit in each of Hamlet, Macbeth, and Romeo and Juliet."
 
 tragedies <- bind_rows(
   hamlet |> mutate(play = "Hamlet"),
@@ -43,11 +43,17 @@ tragedies <- bind_rows(
 
 
 tragedies_ghosts <- tragedies |>
-  filter(str_detect(dialogue, "\\b(ghost|witch|spirit)\\b")) |>
+  filter(str_detect(dialogue, "\\b(ghosts?|witch(?:es)?|spirits?)\\b")) |>
   select(play, dialogue) |>
-  mutate(supernatural = str_extract(str_to_lower(dialogue), "\\b(ghost|witch|spirit)\\b" )) |>
+  mutate(supernatural = str_extract(str_to_lower(dialogue), "\\b(ghosts?|witch(?:es)?|spirits?)\\b")) |>
+  mutate(
+    supernatural = case_when(
+      str_detect(dialogue, "\\bghosts?\\b") ~ "Ghost", 
+      str_detect(dialogue, "\\bwitch(?:es)?\\b") ~ "Witch", 
+      str_detect(dialogue, "\\bspirits?\\b") ~ "Spirit" 
+    )
+  ) |> 
   count(play, supernatural, name = "num_mentions")
-
 
 
 ggplot(tragedies_ghosts, aes(x = play, y = num_mentions, fill = supernatural)) +
@@ -58,19 +64,24 @@ ggplot(tragedies_ghosts, aes(x = play, y = num_mentions, fill = supernatural)) +
     y = "Number of Mentions",
     fill = "" 
     ) + 
-  theme_minimal() + 
-  theme(plot.title = element_text(size = 16, face = "bold"))
+  scale_fill_manual(
+    values = c(
+      "Ghost" = "darkgrey", 
+      "Witch" = "darkolivegreen", 
+      "Spirit" = "cadetblue4"
+    )
+  ) 
 
 
 ```
 
-This graph shows that Hamlet has a great deal many more mentions of ghosts, witches, and spirits than the other two plays. This indicates that ghosts, witches, and spirits are more relevant to the plot of Hamlet than to the other two, which makes sense because Hamlet is frequently seeing apparitions of his dead father and this is central to the plot.
+This graph shows that Hamlet has a great deal many more mentions of ghosts, witches, and spirits than the other two plays. This indicates that ghosts, witches, and spirits are more relevant to the plot of Hamlet than to the other two, which makes sense because Hamlet is frequently seeing apparitions of his dead father and this is central to the plot. Honestly, I was surprised I didn't see witches way more in Macbeth than I did. I guess they talk a lot, but they're not talked *about* a lot.
 
 ```{r}
 #| echo: true
 #| message: false
 #| warning: false
-
+#| fig-alt: "A bar graph showing the number of times the main character's name was followed by an exclamation mark in each play."
 
 tragedies_exclaim <- tragedies |>
   filter(str_detect(dialogue, "(?i)\\b(Hamlet|Macbeth|Romeo|Juliet)!+")) |>
@@ -84,13 +95,18 @@ ggplot(tragedies_exclaim, aes(x = exclamations, y = num_exclaim, fill = exclamat
   geom_col(position = "dodge") +
   labs(
     title = "Number of times the main character's name is exclaimed",
-    x = "Play",
+    x = "Character",
     y = "Number of Mentions",
     fill = "" 
-    ) +
-  theme_minimal() + 
-  theme(plot.title = element_text(size = 16, face = "bold"))
-
+    ) + 
+  scale_fill_manual(
+    values = c(
+      "Hamlet!" = "steelblue", 
+      "Macbeth!" = "goldenrod", 
+      "Romeo!" = "darkorchid4", 
+      "Juliet!" = "deeppink4"
+    )
+  ) 
 
 ```
 
@@ -100,41 +116,43 @@ This graph shows that out of the main characters from each play, Romeo is the on
 #| echo: true
 #| message: false
 #| warning: false
+#| fig-alt: "A list of words that occur directly before or after the main character's name is shouted."
 
-tragedies_exclaimers <- tragedies |>
-  filter(str_detect(dialogue, "(?i)\\b(Hamlet|Macbeth|Romeo|Juliet)!+")) |> 
+tragedy_context <- tragedies |>
+filter(str_detect(dialogue, "(?i)\\b(Hamlet|Macbeth|Romeo|Juliet)!+")) |>
   mutate(
-    exclamations = str_extract(dialogue, "(?i)\\b(Hamlet|Macbeth|Romeo|Juliet)!+"),
-    exclamations = str_to_title(exclamations)  
-  ) |>
-  count(play, character, exclamations, name = "num_exclaim") |>
-  arrange(desc(num_exclaim))
+    word_before = str_to_lower(
+      str_extract(dialogue,
+                  "(?i)\\b\\w+(?=\\s+(Hamlet|Macbeth|Romeo|Juliet)!+)" #grabs the word right before the ! 
+      )
+    ),
+    word_after = str_to_lower(
+      str_extract(dialogue,
+                  "(?i)(?<=!\\s)\\w+"  #grabs the word right after the ! 
+      )
+    )
+  )
 
 
-top_exclaimers <- tragedies_exclaimers |> 
-  slice_max(num_exclaim, n = 10)
+before_counts <- tragedy_context |>
+  filter(!is.na(word_before)) |>
+  count(word_before) |> 
+  arrange(desc(n))
 
-ggplot(top_exclaimers, aes(
-  x = reorder(character, num_exclaim),
-  y = num_exclaim,
-  fill = exclamations
-)) +
-  geom_col() +
-  coord_flip() +
-  labs(
-    title = "Top 10 Characters Who Shout Names the Most",
-    subtitle = "Colored by which name they exclaim",
-    x = "Character",
-    y = "Number of Exclamations",
-    fill = "Name Shouted"
-  ) +
-  theme_minimal() + 
-  theme(plot.title = element_text(size = 16, face = "bold"))
+after_counts <- tragedy_context |>
+  filter(!is.na(word_after)) |>
+  count(word_after)|> 
+  arrange(desc(n))
+
+
+before_counts
+
+after_counts
 
 
 ```
 
-And this graph shows that not all of those times Romeo is yelled at are from Juliet's famous line! Turns out Romeo is yelled at (or about) by a good variety of folks.
+The lookarounds are fun here, because you can see a tiny bit of context and maybe even guess which line from which play these are from. I think "sweet \[name\]!" is a fun one, as well as "\[name\]! Macbeth". I'm particularly surprised that "Lady" isn't in the list of words that come before, but I suppose no one dares yell at Lady Macbeth.
 
 ```{r}
 #| echo: true
@@ -167,32 +185,37 @@ ggplot(top_exclaimers, aes(
     subtitle = "Characters in Shakespeare's Tragedies who Exclaim the Most",
     x = "Character",
     y = "Number of Exclamations",
-    fill = ""
+    fill = "Play"
+  ) + 
+  scale_fill_manual(
+    values = c(
+      "Hamlet" = "steelblue", 
+      "Macbeth" = "goldenrod", 
+      "Romeo and Juliet" = "maroon" 
+    )
   ) +
   theme_minimal() + 
   theme(plot.title = element_text(size = 16, face = "bold"))
 
 ```
 
-Finally, this graph tells us that despite not being yelled at nearly as much as Romeo is, Hamlet yells a lot. Perhaps this is because of all of those ghosts, spirits, and witches.
+Finally, this graph tells us that despite not being yelled at nearly as much as Romeo is, Hamlet yells a lot. Perhaps this is because of all of those ghosts.
 
-Below is a graph for each play showing who has the most lines. These line counts graphs tell you which character is the "main character", which, unsurprisingly, are also the title characters. But just in case.
+Below is a graph for each play showing who has the most lines. These line counts graphs tell you which character is the "main character", which, unsurprisingly, are also the title characters. But just in case you weren't convinced, here they are.
 
 ```{r}
-#| eval: false
+#| echo: true
 #| message: false
 #| warning: false
-#| include: false
+#| fig-alt: "A bar graph that shows the named characters in Hamlet with the most number of lines."
 
 hamlet_counts <- hamlet |>
-  filter(str_extract(character, "stage", ignore.case = TRUE)) |> 
+  filter(!str_detect(character, "(?i)stage")) |> 
   count(character, name = "num_lines") |>
   mutate(play = "Hamlet") |>
   arrange(desc(num_lines)) |>
   slice_head(n = 20)
 
-  
-  
 ggplot(hamlet_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
   geom_col(fill = "steelblue") +
   coord_flip() +
@@ -201,14 +224,7 @@ ggplot(hamlet_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
     x = "Named Character",
     y = "Total Number of Lines"
   ) +
-  theme_minimal(base_size = 14) +  # bigger text
-  theme(
-    plot.title = element_text(size = 18, face = "bold"),
-    axis.text.y = element_text(size = 10)
-  ) + 
-  theme_minimal() + 
-  theme(plot.title = element_text(size = 16, face = "bold"))
-
+  theme_minimal(base_size = 14)
 
 
 ```
@@ -217,15 +233,15 @@ ggplot(hamlet_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
 #| echo: true
 #| message: false
 #| warning: false
+#| fig-alt: "A bar graph that shows the named characters in Macbeth with the most number of lines."
+
 macbeth_counts <- macbeth |>
-  filter(!grepl("stage", character, ignore.case = TRUE)) |> 
+  filter(!str_detect(character, "(?i)stage")) |> 
   count(character, name = "num_lines") |>
   mutate(play = "Macbeth") |>
   arrange(desc(num_lines)) |>
   slice_head(n = 20)
 
-  
-  
 ggplot(macbeth_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
   geom_col(fill = "goldenrod") +
   coord_flip() +
@@ -234,13 +250,7 @@ ggplot(macbeth_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
     x = "Named Character",
     y = "Total Number of Lines"
   ) +
-  theme_minimal(base_size = 14) +  # bigger text
-  theme(
-    plot.title = element_text(size = 18, face = "bold"),
-    axis.text.y = element_text(size = 10)
-  ) + 
-  theme_minimal() + 
-  theme(plot.title = element_text(size = 16, face = "bold"))
+  theme_minimal(base_size = 14)
 
 
 ```
@@ -249,15 +259,15 @@ ggplot(macbeth_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
 #| echo: true
 #| message: false
 #| warning: false
-romeo_juliet_counts <- romeo_juliet |>
-  filter(!grepl("stage", character, ignore.case = TRUE)) |> 
+#| fig-alt: "A bar graph that shows the named characters in Romeo and Juliet with the most number of lines."
+
+romeo_juliet__counts <- romeo_juliet |>
+  filter(!str_detect(character, "(?i)stage")) |> 
   count(character, name = "num_lines") |>
   mutate(play = "Romeo and Juliet") |>
   arrange(desc(num_lines)) |>
   slice_head(n = 20)
 
-  
-  
 ggplot(romeo_juliet_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
   geom_col(fill = "maroon") +
   coord_flip() +
@@ -266,14 +276,7 @@ ggplot(romeo_juliet_counts, aes(x = reorder(character, num_lines), y = num_lines
     x = "Named Character",
     y = "Total Number of Lines"
   ) +
-  theme_minimal(base_size = 14) +  # bigger text
-  theme(
-    plot.title = element_text(size = 18, face = "bold"),
-    axis.text.y = element_text(size = 10)
-  ) + 
-  theme_minimal() + 
-  theme(plot.title = element_text(size = 16, face = "bold"))
-
+  theme_minimal(base_size = 14)
 
 ```
 
