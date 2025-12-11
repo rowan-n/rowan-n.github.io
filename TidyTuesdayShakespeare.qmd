@@ -179,9 +179,10 @@ Finally, this graph tells us that despite not being yelled at nearly as much as 
 Below is a graph for each play showing who has the most lines. These line counts graphs tell you which character is the "main character", which, unsurprisingly, are also the title characters. But just in case.
 
 ```{r}
-#| echo: true
+#| eval: false
 #| message: false
 #| warning: false
+#| include: false
 
 hamlet_counts <- hamlet |>
   filter(str_extract(character, "stage", ignore.case = TRUE)) |> 

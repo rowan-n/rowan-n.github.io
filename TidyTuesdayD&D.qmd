@@ -97,8 +97,9 @@ ggplot(common_monsters, aes(x = type, y = hp_number, color = type)) +
 
 Most monster types sit comfortably below 200 HP, with Dragons being the only ones who consistently go above. And that point way out there by 700 is none other than the Tarrasque, of course. 
 
+Next I wanted to look at which schools of magic favored distance or melee spells. This was made complicated by the spell range being stored as character strings (eg "30 feet" or "Touch") and additionally complicated by such range types as "Unlimited" or "500 miles".Unfortunately, if I kept in the massive distances, the plot doesn't give a great representation at how different 300 feet is from 500 feet versus 5 feet from 10 feet. 
 
-This is a plot I made trying to see which of the schools of magic had the longest spell range on average. This was made complicated by the spell range being stored as character strings (eg "30 feet" or "Touch") so I made levels. Unfortunately this doesn't give a great representation at how different 300 feet is from 500 feet versus 5 feet from 10 feet. Work in progress.
+So, for anything over one mile, I decided to set their range to 600 feet, as combat spells usually have the same range as a longbow unless buffed. I left out "Special" because it applies to exactly one spell, Dream, and is specific to planes of existence. 
 
 ```{r message=FALSE, warning=FALSE}
 #| echo: true
@@ -111,9 +112,10 @@ spells <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tid
 ```
 
 ```{r}
-#| echo: true
+#| eval: false
 #| message: false
 #| warning: false
+#| include: false
 #range_levels <- c( "Self", "Touch", "Sight", "5 feet", "10 feet", "15 feet", "30 feet", "60 feet", "90 feet", "100 feet", "120 feet", "150 feet", "300 feet", "500 feet", "1 mile", "500 miles", "Unlimited", "Special")
 
 #self, touch, sight, 5 feet, 10 feet, 15 feet, 30 feet, 60 feet, 90 feet, 100 feet, 120 feet, 150 feet, 300 feet, 500 feet, 1 mile, 500 miles
@@ -141,10 +143,8 @@ spells |>
     range_num = case_when(
       str_detect(range, "Self") ~ 0,
       str_detect(range, "Touch") ~ 5,
-      str_detect(range, "Sight") ~ 600,   #max sight in D&D is 2 miles, but combat spells usually have the same range as a longbow unless buffed 
-      str_detect(range, "mile\\b") ~ as.numeric(str_extract(range, "\\d+")) * 1000,
-      str_detect(range, "feet") ~ as.numeric(str_extract(range, "\\d+")), 
-      TRUE ~ NA_real_
+      str_detect(range, "Sight|mile|miles|Unlimited") ~ 600, 
+      str_detect(range, "feet") ~ as.numeric(str_extract(range, "\\d+"))
     )
   ) |> 
   ggplot(aes(x = school, y = range_num, color = school)) +
@@ -156,6 +156,11 @@ spells |>
   )
 
 ```
+
+Neat! Seems like Conjuration, Illusion, and Evocation like longer-range spells, while Abjuration and Necromancy are the only schools with no spells that can go further than 150 feet. 
+
+Likewise I did the same with concentration-based spells, narrowing it down to spells with concentration of a max of 2 hours. 
+
 
 ```{r}
 #| echo: true
@@ -173,24 +178,26 @@ spells |>
 # [22] "Up to 1 hour"                    "Concentration up to 10 minutes"  "Up to 1 minute" 
 
 
-con_spells <- spells |>
-  filter(grepl("Concentration", duration, ignore.case = TRUE)) 
 
-
-
-con_spells |> 
-  mutate(duration = fct_relevel(duration, 
-                                c("Concentration, up to 1 minute", "Concentration, up to 10 minutes", "Concentration, up to 1 hour", "Concentration, up to 2 hours", "Concentration, up to 8 hours", "Concentration, up to 1 day"))) |> 
-  filter(!grepl("Concentration up to 10 minutes", duration, ignore.case = TRUE)) |>
-  ggplot(aes(x = school, y = duration, color = school)) +
-  geom_point() +
+spells |> 
+  mutate(
+    con_time = case_when(
+      str_detect(duration, "(?i)(?=.*minutes?)(?=.*concentration)") ~ as.numeric(str_extract(duration, "\\d+")), 
+      str_detect(duration, "(?i)(?=.*hours?)(?=.*concentration)") ~ as.numeric(str_extract(duration, "\\d+")) * 60
+    )
+  ) |> 
+  filter(con_time < 200) |>
+  ggplot(aes(x = school, y = con_time, color = school)) +
+  geom_boxplot() +
   labs(
     x = "School of Magic",
-    y = "Duration of Spell",
+    y = "Concentration Duration of Spell",
     title = "Concentration Spells by School",
   )
 
 ```
+I guess necromancers have no patience to concentrate that long! 
+
 
 Dungeons & Dragons \| The Official Home of D&D. (n.d.). D&D Beyond. Retrieved December 10, 2025, from <https://www.dndbeyond.com>
 

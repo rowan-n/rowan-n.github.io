@@ -226,69 +226,84 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This is a plot I made comparing the different types of D&amp;D monsters with their total hit points and their strength score / modifier.</p>
+<p>This is a plot I made comparing the different types of D&amp;D monsters with their total hit points and their strength score / modifier. I enjoy acting as GM for my friends, especially for off-season bonding with my choir, but the diversity of monsters I can throw at my players is sometimes overwhelming. This way I can get a sense for what type of monster I want depending on if I want them to hit hard, be difficult to kill, or both.</p>
+<p>First, let’s look at what types of monsters are most common in D&amp;D.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(monsters, <span class="fu">aes</span>(<span class="at">x =</span> hp_number, <span class="at">y =</span> str, <span class="at">color =</span> type)) <span class="sc">+</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Hit Points"</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Strength Modifier"</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"D&amp;D Monsters by Type"</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>num_monsters <span class="ot">&lt;-</span> monsters <span class="sc">|&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(type, <span class="at">name=</span><span class="st">"num_monster"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(num_monster))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>num_monsters</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 16 × 2
+   type                 num_monster
+   &lt;chr&gt;                      &lt;int&gt;
+ 1 Beast                         84
+ 2 Dragon                        45
+ 3 Monstrosity                   37
+ 4 Fiend                         29
+ 5 Humanoid                      26
+ 6 Undead                        18
+ 7 Elemental                     17
+ 8 Fey                           15
+ 9 Celestial                     13
+10 Construct                     10
+11 Giant                         10
+12 Aberration                     9
+13 Plant                          6
+14 Swarm of Tiny Beasts           6
+15 Ooze                           4
+16 Swarm of Tiny Undead           1</code></pre>
+</div>
+</div>
+<p>Unsurprisingly, Beast is the most common type of D&amp;D monster by a wide margin. It’s sort of the catch-all monster category. I didn’t expect Dragon to be so close behind, but given there’s a whole separate dragon for like every color (or metal, or gem…) it’s not all that surprising.</p>
+<p>Personally, I’m less interested in the strength and HP scores of some of the smaller types. Any of the types that have under 10 entries, I am going to either lump in with another type that feels right, or filter out. For example, I’m fine lumping in the single Swarm of Tiny Undead in with the rest of the Undead, and I don’t really need the Aberrations in there. If I want a Beholder, it’s not because it has 180 HP. It’s because I want a Beholder. Then, I want to compare the types across HP and Strength, which I though would be easiest to visualize with box plots.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>common_monsters <span class="ot">&lt;-</span> monsters <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(num_monsters, <span class="at">by =</span> <span class="st">"type"</span>) <span class="sc">|&gt;</span>  <span class="co">#sticking the counts column in there</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="fu">ifelse</span>(type <span class="sc">==</span> <span class="st">"Swarm of Tiny Beasts"</span> <span class="sc">|</span> type <span class="sc">==</span> <span class="st">"Beast"</span>, <span class="st">"Beast"</span>, </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                <span class="fu">ifelse</span>(type <span class="sc">==</span> <span class="st">"Swarm of Tiny Undead"</span> <span class="sc">|</span> type <span class="sc">==</span> <span class="st">"Undead"</span>, <span class="st">"Undead"</span>,  <span class="co">#lumping in the swarms </span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                       type</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                ))) <span class="sc">|&gt;</span> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(num_monster <span class="sc">&gt;=</span> <span class="dv">10</span>)  <span class="co">#filtering out small types </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(common_monsters, <span class="fu">aes</span>(<span class="at">x =</span> type, <span class="at">y =</span> str, <span class="at">color =</span> type)) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">""</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Strength Score"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Strength of D&amp;D Monster Types"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TidyTuesdayD-D_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TidyTuesdayD-D_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>This is a plot I made trying to see which of the schools of magic had the longest spell range on average. This was made complicated by the spell range being stored as character strings (eg “30 feet” or “Touch”) so I made levels. Unfortunatley this doesn’t give a great representation at how different 300 feet is from 500 feet versus 5 feet from 10 feet. Work in progress.</p>
+<p>The nice thing about the strength scores in D&amp;D is that there’s a hard cutoff at 30. HP doesn’t have those limitations.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>spells <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-12-17/spells.csv'</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#range_levels &lt;- c( "Self", "Touch", "Sight", "5 feet", "10 feet", "15 feet", "30 feet", "60 feet", "90 feet", "100 feet", "120 feet", "150 feet", "300 feet", "500 feet", "1 mile", "500 miles", "Unlimited", "Special")</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#self, touch, sight, 5 feet, 10 feet, 15 feet, 30 feet, 60 feet, 90 feet, 100 feet, 120 feet, 150 feet, 300 feet, 500 feet, 1 mile, 500 miles</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  spell duration : </span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] "Instantaneous"                   "8 hours"                         "Concentration, up to 1 hour"    </span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># [4] "24 hours"                        "Concentration, up to 1 minute"   "10 days"    </span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># [7] "Until dispelled"                 "Concentration, up to 10 minutes" "1 hour"  </span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># [10] "1 minute"                        "7 days"                          "Concentration, up to 8 hours"   </span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># [13] "Special"                         "Up to 8 hours"                   "Concentration, up to 1 day"     </span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># [16] "10 minutes"                      "1 day"                           "30 days"</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># [19] "Until dispelled or triggered"    "1 round"                         "Concentration, up to 2 hours"   </span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># [22] "Up to 1 hour"                    "Concentration up to 10 minutes"  "Up to 1 minute" </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>spells <span class="sc">|&gt;</span> </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">range =</span> <span class="fu">fct_relevel</span>(range, </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">c</span>(<span class="st">"Self"</span>, <span class="st">"Touch"</span>, <span class="st">"Sight"</span>, <span class="st">"5 feet"</span>, <span class="st">"10 feet"</span>, <span class="st">"15 feet"</span>, <span class="st">"30 feet"</span>, <span class="st">"60 feet"</span>, <span class="st">"90 feet"</span>, <span class="st">"100 feet"</span>, <span class="st">"120 feet"</span>, <span class="st">"150 feet"</span>, <span class="st">"300 feet"</span>, <span class="st">"500 feet"</span>, <span class="st">"1 mile"</span>, <span class="st">"500 miles"</span>, <span class="st">"Unlimited"</span>, <span class="st">"Special"</span>))) <span class="sc">|&gt;</span> </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">school =</span> <span class="fu">fct_reorder</span>(school, <span class="fu">as.numeric</span>(range), <span class="at">.fun =</span> <span class="st">"mean"</span>, <span class="at">.desc =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> school, <span class="at">y =</span> range, <span class="at">color =</span> school)) <span class="sc">+</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"School of Magic"</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Range of Spell"</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"D&amp;D Spell Range by School"</span>,</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(common_monsters, <span class="fu">aes</span>(<span class="at">x =</span> type, <span class="at">y =</span> hp_number, <span class="at">color =</span> type)) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">""</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Hit Points"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"HP of D&amp;D Monster Types"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -298,50 +313,91 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p>Most monster types sit comfortably below 200 HP, with Dragons being the only ones who consistently go above. And that point way out there by 700 is none other than the Tarrasque, of course.</p>
+<p>Next I wanted to look at which schools of magic favored distance or melee spells. This was made complicated by the spell range being stored as character strings (eg “30 feet” or “Touch”) and additionally complicated by such range types as “Unlimited” or “500 miles”.Unfortunately, if I kept in the massive distances, the plot doesn’t give a great representation at how different 300 feet is from 500 feet versus 5 feet from 10 feet.</p>
+<p>So, for anything over one mile, I decided to set their range to 600 feet, as combat spells usually have the same range as a longbow unless buffed. I left out “Special” because it applies to exactly one spell, Dream, and is specific to planes of existence.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#  spell duration : </span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] "Instantaneous"                   "8 hours"                         "Concentration, up to 1 hour"    </span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [4] "24 hours"                        "Concentration, up to 1 minute"   "10 days"    </span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [7] "Until dispelled"                 "Concentration, up to 10 minutes" "1 hour"  </span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [10] "1 minute"                        "7 days"                          "Concentration, up to 8 hours"   </span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># [13] "Special"                         "Up to 8 hours"                   "Concentration, up to 1 day"     </span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># [16] "10 minutes"                      "1 day"                           "30 days"</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># [19] "Until dispelled or triggered"    "1 round"                         "Concentration, up to 2 hours"   </span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># [22] "Up to 1 hour"                    "Concentration up to 10 minutes"  "Up to 1 minute" </span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>con_spells <span class="ot">&lt;-</span> spells <span class="sc">|&gt;</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"Concentration"</span>, duration, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)) </span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>con_spells <span class="sc">|&gt;</span> </span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">duration =</span> <span class="fu">fct_relevel</span>(duration, </span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">c</span>(<span class="st">"Concentration, up to 1 minute"</span>, <span class="st">"Concentration, up to 10 minutes"</span>, <span class="st">"Concentration, up to 1 hour"</span>, <span class="st">"Concentration, up to 2 hours"</span>, <span class="st">"Concentration, up to 8 hours"</span>, <span class="st">"Concentration, up to 1 day"</span>))) <span class="sc">|&gt;</span> </span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"Concentration up to 10 minutes"</span>, duration, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> school, <span class="at">y =</span> duration, <span class="at">color =</span> school)) <span class="sc">+</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"School of Magic"</span>,</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Duration of Spell"</span>,</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Concentration Spells by School"</span>,</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>spells <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-12-17/spells.csv'</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>spells <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">range_num =</span> <span class="fu">case_when</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_detect</span>(range, <span class="st">"Self"</span>) <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_detect</span>(range, <span class="st">"Touch"</span>) <span class="sc">~</span> <span class="dv">5</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_detect</span>(range, <span class="st">"Sight|mile|miles|Unlimited"</span>) <span class="sc">~</span> <span class="dv">600</span>, </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_detect</span>(range, <span class="st">"feet"</span>) <span class="sc">~</span> <span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(range, <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>))</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> school, <span class="at">y =</span> range_num, <span class="at">color =</span> school)) <span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"School of Magic"</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Range of Spell"</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"D&amp;D Spell Range by School"</span>,</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="TidyTuesdayD-D_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="TidyTuesdayD-D_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Tidyverse Link: https://github.com/rfordatascience/tidytuesday/tree/main/data/2024/2024-12-17</p>
-<p>Dataset Citation:</p>
-<p>Harmon J (2025). dddata: Data from the Dungeons and Dragons System Reference Document. R package version 0.0.0.9000, https://github.com/jonthegeek/dddata.</p>
-<p>Original Data Source:</p>
-<p>“Dungeons &amp; Dragons: The Official Home of D&amp;D.” <em>D&amp;D Beyond</em>, Wizards of the Coast, 8 Dec.&nbsp;2025, www.dndbeyond.com/.</p>
+<p>Neat! Seems like Conjuration, Illusion, and Evocation like longer-range spells, while Abjuration and Necromancy are the only schools with no spells that can go further than 150 feet.</p>
+<p>Likewise I did the same with concentration-based spells, narrowing it down to spells with concentration of a max of 2 hours.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#  spell duration : </span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] "Instantaneous"                   "8 hours"                         "Concentration, up to 1 hour"    </span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [4] "24 hours"                        "Concentration, up to 1 minute"   "10 days"    </span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [7] "Until dispelled"                 "Concentration, up to 10 minutes" "1 hour"  </span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [10] "1 minute"                        "7 days"                          "Concentration, up to 8 hours"   </span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># [13] "Special"                         "Up to 8 hours"                   "Concentration, up to 1 day"     </span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># [16] "10 minutes"                      "1 day"                           "30 days"</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># [19] "Until dispelled or triggered"    "1 round"                         "Concentration, up to 2 hours"   </span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># [22] "Up to 1 hour"                    "Concentration up to 10 minutes"  "Up to 1 minute" </span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>spells <span class="sc">|&gt;</span> </span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">con_time =</span> <span class="fu">case_when</span>(</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_detect</span>(duration, <span class="st">"(?i)(?=.*minutes?)(?=.*concentration)"</span>) <span class="sc">~</span> <span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(duration, <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>)), </span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_detect</span>(duration, <span class="st">"(?i)(?=.*hours?)(?=.*concentration)"</span>) <span class="sc">~</span> <span class="fu">as.numeric</span>(<span class="fu">str_extract</span>(duration, <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>)) <span class="sc">*</span> <span class="dv">60</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(con_time <span class="sc">&lt;</span> <span class="dv">200</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> school, <span class="at">y =</span> con_time, <span class="at">color =</span> school)) <span class="sc">+</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"School of Magic"</span>,</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Concentration Duration of Spell"</span>,</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Concentration Spells by School"</span>,</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="TidyTuesdayD-D_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>I guess necromancers have no patience to concentrate that long!</p>
+<p>Dungeons &amp; Dragons | The Official Home of D&amp;D. (n.d.). D&amp;D Beyond. Retrieved December 10, 2025, from <a href="https://www.dndbeyond.com" class="uri">https://www.dndbeyond.com</a></p>
+<p>Tidytuesday/data/2024/2024-12-17 at main · rfordatascience/tidytuesday. (n.d.). GitHub. Retrieved December 10, 2025, from <a href="https://github.com/rfordatascience/tidytuesday/tree/main/data/2024/2024-12-17" class="uri">https://github.com/rfordatascience/tidytuesday/tree/main/data/2024/2024-12-17</a></p>
 
 
 
