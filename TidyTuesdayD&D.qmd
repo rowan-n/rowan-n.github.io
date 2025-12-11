@@ -36,11 +36,30 @@ num_monsters <- monsters |>
   count(type, name="num_monster") |>
   arrange(desc(num_monster))
 
+num_monsters
+
+
 ```
 
 Unsurprisingly, Beast is the most common type of D&D monster by a wide margin. It's sort of the catch-all monster category. I didn't expect Dragon to be so close behind, but given there's a whole separate dragon for like every color (or metal, or gem...) it's not all that surprising.
 
-Personally, I'm less interested in the strength and HP scores of some of the smaller types. Any of the types that have under 10 entries, I am going to either lump in with another type that feels right, or filter out. For example, I'm fine lumping in the single Swarm of Tiny Undead in with the rest of the Undead, and I don't really need the Aberrations in there. If I want a Beholder, it's not because it has 180 HP. It's because I want a Beholder.
+Personally, I'm less interested in the strength and HP scores of some of the smaller types. Any of the types that have under 10 entries, I am going to either lump in with another type that feels right, or filter out. For example, I'm fine lumping in the single Swarm of Tiny Undead in with the rest of the Undead, and I don't really need the Aberrations in there. If I want a Beholder, it's not because it has 180 HP. It's because I want a Beholder. Then, I want to compare the types across HP and Strength, which I though would be easiest to visualize with box plots. 
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+common_monsters <- monsters |> 
+  left_join(num_monsters, by = "type") |>  #sticking the counts column in there
+  mutate(
+  type = ifelse(type == "Swarm of Tiny Beasts" | type == "Beast", "Beast", 
+                ifelse(type == "Swarm of Tiny Undead" | type == "Undead", "Undead",  #lumping in the swarms 
+                       type
+                ))) |> 
+  filter(num_monster >= 10)  #filtering out small types 
+
+```
 
 ```{r}
 #| echo: true
@@ -48,25 +67,38 @@ Personally, I'm less interested in the strength and HP scores of some of the sma
 #| warning: false
 
 
-
-common_monsters <- monsters |> 
-mutate(
-  type = ifelse(type == "Swarm of Tiny Beasts" | type == "Beast", "Beast", 
-                ifelse(type == "Swarm of Tiny Undead" | type == "Undead", "Undead",
-                       type
-                )))
-
-
-ggplot(common_monsters, aes(x = hp_number, y = str, color = type)) +
-  geom_point() +
+ggplot(common_monsters, aes(x = type, y = str, color = type)) +
+  geom_boxplot() +
   labs(
-    x = "Hit Points",
-    y = "Strength Modifier",
-    title = "D&D Monsters by Type",
+    x = "",
+    y = "Strength Score",
+    title = "Strength of D&D Monster Types",
   )
+
 ```
 
-This is a plot I made trying to see which of the schools of magic had the longest spell range on average. This was made complicated by the spell range being stored as character strings (eg "30 feet" or "Touch") so I made levels. Unfortunatley this doesn't give a great representation at how different 300 feet is from 500 feet versus 5 feet from 10 feet. Work in progress.
+The nice thing about the strength scores in D&D is that there's a hard cutoff at 30. HP doesn't have those limitations. 
+
+```{r}
+#| echo: true
+#| message: false
+#| warning: false
+
+
+ggplot(common_monsters, aes(x = type, y = hp_number, color = type)) +
+  geom_boxplot() +
+  labs(
+    x = "",
+    y = "Hit Points",
+    title = "HP of D&D Monster Types",
+  )
+
+```
+
+Most monster types sit comfortably below 200 HP, with Dragons being the only ones who consistently go above. And that point way out there by 700 is none other than the Tarrasque, of course. 
+
+
+This is a plot I made trying to see which of the schools of magic had the longest spell range on average. This was made complicated by the spell range being stored as character strings (eg "30 feet" or "Touch") so I made levels. Unfortunately this doesn't give a great representation at how different 300 feet is from 500 feet versus 5 feet from 10 feet. Work in progress.
 
 ```{r message=FALSE, warning=FALSE}
 #| echo: true
@@ -103,17 +135,26 @@ spells <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tid
 #| message: false
 #| warning: false
 
+
 spells |> 
-  mutate(range = fct_relevel(range, 
-                             c("Self", "Touch", "Sight", "5 feet", "10 feet", "15 feet", "30 feet", "60 feet", "90 feet", "100 feet", "120 feet", "150 feet", "300 feet", "500 feet", "1 mile", "500 miles", "Unlimited", "Special"))) |> 
-  mutate(school = fct_reorder(school, as.numeric(range), .fun = "mean", .desc = TRUE)) |> 
-  ggplot(aes(x = school, y = range, color = school)) +
-  geom_point() +
+  mutate(
+    range_num = case_when(
+      str_detect(range, "Self") ~ 0,
+      str_detect(range, "Touch") ~ 5,
+      str_detect(range, "Sight") ~ 600,   #max sight in D&D is 2 miles, but combat spells usually have the same range as a longbow unless buffed 
+      str_detect(range, "mile\\b") ~ as.numeric(str_extract(range, "\\d+")) * 1000,
+      str_detect(range, "feet") ~ as.numeric(str_extract(range, "\\d+")), 
+      TRUE ~ NA_real_
+    )
+  ) |> 
+  ggplot(aes(x = school, y = range_num, color = school)) +
+  geom_boxplot() +
   labs(
     x = "School of Magic",
     y = "Range of Spell",
     title = "D&D Spell Range by School",
   )
+
 ```
 
 ```{r}
