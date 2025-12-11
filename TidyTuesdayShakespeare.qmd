@@ -261,7 +261,7 @@ ggplot(macbeth_counts, aes(x = reorder(character, num_lines), y = num_lines)) +
 #| warning: false
 #| fig-alt: "A bar graph that shows the named characters in Romeo and Juliet with the most number of lines."
 
-romeo_juliet__counts <- romeo_juliet |>
+romeo_juliet_counts <- romeo_juliet |>
   filter(!str_detect(character, "(?i)stage")) |> 
   count(character, name = "num_lines") |>
   mutate(play = "Romeo and Juliet") |>

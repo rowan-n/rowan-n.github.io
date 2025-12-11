@@ -8,9 +8,9 @@
 
 <meta name="author" content="Rowan Norenberg">
 <meta name="dcterms.date" content="2025-11-29">
-<meta name="description" content="Some SQL of the Stanford Open Policing Project">
+<meta name="description" content="Some SQL exploration of the Stanford Open Policing Project, on lighter and more serious topics.">
 
-<title>Project 5 – Rowan Norenberg</title>
+<title>Open Policing Project – Rowan Norenberg</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -184,20 +184,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#playing-with-plates" id="toc-playing-with-plates" class="nav-link active" data-scroll-target="#playing-with-plates">Playing with Plates</a></li>
+  <li><a href="#stops-indigenous-americans-and-age" id="toc-stops-indigenous-americans-and-age" class="nav-link" data-scroll-target="#stops-indigenous-americans-and-age">Stops, Indigenous Americans, and Age</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Project 5</h1>
+<h1 class="title">Open Policing Project</h1>
 </div>
 
 <div>
   <div class="description">
-    Some SQL of the Stanford Open Policing Project
+    Some SQL exploration of the Stanford Open Policing Project, on lighter and more serious topics.
   </div>
 </div>
 
@@ -226,7 +233,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>As someone who lives in Seattle, Washington, and has gone my whole like making jokes about out-of-towners being terrible Seattle drivers, I had to know: which State gets pulled over and arrested the most when driving in Seattle? (besides native Washingtonians, of course.)</p>
+<section id="playing-with-plates" class="level2">
+<h2 class="anchored" data-anchor-id="playing-with-plates">Playing with Plates</h2>
+<p>As someone who lives in Seattle, Washington, and has gone my whole like making jokes about out-of-towners being terrible Seattle drivers, I had to know: which State gets pulled over and arrested the most when driving in Seattle? (Besides native Washingtonians, of course.)</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -293,23 +302,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<p>Some of these trends are unsurprising - of course, people who live in Washington and therefore have Washington liscence plates will have the most traffic stops. Nearby states like Oregon, North Dakota, Colorado, and California (all of which have high migration rates to Seattle) are also unsurprising. But cars registered in Hawaii and Illinois have the highest rate of traffic stops in Seattle besides Washington. Why? Neither are particularly close to Washington, nor do they have high rates of migration. I guessed that the answer would lie in rentals. Rental car companies famously register and insure their cars wherever will give them the cheapest rates. Hawaii has the lowest average yearly car registration fee in the US, at a mere $12. Illinois has one of the highest, though, at over $150. However, another look at the data reveals that perhaps Seattle PD just doesn’t do a very good job of documenting what state the plates are from, for some reason.</p>
+<p>Some of these trends are unsurprising - of course, people who live in Washington (and therefore have Washington licence plates) will have the most traffic stops in Seattle. Nearby states like Oregon, North Dakota, Colorado, and California (all of which have high migration rates to Seattle) are also unsurprising. But cars registered in Hawaii and Illinois have the highest rate of traffic stops in Seattle besides Washington. Why? Neither are particularly close to Washington, nor do they have high rates of migration. I guessed that the answer would lie in rentals. Rental car companies famously register and insure their cars wherever will give them the cheapest rates. Hawaii has the lowest average yearly car registration fee in the US, at a mere $12. Illinois has one of the highest, though, at over $150. However, another look at the data reveals that perhaps Seattle PD just doesn’t do a very good job of documenting what state the plates are from, for some reason.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="st">'WA'</span> <span class="kw">AS</span> registration_state, </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> num_arrests</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> num_stops</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> wa_seattle_2020_04_01</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> vehicle_registration_state <span class="op">=</span> <span class="st">'WA'</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="st">'Out-of-State'</span> <span class="kw">AS</span> reg_state, </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> num_arrests</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> num_stops</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> wa_seattle_2020_04_01</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> vehicle_registration_state <span class="op">&lt;&gt;</span> <span class="st">'WA'</span></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> vehicle_registration_state <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>  </span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="st">'Unknown'</span> <span class="kw">AS</span> reg_state, </span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> num_arrests</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> num_stops</span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> wa_seattle_2020_04_01</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> vehicle_registration_state <span class="kw">IS</span> <span class="kw">NULL</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -319,7 +328,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <thead>
 <tr class="header">
 <th style="text-align: left;">registration_state</th>
-<th style="text-align: right;">num_arrests</th>
+<th style="text-align: right;">num_stops</th>
 </tr>
 </thead>
 <tbody>
@@ -387,12 +396,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<p>Not really.</p>
-<p>However: Seattle is a bit unique about plates, in that in 2009, they switched to a 7-character plate system (CCC-####) and at first, EVERY plate started with an A. Then around 2015, when they ran out of unique combinations, a B. By sometime after 2020, newly issued plates started with a C.</p>
-<p>Not so helpful when trying to identify a criminal, because if you only remember the first letter of a plate, it’s no help at all. But, it does mean that ALL Washington licence plates start with an A, B, or C (since 2009) (unless they are customized). This probably means that Seattle PD is only recording “WA” when they feel like it’s necessary; eg, when the plate number is really old or customized. This would help explain the sheer number of NULL values. Any plate that starts with an A, B, or C and fits the CCC-#### system is going to be a Washington plate, so there’s no need to write that down, and any OTHER plate that isn’t customized and marked as WA is an out-of-towner.</p>
+<p>Not really. There are still way more plates that go unrecorded than plates that do.</p>
+<p>However: Seattle is a bit unique about plates,and if you’ve lived there for a while, you’ll pretty quickly notice what’s up. In 2009, the DOL switched to a 7-character plate system (CCC-####) and at first, EVERY plate started with an A. Then around 2015, when they ran out of unique combinations, a B. By sometime after 2020, newly issued plates started with a C.</p>
+<p>Not so helpful when trying to identify a car, because if you only remember the first letter of a plate, it’s no help at all. But, it does mean that ALL Washington licence plates start with an A, B, or C (since 2009) (unless they are customized). This probably means that Seattle PD is only recording “WA” when they feel like it’s necessary; eg, when the plate number is really old or customized. This would help explain the sheer number of NULL values. Ignoring customizations, any plate that starts with an A, B, or C and fits the CCC-#### system is going to be a Washington plate, so there’s no need to write that down – and any OTHER standard plate is an out-of-towner.</p>
 <p>So what does this have to do with Illinois? Well, in 2017, Illinois ALSO implemented a 7-character plate system (CC-#####) which started with A. So when a car with an Illinois plate is pulled over, the Seattle PD officer can’t just record the plate and leave the state blank, because that would imply that the state was Washington. So, they specifically record “IL”.</p>
-<p>Unfortunately, both the statewide Illinois data table and the Chicago data table do not include a row for vehicle registration state, so I can’t compare this trend to Illinois.</p>
-<p>Next I was exploring which police departments had more possible entries for subject race than others. North Dakota, for example, had the standard lineup (White, Asian, African American, Hispanic, Other) but with the distinction of one group that is lumped into “Other” in many states: Native American. I decided to look at the ages of traffic stops made on Native Americans, as I had noticed that many violations were for driving without a licence.</p>
+<p>Unfortunately, both the statewide Illinois data table and the Chicago data table have no row for vehicle registration state, so I can’t compare this trend to Illinois.</p>
+</section>
+<section id="stops-indigenous-americans-and-age" class="level2">
+<h2 class="anchored" data-anchor-id="stops-indigenous-americans-and-age">Stops, Indigenous Americans, and Age</h2>
+<p>Next I was exploring which police departments had more possible entries for subject race than others. North Dakota, for example, had the standard lineup (White, Asian, African American, Hispanic, Other) but with the added distinction of one group that is lumped into “Other” in many other states: Native American. I decided to look at the ages of traffic stops made on Native Americans, as I had noticed that many violations were for driving without a licence.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -480,8 +492,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<p>Not only is the average age of Native Americans who get stopped in North Dakota lower than that of the total average, but there is a notable increase in Native Americans minors who get stopped. Most other data tables, including ones for areas with very high Native populations, do not list Native American as an option (I assume they are grouped under ‘other’.) Upon looking at Oklahoma, which is known for a high Native population, I found the abbreviated race ‘I’, which I believe stands for Indian, in this case referring to Native Americans (many official state and tribal documents in Oklahoma still use this language).</p>
-<p>However, Tulsa, Oklahoma also has some non-standard race abbreviations. I was intending to calculate the percent of arrests made on Native American minors compared to other races in Tulsa, as well, but I hit a bit of a bump.</p>
+<p>Not only is the average age of Native Americans who get stopped in North Dakota lower than that of the total average, but there is a notable increase in Native Americans minors who get stopped. Most other data tables, including ones for areas with very high Native populations, do not list Native American as an option (I assume they are grouped under ‘other’, but as I cannot sort them, I cannot say for sure.) Upon looking at Tulsa, Oklahoma, which is known to have a high Indigenous population, I found the abbreviated race ‘I’ (which I believe stands for Indian in this case, as many official state and tribal documents in Oklahoma still use this language).</p>
+<p>Unfortunately, as I dug through the Tulsa, OK table, I realized that subject age was not recorded. But I did find something else interesting, which is that the Tulsa, Oklahoma PD also has a lot of non-standard race abbreviations.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -531,8 +543,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<p>Some of these are easy to find the code to, and are standard in the United States. W - White B - Black / African American U - Unknown H - Hispanic I - Native American / Native Alaskan A - Asian O - Other</p>
-<p>After that, though, it gets mushy. At first I thought they might be distinguishing individual tribal nations in the state, but given the sheer number of distinct tribes in Oklahoma (and that many of them start with the same letter) this seems unlikely, or at least unintuitive. I scoured the Tulsa PD official website and records for a key, but found nothing. I am still curious about these abbreviations and would love to be more informed on what these all might represent.</p>
+<p>Some of these are easy to find the code to, and are standard in the United States.After that, though, it gets mushy. At first I thought they might be distinguishing individual tribal nations in the state, but given the sheer number of distinct tribes in Oklahoma (and that many of them start with the same letter) this seems unlikely, or at least unintuitive. I scoured the Tulsa PD official website and records for a key, but found nothing. I am still curious about these abbreviations and would love to be more informed on what these all might represent.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -542,6 +553,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Pierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al.&nbsp;2020. “A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
