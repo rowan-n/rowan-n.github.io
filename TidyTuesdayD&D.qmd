@@ -103,7 +103,7 @@ Next I wanted to look at which schools of magic favored distance or melee spells
 So, for anything over one mile, I decided to set their range to 600 feet, as combat spells usually have the same range as a longbow unless buffed. I left out "Special" because it applies to exactly one spell, Dream, and is specific to planes of existence.
 
 ```{r message=FALSE, warning=FALSE}
-#| echo: true
+#| eval: true
 #| echo: false
 
 library(tidyverse)
