@@ -65,6 +65,7 @@ common_monsters <- monsters |>
 #| echo: true
 #| message: false
 #| warning: false
+#| fig-alt: "A boxplot of strength score by D&D monster type."
 
 
 ggplot(common_monsters, aes(x = type, y = str, color = type)) +
@@ -83,7 +84,7 @@ The nice thing about the strength scores in D&D is that there's a hard cutoff at
 #| echo: true
 #| message: false
 #| warning: false
-
+#| fig-alt: "A boxplot of hit points by D&D monster type."
 
 ggplot(common_monsters, aes(x = type, y = hp_number, color = type)) +
   geom_boxplot() +
@@ -103,8 +104,8 @@ So, for anything over one mile, I decided to set their range to 600 feet, as com
 
 ```{r message=FALSE, warning=FALSE}
 #| echo: true
-
 #| echo: false
+
 library(tidyverse)
 library(ggplot2)
 
@@ -136,7 +137,7 @@ spells <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tid
 #| echo: true
 #| message: false
 #| warning: false
-
+#| fig-alt: "A boxplot of spell range in feet by D&D school of magic."
 
 spells |> 
   mutate(
@@ -166,17 +167,7 @@ Likewise I did the same with concentration-based spells, narrowing it down to sp
 #| echo: true
 #| message: false
 #| warning: false
-
-#  spell duration : 
-# [1] "Instantaneous"                   "8 hours"                         "Concentration, up to 1 hour"    
-# [4] "24 hours"                        "Concentration, up to 1 minute"   "10 days"    
-# [7] "Until dispelled"                 "Concentration, up to 10 minutes" "1 hour"  
-# [10] "1 minute"                        "7 days"                          "Concentration, up to 8 hours"   
-# [13] "Special"                         "Up to 8 hours"                   "Concentration, up to 1 day"     
-# [16] "10 minutes"                      "1 day"                           "30 days"
-# [19] "Until dispelled or triggered"    "1 round"                         "Concentration, up to 2 hours"   
-# [22] "Up to 1 hour"                    "Concentration up to 10 minutes"  "Up to 1 minute" 
-
+#| fig-alt: "A boxplot of concentration duration for spells by D&D school of magic."
 
 
 spells |> 
