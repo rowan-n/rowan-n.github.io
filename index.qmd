@@ -30,7 +30,15 @@ Linguistics Course Work:
 -   Language Acquisition
 -   Writing Systems
 -   Psycholinguistics
--   
+-   French Phonetics 
+
+
+## Skills
+
+-   LaTeX
+-   R 
+
+:::
 
 ## Professional Experience
 
@@ -38,10 +46,3 @@ French American School of Puget Sound \| Classroom Assistant \| May 2024 - Augus
 
 Pomona College Choir \| Choir Manager \| August 2025 - Present
 
-## Skills
-
--   LaTeX
--   
--   R
--   
-:::
