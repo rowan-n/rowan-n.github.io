@@ -26,8 +26,8 @@ Availability
 
 This data was made publicly available on GitHub, as well as accessible through Taylor & Francis. You can see and access the data freely online.
 
-Kim, A. Y., & Escobedo-Land, A. (2015). OkCupid Data for Introductory Statistics and Data Science Courses. Journal of Statistics Education, 23(2). https://doi.org/10.1080/10691898.2015.11889737
+Kim, A. Y., & Escobedo-Land, A. (2015). OkCupid Data for Introductory Statistics and Data Science Courses. *Journal of Statistics Education*, *23*(2). <https://doi.org/10.1080/10691898.2015.11889737>
 
-Privacy policy – okcupid. (n.d.-a). https://okcupid-app.zendesk.com/hc/en-us/articles/22780694078491-Privacy-Policy
+*Privacy Policy*. (n.d.). OkCupid. Retrieved December 10, 2025, from <https://okcupid-app.zendesk.com/hc/en-us/articles/22780694078491-Privacy-Policy>
 
-Xiao, T., & Ma, Y. (2021). A Letter to the Journal of Statistics and Data Science Education — A Call for Review of “OkCupid Data for Introductory Statistics and Data Science Courses” by Albert Y. Kim and Adriana Escobedo-Land. Journal of Statistics and Data Science Education, 29(2), 214–215. https://doi.org/10.1080/26939169.2021.1930812
+Xiao, T., & Ma, Y. (2021). A Letter to the Journal of Statistics and Data Science Education—A Call for Review of “OkCupid Data for Introductory Statistics and Data Science Courses” by Albert Y. Kim and Adriana Escobedo-Land. *Journal of Statistics and Data Science Education*, *29*(2), 214–215. <https://doi.org/10.1080/26939169.2021.1930812>

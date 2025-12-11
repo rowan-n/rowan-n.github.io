@@ -10,7 +10,7 @@ format:
     code-summary: "Show the code"
 ---
 
-The data from this page comes from Shakespeare's works, which are in the public domain. The datasets used here pulled their data specifically from https://shakespeare.mit.edu/ and can be found in the TidyTeusday 2024 repository, curated by Nicola Rennie.
+I've always loved Shakespeare, with Macbeth, Hamlet, and Julius Cesar in particular holding a special place in my heart.
 
 ```{r message=FALSE, warning=FALSE}
 #| echo: true
@@ -73,8 +73,8 @@ This graph shows that Hamlet has a great deal many more mentions of ghosts, witc
 
 
 tragedies_exclaim <- tragedies |>
-  filter(str_detect(dialogue, "(?i)\\bHamlet!+|Macbeth!+|Romeo!+|Juliet!+")) |>
-  mutate(exclamations = str_extract(dialogue, "(?i)\\bHamlet!+|Macbeth!+|Romeo!+|Juliet!+")) |>
+  filter(str_detect(dialogue, "(?i)\\b(Hamlet|Macbeth|Romeo|Juliet)!+")) |>
+  mutate(exclamations = str_extract(dialogue, "(?i)\\b(Hamlet|Macbeth|Romeo|Juliet)!+")) |>
   count(play, exclamations, name = "num_exclaim") |>
   mutate(exclamations = fct_relevel(exclamations, c("Hamlet!", "Macbeth!", "Romeo!", "Juliet!")))
 
@@ -184,7 +184,7 @@ Below is a graph for each play showing who has the most lines. These line counts
 #| warning: false
 
 hamlet_counts <- hamlet |>
-  filter(!grepl("stage", character, ignore.case = TRUE)) |> 
+  filter(str_extract(character, "stage", ignore.case = TRUE)) |> 
   count(character, name = "num_lines") |>
   mutate(play = "Hamlet") |>
   arrange(desc(num_lines)) |>
@@ -275,3 +275,9 @@ ggplot(romeo_juliet_counts, aes(x = reorder(character, num_lines), y = num_lines
 
 
 ```
+
+*The Complete Works of William Shakespeare*. (n.d.). Retrieved December 10, 2025, from <https://shakespeare.mit.edu/>
+
+*TheMITTech/shakespeare: The Complete Works of William Shakespeare hosted at http://shakespeare.mit.edu/*. (n.d.). Retrieved December 10, 2025, from <https://github.com/TheMITTech/shakespeare>
+
+*Tidytuesday/data/2024/2024-12-17 at main rfordatascience/tidytuesday*. (n.d.). GitHub. Retrieved December 10, 2025, from <https://github.com/rfordatascience/tidytuesday/tree/main/data/2024/2024-12-17>
