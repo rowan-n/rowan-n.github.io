@@ -40,7 +40,7 @@ On the first day, all participants completed the initial learning phase. There w
 
 After 7 days, participants performed a cued recall test and a transfer test. In the cued recall test, participants entered the concept name that matched the presented description. In the transfer test, participants evaluated the correctness of a given statement.
 
-![Schematic overview of the three between-subjects conditions regarding language-switching (Wußing et al., 2023).](study_flowchart.jpg)
+![Schematic overview of the three between-subjects conditions regarding language-switching (Wußing et al., 2023).](study_flowchart.jpg){fig-alt="A chart depicting which language each of the three condition groups were speaking during which portion of the study."}
 
 The study claims that the results from these tests show the following main effects:
 
@@ -61,7 +61,8 @@ Null Hypothesis: The timing of a language switch has no impact on learning perfo
 
 Let's explore the raw data for a moment. The column names were originally all in German, so I used my best judgement when translating, but know that I am not a native German speaker.
 
-```{r, warning = FALSE, message = FALSE}
+```{r message=FALSE, warning=FALSE}
+#| include: false
 
 #| echo: false
 
@@ -78,6 +79,7 @@ TesLaS_DataSet <- read_excel("TesLaS_DataSet.xlsx")  #read the excel file
 #| echo: true
 #| message: false
 #| warning: false
+#| fig-alt: "A 6 x 16 tibble showing the first 6 rows of the data from the study."
 
 #renamed all of the German variable names. I couldn't get the Proband:innen one to rename, I think because of the colon, but that's participant ID 
 
@@ -117,6 +119,7 @@ Recall that there are three conditions: not switching languages, switching only 
 #| echo: true
 #| message: false
 #| warning: false
+#| fig-alt: "A 3 x 6 tibble showing the mean correct answers on each test per condition group."
 
 TesLaS_means <- TesLaS_DataSet |>
   group_by(condition) |> 
@@ -184,6 +187,7 @@ perm1_data <- function(rep, data) {
 #| echo: true
 #| message: false
 #| warning: false
+#| fig-alt: "A histogram depicting the null permutation results with a red vertical line to mark the observed data from the study."
 
 set.seed(47)
 
@@ -194,7 +198,12 @@ perm1_stats <-
 perm1_stats |> 
   ggplot(aes(x = perm_ave_diff)) + 
   geom_histogram() + 
-  geom_vline(aes(xintercept = obs_ave_diff), color = "red")
+  geom_vline(aes(xintercept = obs_ave_diff), color = "red") + 
+  labs(
+    title = "Null Distribution",
+    x = "",
+    y = "Count"
+  )
 
 
 ```
@@ -203,6 +212,7 @@ perm1_stats |>
 #| echo: true
 #| message: false
 #| warning: false
+#| fig-alt: "The results of a two-sided p value test. p = 0.002"
 
 set.seed(47)
 
@@ -260,6 +270,7 @@ perm2_data <- function(rep, data) {
 #| echo: true
 #| message: false
 #| warning: false
+#| fig-alt: "A histogram depicting the null permutation results with a red vertical line to mark the observed data from the study."
 
 set.seed(47)
 
@@ -270,7 +281,12 @@ perm2_stats <-
 perm2_stats |> 
   ggplot(aes(x = perm_ave_diff)) + 
   geom_histogram() + 
-  geom_vline(aes(xintercept = obs_ave_diff), color = "red")
+  geom_vline(aes(xintercept = obs_ave_diff), color = "red") + 
+  labs(
+    title = "Null Distribution",
+    x = "",
+    y = "Count"
+  )
 
 ```
 
@@ -278,6 +294,7 @@ perm2_stats |>
 #| echo: true
 #| message: false
 #| warning: false
+#| fig-alt: "The results of a two-sided p value test. p = 0.615"
 
 set.seed(47)
 
@@ -335,6 +352,7 @@ perm3_data <- function(rep, data) {
 #| echo: true
 #| message: false
 #| warning: false
+#| fig-alt: "A histogram depicting the null permutation results with a red vertical line to mark the observed data from the study."
 
 set.seed(47)
 
@@ -345,7 +363,12 @@ perm3_stats <-
 perm3_stats |> 
   ggplot(aes(x = perm_ave_diff)) + 
   geom_histogram() + 
-  geom_vline(aes(xintercept = obs_ave_diff), color = "red")
+  geom_vline(aes(xintercept = obs_ave_diff), color = "red") + 
+  labs(
+    title = "Null Distribution",
+    x = "",
+    y = "Count"
+  )
 
 ```
 
@@ -353,6 +376,7 @@ perm3_stats |>
 #| echo: true
 #| message: false
 #| warning: false
+#| fig-alt: "The results of a two-sided p value test. p = 0.002"
 
 #two-sided p value
 
@@ -412,6 +436,7 @@ perm4_data <- function(rep, data) {
 #| echo: true
 #| message: false
 #| warning: false
+#| fig-alt: "A histogram depicting the null permutation results with a red vertical line to mark the observed data from the study."
 
 set.seed(47)
 
@@ -422,7 +447,12 @@ perm4_stats <-
 perm4_stats |> 
   ggplot(aes(x = perm_ave_diff)) + 
   geom_histogram() + 
-  geom_vline(aes(xintercept = obs_ave_diff), color = "red")
+  geom_vline(aes(xintercept = obs_ave_diff), color = "red") + 
+  labs(
+    title = "Null Distribution",
+    x = "",
+    y = "Count"
+  )
 
 ```
 
@@ -430,6 +460,7 @@ perm4_stats |>
 #| echo: true
 #| message: false
 #| warning: false
+#| fig-alt: "The results of a two-sided p value test. p = 0.022"
 
 set.seed(47)
 
